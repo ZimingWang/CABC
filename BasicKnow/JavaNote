@@ -1,0 +1,135 @@
+
+随机数 http://blog.sina.com.cn/s/blog_93dc666c0101h3gd.html
+util.random更好一点， 还有math.random
+
+种子数只是随机算法的起源数字，和生成的随机数的区间没有任何关系。如下面的Java代码：
+Random rand =new Random(25);
+i=rand.nextInt(100);
+
+1.生成[0,1.0)区间的小数：double d1 = r.nextDouble();
+2.生成[0,5.0)区间的小数：double d2 = r.nextDouble() * 5;
+3.生成[1,2.5)区间的小数：double d3 = r.nextDouble() * 1.5 + 1; 
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+Collections［array， list系列］
+	1.  nodes.addAll(Arrays.asList(data.split(spliter)));
+	2.  addAll（） Arrays.asList()
+	3. Collections.sort  Arrays.sort
+	4. new ArrayList<UndirectedGraphNode>(set); HashSet 转 list
+	5. Arrays.fill(arr,1)
+	6. removeFirst getFirst addLast
+	7. ArrayList<Integer>[] group = new ArrayList[nums.length];
+	8. ans.add(Arrays.asList(num[i], num[j], num[low], num[high]));
+	9. hashmap删除是remove
+
+	10.Character.isLetterOrDigit(cHead)
+	11.Character.toLowerCase(cHead)
+	22. Deck LinkedList body.peekLast() body.offerFirst(head);  body.pollLast();
+	23.Iterator<Integer> iter = map.values().iterator();
+        while (iter.hasNext()) {}
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+Bit
+	1. ／2 可以用 >> 1， 反之一样［位移操作在现代jvm面前，是几乎没有时间优势的。］
+	2. >>(带符号右移，用原来的数字填充) 与 >>>（只用0填充）
+	3. 原码反码补码
+		http://blog.csdn.net/vickyway/article/details/48788769
+		http://blog.csdn.net/zq602316498/article/details/39404043
+		原码是无法完成对减法的运算需求的
+		反码
+ 		当计算结果溢出时需要额外进行+1操作，使得运算多了一步，效率降低 
+ 		0存在+0和-0两种存在方式，不方便理解
+	21. BitSet clear get set nextClearBit  ［电话号码本］
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+String
+	1. //StringBuffer   res.append();
+     	   //StringBuffer   可以直接加substring
+           //StringBuilder 快， 所以线程不安全
+	2. substring 不是subString  substring(i)从i开始往后算
+	3. String a a.deleteCharAt(index)
+	4. word.toCharArray()
+	5. new StringBuilder(s).reverse()
+	6. new String(chars) chars char array
+	7. (char)a int to char
+	8. substring
+	9. String.valueOf 返回的是String
+	10. String[] parts = s.trim().split("\\s+");//标准字符处理先trim再按空格分
+	11. StringBuilder(s).reverse().toString()
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+逻辑运算符号
+	1.｜ 与 ｜｜  ｜保证后面的也一定执行［DFS里］
+	2. Java不支持数值布尔 非0即真
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+数据结构
+	1.//Stack继承Vector，而Vector是由数组实现的集合类
+   	 //，他包含了大量集合处理的方法。
+    	//而Stack之所以继承Vector，
+   	 //是为了复用Vector中的方法，来实现进栈（push）、出栈(pop)等操作
+
+	2. new PriorityQueue<ListNode>(100, ListNodeComparator);
+	27. comparator
+	PriorityQueue<Integer> q=new PriorityQueue<Integer>(nums.length,new 	Comparator<Integer>(){
+        public int compare(Integer o1, Integer o2) {
+            if(o1<o2) return 1;
+            else if(o1>o2) return -1;
+            else return 0;
+        }
+    });
+int compare(Object o1, Object o2) 返回一个基本类型的整型，返回负数表示o1 小于o2，返回0 表示o1和o2相等，返回正数表示o1大于o2。 
+否则是降序
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+变量性质
+	1. A.isInteger()
+	2. double ／2.0 不是 ／2
+	3. //Integer.parseInt(a, 2)//把a当成2进制，回复十进制
+	4. // java 进制转换
+     	   // http://blog.csdn.net/szwangdf/article/details/2601941 
+	5. 10.
+从返回值可以看出他们的区别  parseInt()返回的是基本类型int
+而valueOf()返回的是包装类Integer Integer是可以使用对象方法的  而int类型就不能和Object类型进行互相转换
+
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+Tips
+	28.设计debug debug 全局变量 if(debug){System.}
+	30.操作文件时， while， i＋＋放在程序体里动
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+I/O 
+三联： BufferedReader InputStreamReader System.in
+BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	String lime
+        while ((line = br.readLine()) != null) {
+            // 
+        }
+        // ...
+二联
+     Scanner scan = new Scanner(System.in);
+     Scanner类中提供了多个方法:［但是不能读出空格等］
+        next():取得一个字符串;
+        nextInt():将取得的字符串转换成int类型的整数;
+        nextFloat():将取得的字符串转换成float型;
+        nextBoolean():将取得的字符串转换成boolean型; 
+Scanner是一个可以使用正则表达式来分析基本类型和字符串的简单文本扫描器！
+Buffer一下，处理高读写
+
+读入读出文件［别忘了关］
+	1. BufferedReader ＋ FileReader
+	BufferedReader in=new BufferedReader(new FileReader(fileName));
+        line=in.readLine();
+	   FileReader reader=new FileReader(fileName);
+           c=reader.read();
+
+	内容很多，就应该使用更为高效的缓冲器流类BufferedWriter。
+	2. A.FileWriter writer=new FileWriter(fileName);
+           writer.write("Hello Kuka:\n");
+	   B.FileWriter writer=new FileWriter(fileName,true);//追加
+	   C. BufferedWriter out=new BufferedWriter(new FileWriter(fileName));
+              out.write("Hello Kuka:");
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
+
+
+
+
+

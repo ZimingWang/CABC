@@ -1,0 +1,1195 @@
+222
+子树问题 prorder encoding（der and see tree）
+http://blog.csdn.net/anzhsoft/article/details/17633087
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+本身性质：
+	1. 二叉树树的最大深度
+		直接递归 right left  Math.max() + 1
+		全局变量depth， 左右递归，大于就更新
+
+	一递归两用的题型
+	8. 是否平衡（最大深度里加另一种返回类型）［得到左右高度时，如果左－1，右－1，或者左－右》1 return －1；］
+	
+
+	9. 二叉树最大路径和  和是全局变量， 左右求得之后（与0比较），更新和，然后返回的是左右大的那一个加node
+	10. 最大路径和（只从根节点出发），不用全局，直接第9问子函数
+	19. hasPathSum, root null return, root 叶子了 判断＝＝， 否则左右分别递归（或的关系）
+	35. all path sum （backtracking）root sum－root。val，如果左右空，且sum＝＝0 add
+	    if（left）backt， if右，backt
+	22. all the tree path
+		null return 左空右空（叶子）加，左右不空递归 string （DFS非backtracking）
+	26. path （all paths sum）叶子sum*10+root.val 返回; 左右相加返回
+	11. 最近公共祖先（先问节点中有没有父指针）
+		1. 根null 2. A或者B有一个是根 3. 假设找到root.left root.right(都不空，左空，右空) 
+		最后return null	
+	16. same tree  1.null or not 2. 相等，则左右递归
+	18. symetric tree，  根null or not， 自己值，然后左右递归（）
+	21. 完全二叉树的node数量	左右高度是否一致，一致2n － 1， 否则左右分别算递归相加
+	33. Count Univalue Subtrees 全局count＋＋， 局部boolean判断是不是
+		看左右子是否和rootval相等 变换为求子树数量？
+	38. tree upside and down 按字面意思做 revert左子树，left.left = right, left.right = 		parent
+	40.All leaves 
+	确定一个点的index，得知道他的左孩子index是多少，右孩子的index是多少，当前这个点的index是他左右孩子的index最大值+1，这可以很容易地观察得到。比如对于1来说，左孩子2的index是1，右孩子3的index是0，那1的index肯定是max(1, 0) + 1，即2.
+	找index
+	if (list.size() == cur)
+            list.add(new ArrayList<Integer>());
+        list.get(cur).add(root.val);
+	https://segmentfault.com/a/1190000005938045
+
+
+
+	
+遍历型：
+	27. right side view res。size与depth，先右再左
+	2，3，4 level 遍历
+		从上到下， 从底往上， 锯齿状（1. 加值的时候，false，if（）elsel（）（0，res） ），先判断	        右再判断左
+	5. 前序遍历 
+		递归 //结果要随着函数递归走，参数最理想，但是原函数参数已经设定
+   		    //故而，要么设全局，要么让参数随着函数走（新开一个函数）
+		非递归 双while !stack.isEmpty() || cur != null  cur != null
+		    push左，  出来后 cur = stack.pop();
+            			   cur = cur.right;//pop右边，有则走上面cur的循环
+	6. 中序遍历
+		curpop出来之后加
+	7. 后序遍历（temp存住cur）
+		   TreeNode cur = root;
+        TreeNode temp = cur;
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        while (cur != null) {
+            // 左子树入栈
+            while (cur.left != null){
+                stack.push(cur);
+                cur = cur.left;
+            }//并不是要到空叶子节点
+            // 当前节点无右子或右子已经输出// 则处理根（stack里）
+            while (cur.right == null || cur.right == temp) {
+                result.add(cur.val);
+                temp = cur; // 记录已输出节点
+                if (stack.isEmpty()){
+                    return result;
+                }
+                cur = stack.pop();
+            }
+            // 否则处理右子
+            stack.push(cur);
+            cur = cur.right;
+        }
+        return result;
+构造型：
+	15. revert二叉树
+		交换左右值，然后递归revert左右
+	20. 数组转二叉树，二分法根节点假设已经递归好了，改参数						28. Serialize and Deserialize Binary Tree －－ 特殊先根（含有null）	
+		de (queue存入节点) TreeNode build（）， 取一个出来null，returnnull 否则普通建树过程
+		see（）append，自己＋splliter（，）（如果空则NN），然后递归左右
+	层序遍历
+		http://blog.csdn.net/ljiabin/article/details/49474445（基于0，则左右孩子是2i+1， 2i＋2）
+	BST ［写一个division函数调用，递归 http://www.ideserve.co.in/learn/serialize-deserialize-binary-search-tree］
+	
+			
+	29. Flatten Tree to LinkedList (preorder)递归解法。对于任一节点，flatten左树，然后节点插入左树最左边，成为新的头节点。flatten右树，右树最左边接上新链表的最右节点。 prev更像post， 2连3
+	31. pre + inorder = tree(按先根去中根找，分左右)
+		for(int i=0;i<inorder.length;i++){
+       			 map.put(inorder[i],i);
+  		 }
+    	return helper(preorder,0,preorder.length-1,inorder,0,inorder.length-1, map);
+	32. pos + ignored = tree 								也就是两棵不同的树可以有相同的先序遍历和后序遍历，有兴趣的朋友可以试试举出这种例子哈。			37.populating-next-right-pointers-in-each-node-ii						
+BST型：
+	13. 验证BST
+		isBST(root, Long.MIN_VALUE, Long.MAX_VALUE);//尾调用 本身点判断完，左&&右递归
+	＊. 二叉查找树的查找
+		while (root != null && root.val != p.val) {
+            if (root.val > p.val) {
+                root = root.left;
+            } else {
+                root = root.right;
+            }
+        }
+	12. 中序后继
+		递归版好理解， 右不用考虑root，  root和左边绑定（左边找不到了则后继是root）
+	14. BST Iterator（next hasNext）就是中序非递归遍历，加一个全局的cur
+	17. Unique Binary Search Trees
+		左右分配数目的问题
+		dp, 0时候1个，1时候1个， i 2-n j 0-i  ＋＝ nums［j］＊num［i－j－1（根）］
+	24. All BST 
+		for i（根）， 假设左右子树集建好，两个for对每一对左右子树集合，粘到根上
+	23. Closet Binary Search Tree（ret是树的pre）
+		 int ret = root.val;   
+    		while(root != null){
+       		 if(Math.abs(target - root.val) < Math.abs(target - ret)){
+        	 ret = root.val;
+        	}      
+       		 root = root.val > target? root.left: root.right;
+    		}   
+	36. Closet浮点数－－找k个，非递归中序遍历  《 K ＋＋， 
+		if(Math.abs(ret.getFirst()-target) > Math.abs(curr.val-target)) {
+                    ret.removeFirst();
+                    ret.addLast(curr.val);
+                }（类似于堆）－－－ 
+	25. LCA of BST， 两个点最大都小于root，递归右边，最小都大于root，递归左边，否则return root 	
+	30. 找第k小 BST  先算左节点多少个，根据是在右还是在左递归（递归，1+左＋右）
+	34. recover BST
+	两个全局变量，first second，找到之后交换
+		traverse中序，中间 prevElement = root; 两个if判first second不为空且root》pre（非升序）
+	35. 验证BSTpreorder是否对不对
+		https://segmentfault.com/a/1190000003874375
+	二叉搜索树先序遍历序列的特点是降序的部分一定是向左走的，一旦开始升序说明开始向右走了，则上一个降序的点则	限定了后面的数的最小值。如果继续降序，说明又向左走了，这样等到下次向右走得时候也要再次更新最小值。
+	39. SuperNode，DFS／  
+	 每一个节点，try to validate BST（ 这种方法的时间复杂度是O(n!),）
+
+
+
+
+结合型：
+	27. 最长连续序列（Binary Tree Longest Consecutive Sequence）
+	max全局更新，设一个tar，每一次＋1传入，（相等就cur＋＋）否则cur置1 左右递归
+	
+	＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+1.
+
+/*if (root == null){
+            return 0;
+        }
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        return Math.max(left, right) + 1;
+        */
+
+public class Solution {
+    /**
+     * @param root: The root of binary tree.
+     * @return: An integer.
+     */
+    private int depth;
+    public int maxDepth(TreeNode root) {
+        // write your code here
+        if (root == null){
+            return 0;
+        }
+        maxDHelper(root, 1);
+        return depth;
+    }
+    public void maxDHelper(TreeNode node, int curDepth){
+        if (node == null){
+            return;
+        }
+        if (curDepth > depth){
+            depth = curDepth;
+        }
+        maxDHelper(node.left, curDepth + 1);
+        maxDHelper(node.right, curDepth + 1);
+    }
+}
+
+
+
+2。
+public ArrayList<ArrayList<Integer>> levelOrder(TreeNode root) {
+        // write your code here
+        ArrayList<ArrayList<Integer>> result =
+                            new ArrayList<ArrayList<Integer>>();
+        if (root == null){
+            return result;
+        }
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(root);//启动
+        while(!queue.isEmpty()){
+         ArrayList<Integer> level = new ArrayList<Integer>();
+         int size = queue.size();
+         for(int i = 0; i < size; i++){//直接用que的size。里头在poll
+             TreeNode node = queue.poll();
+             level.add(node.val);
+             if (node.left != null){
+                 queue.offer(node.left);
+             }
+             if (node.right != null){
+                 queue.offer(node.right);
+             }
+         }
+         result.add(level);
+        }
+        return result;
+    }
+
+
+3. result.add(0, subResult);
+
+4.
+Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(root);
+        boolean right = false;
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            ArrayList<Integer> subResult = new ArrayList<Integer>();
+            for (int i = 0; i < size; i++){
+                TreeNode node = queue.poll();
+                if (right){
+                    subResult.add(node.val);
+                } else {
+                    subResult.add(0, node.val);
+                }
+                    if (node.right != null){
+                        queue.offer(node.right);
+                    }
+                    if (node.left != null){
+                        queue.offer(node.left);
+                    }
+                    
+            }
+            result.add(subResult);
+            right = !right;
+        }
+        return result;
+5.
+public ArrayList<Integer> preorderTraversal(TreeNode root) {
+        // write your code here
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        if (root == null){
+            return result;
+        }
+        traverse(root, result);
+        return result;
+    }
+    public void traverse(TreeNode node, ArrayList<Integer> result){
+        if (node != null){
+            result.add(node.val);
+        } else {
+            return;//永远记得递归函数一定要有return
+        }
+        traverse(node.left, result);
+        traverse(node.right, result);
+    }
+
+
+ public ArrayList<Integer> preorderTraversal(TreeNode root) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        if (root == null){
+            return result;
+        }
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        TreeNode cur = root;
+        while (!stack.isEmpty() || cur != null){
+            while (cur != null){
+                result.add(cur.val);
+                stack.push(cur);
+                cur = cur.left;
+            }
+            cur = stack.pop();
+            cur = cur.right;//pop右边，有则走上面cur的循环
+        }
+        return result;
+    }
+
+6.
+public ArrayList<Integer> inorderTraversal(TreeNode root) {
+        // write your code here
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        if (root == null){
+            return result;
+        }
+        traverse(root, result);
+        return result;
+    }
+    public void traverse(TreeNode node, ArrayList<Integer> result){
+        if (node == null){
+            return;
+        }
+        traverse(node.left, result);
+        result.add(node.val);
+        traverse(node.right, result);
+    }
+
+
+
+public ArrayList<Integer> inorderTraversal(TreeNode root) {
+        // write your code here
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        if (root == null){
+            return result;
+        }
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        TreeNode cur = root;
+        while (!stack.isEmpty() || cur != null){
+            while (cur != null){
+                stack.push(cur);
+                cur = cur.left;
+            }
+            cur = stack.pop();
+            result.add(cur.val);
+            cur = cur.right;
+        }
+        return result;
+    }
+
+7.
+public ArrayList<Integer> postorderTraversal(TreeNode root) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        if (root == null){
+            return result;
+        }
+        traverse(root, result);
+        return result;
+    }
+    public void traverse(TreeNode node, ArrayList<Integer> result){
+        if (node == null){
+            return;
+        }
+        traverse(node.left, result);
+        traverse(node.right, result);
+        result.add(node.val);
+    }
+
+
+public ArrayList<Integer> postorderTraversal(TreeNode root){
+       ArrayList<Integer> result = new ArrayList<Integer>();
+        if (root == null){
+            return result;
+        }
+        // write your code here
+        TreeNode cur = root;
+        TreeNode temp = cur;
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        while (cur != null) {
+            // 左子树入栈
+            while (cur.left != null){
+                stack.push(cur);
+                cur = cur.left;
+            }//并不是要到空叶子节点
+            // 当前节点无右子或右子已经输出// 则处理根（stack里）
+            while (cur.right == null || cur.right == temp) {
+                result.add(cur.val);
+                temp = cur; // 记录已输出节点
+                if (stack.isEmpty()){
+                    return result;
+                }
+                cur = stack.pop();
+            }
+            // 否则处理右子
+            stack.push(cur);
+            cur = cur.right;
+        }
+        return result;
+    }
+
+8.
+public boolean isBalanced(TreeNode root) {
+        // write your code here
+        if (root == null){
+            return true;
+        }
+        return maxDepth(root) != -1;
+    }
+    public int maxDepth(TreeNode node){
+        if (node == null){
+            return 0;
+        }
+        int left = maxDepth(node.left);
+        int right = maxDepth(node.right);
+        if (left == -1 || right == -1 || Math.abs(left - right) > 1){
+            return -1;
+        }
+        return Math.max(left, right) + 1;
+    }
+}
+
+9.
+private int maxDepth;
+    public int maxPathSum(TreeNode root) {
+        // write your code here
+        maxDepth = Integer.MIN_VALUE;
+        if (root == null){
+            return maxDepth;
+        }
+        maxPathDown(root);
+        return maxDepth;
+    }
+    public int maxPathDown(TreeNode node){
+        if (node == null){
+            return 0;
+        }
+        int left = Math.max(0, maxPathDown(node.left));
+        int right = Math.max(0, maxPathDown(node.right));
+        maxDepth = Math.max(maxDepth, left + right + node.val);
+        return Math.max(left, right) + node.val;
+    }
+10.
+public class Solution {
+    /**
+     * @param root the root of binary tree.
+     * @return an integer
+     */
+    public int maxPathSum2(TreeNode root) {
+        // Write your code here
+        if (root == null){
+            return Integer.MIN_VALUE;
+        }
+        return maxPathDown(root);
+    }
+    public int maxPathDown(TreeNode node){
+        if (node == null){
+            return 0;
+        }
+        int left = Math.max(0, maxPathSum2(node.left));
+        int right = Math.max(0, maxPathSum2(node.right));
+        return Math.max(left, right) + node.val;
+    }
+}
+
+11.
+public TreeNode lowestCommonAncestor(TreeNode root, TreeNode A, TreeNode B) {
+        // write your code here
+        if (root == null){
+            return null;
+        }
+        if (A == root || B == root){
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor(root.left, A, B);
+        TreeNode right = lowestCommonAncestor(root.right, A, B);
+        if (left != null && right != null){
+            return root;
+        }
+        if (left != null){
+            return left;
+        }
+        if (right != null){
+            return right;
+        }
+        return null;
+    }
+
+12.
+if (root == null)
+    return null;
+
+  if (root.val <= p.val) {
+    return inorderSuccessor(root.right, p);//仅仅相当于传送结果值，14， 20
+  } else {
+    TreeNode left = inorderSuccessor(root.left, p);
+    return (left != null) ? left : root;
+    //找到后继，一路往上传，如10，12， left有， 无则到根本身14，20
+    //字面好理解， 程序手过复杂
+  }
+
+
+13.
+public boolean isValidBST(TreeNode root) {
+        // write your code here
+        if (root == null){
+            return true;
+        }
+        //if the single node set Integer.MIN_VALUE 
+        return isBST(root, Long.MIN_VALUE, Long.MAX_VALUE);//尾调用
+    }
+    
+    public boolean isBST(TreeNode root, long min, long max){
+        if (root == null){
+            return true;
+        }
+        if (root.val >= max || root.val <= min){
+            return false;
+        }
+        return isBST(root.left, min, root.val) && isBST(root.right, root.val, max);
+    }
+   20
+  8   22
+4 12
+ 10 14
+public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        // write your code here
+        TreeNode successor = null;
+        // 先找到目标点
+        while (root != null && root.val != p.val) {
+            if (root.val > p.val) {
+                // 中序，所以后继是根
+                successor = root;
+                root = root.left;
+            } else {
+                root = root.right;
+            }
+        }
+        //假如找15，没找到
+        if (root == null) {
+            return null;
+        }
+        
+        //14 和 20, 右边是空的 已经没有比它大的了，root
+        if (root.right == null) {
+            return successor;
+        }
+	
+        //右边不空，则在右子树最小的值， 8与10，一个zigzag
+        root = root.right;
+        while (root.left != null) {
+            root = root.left;
+        }
+        return root;
+    }
+14.
+public class BSTIterator {
+    //@param root: The root of binary tree.
+    private TreeNode cur;
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+    public BSTIterator(TreeNode root) {
+        // write your code here
+        cur = root;
+    }
+
+    //@return: True if there has next node, or false
+    public boolean hasNext() {
+        // write your code here
+        return ((cur != null) || (!stack.isEmpty()));
+    }
+    //@return: return next node
+    //指针 ＋ 栈取出值
+    public TreeNode next() {
+        // write your code here
+        while (cur != null){
+            stack.push(cur);
+            cur = cur.left;
+        }
+        cur = stack.pop();//现在位置
+        TreeNode result = cur;
+        cur = cur.right;//取完值，转下一个位置
+        return result;
+    }
+}
+
+15.
+public TreeNode invertTree(TreeNode root) {
+        if(root==null){
+            return null;
+        }
+        TreeNode temp;
+        temp=root.left;
+        root.left=root.right;
+        root.right=temp;
+        invertTree(root.left);
+        invertTree(root.right);
+        return root;
+    }
+
+16.
+public boolean isSameTree(TreeNode p, TreeNode q) {
+        if(p==null&&q==null){
+            return true;
+        }
+        if(p==null||q==null){
+            return false;
+        }
+        if(p.val==q.val){
+            return isSameTree(p.left,q.left)&&isSameTree(p.right,q.right);
+        }else{
+            return false;
+        }
+    }
+17.
+public class Solution {
+    public int numTrees(int n) {
+        if(n < 0){
+            return 0;//return while can not be null
+        }
+        int[] numofTree = new int[n+1];
+        numofTree[0] = 1;//empty is a type of tree,too
+        numofTree[1] = 1;
+        for(int i = 2;i <= n;i++){
+            for(int j = 0; j < i; j++){
+            numofTree[i] += numofTree[j] * numofTree[i - j - 1];
+            }
+        }
+        return numofTree[n];
+    }
+}
+
+
+18.
+public class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root==null){
+            return true;
+        }
+        return checkeSymmetric(root.left,root.right);
+    }
+    private boolean checkeSymmetric(TreeNode node1,TreeNode node2){
+        if(node1==null&&node2==null){
+            return true;
+        }
+        if(node1==null||node2==null){
+            return false;//needed to judge the null,also depend the boundry
+        }
+        if(node1.val!=node2.val){//notice the context to judge the variables//只判断前两层，然后递归
+            return false;
+        }
+        return checkeSymmetric(node1.left,node2.right)&&checkeSymmetric(node1.right,node2.left);
+    }
+}
+
+19.
+public class Solution {
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if(root==null){
+            return false;
+        }
+        if(root.left==null&&root.right==null){
+            return sum==root.val;
+        }
+        return hasPathSum(root.left,sum-root.val)||hasPathSum(root.right,sum-root.val);
+        
+    }
+}
+
+20.
+public class Solution {
+  public TreeNode sortedArrayToBST(int[] num) {
+    if(num==null || num.length==0)
+        return null;
+    return helper(num,0,num.length-1);
+}
+private TreeNode helper(int[] num, int l, int r)
+{
+    if(l>r)
+        return null;
+    int m = (l+r)/2;//为了防止溢出，可改成
+    TreeNode root = new TreeNode(num[m]);
+    root.left = helper(num,l,m-1);
+    root.right = helper(num,m+1,r);
+    return root;
+}
+}
+
+
+21.
+class Solution {
+    public int countNodes(TreeNode root) {  
+        if(root==null) return 0;  
+          
+        int l = getHeight(root, true);  
+        int r = getHeight(root, false);  
+          
+        if(l==r) {  
+            return (2<<(l)) - 1;  
+        } else {  
+            return countNodes(root.left) + countNodes(root.right) + 1;  
+        }  
+    }  
+      
+    private int getHeight(TreeNode root, boolean left) {  
+        int count = 0;
+        if(left){
+           while(root.left!=null) {  
+            root = root.left;  
+            ++count;  
+            }
+        }
+        else {
+            while(root.right!=null) {  
+            root = root.right;  
+            ++count;  
+            } 
+        } 
+        
+        
+         return count;  
+    } 
+}
+
+
+22.
+public class Solution {
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> result = new ArrayList<String>();
+        if(root==null){
+            return result;
+        }
+        String path = String.valueOf(root.val);
+        helper(root,path,result);
+        return result;
+    }
+    
+    public void helper(TreeNode root,String path,List<String> result){
+        if(root == null){
+            return;
+        }
+        if(root.left == null && root.right == null){
+            result.add(path);
+            return;
+        }
+        if(root.left != null){
+            helper(root.left,path+"->"+String.valueOf(root.left.val),result);
+        }
+        if(root.right != null){
+            helper(root.right,path+"->"+String.valueOf(root.right.val),result);
+        }
+    }
+    
+}
+
+23.
+public class Solution {
+   public int closestValue(TreeNode root, double target) {
+    int ret = root.val;   
+    while(root != null){
+        if(Math.abs(target - root.val) < Math.abs(target - ret)){
+            ret = root.val;
+        }      
+        root = root.val > target? root.left: root.right;
+    }     
+    return ret;//record the offset,comparation is between root and its sons
+}
+}
+
+
+24.
+public List<TreeNode> generateTrees(int n) {
+        if(n == 0){
+            return new LinkedList<TreeNode>();
+        }
+        // 分配问题，主要是两边分配的数目
+        return helper(1,n);
+    }
+    
+   public List<TreeNode> helper(int start , int end){
+    List<TreeNode> result = new LinkedList<TreeNode>();
+        // 越界了，null
+        if(start > end){
+            result.add(null);
+            return result;
+        }
+        // 以i为根，分配左右建树
+        for(int i = start; i <= end ;i++){
+            // 假设左右子树已经建好（可以形成的子树集）
+            List<TreeNode> leftgenerateTrees = helper(start,i-1);
+            List<TreeNode> rightgenerateTrees = helper(i+1,end); //左右分划
+            // 每一个子树集，粘到根上面，加入结果
+            for(TreeNode right : rightgenerateTrees){
+                for(TreeNode left : leftgenerateTrees){
+                    // 普通建树过程，根，左右，
+                    TreeNode root = new TreeNode(i);
+                    root.right = right;
+                    root.left = left;
+                    result.add(root);
+                }
+            }//建一棵树
+            
+        }
+        return result;
+    }
+
+
+25.
+public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null || p==null || q==null) return null;
+        
+        if(Math.max(p.val, q.val) < root.val) {
+            return lowestCommonAncestor(root.left, p, q);
+        } else if(Math.min(p.val, q.val) > root.val) {
+            return lowestCommonAncestor(root.right, p, q);
+        } else return root;
+    }
+
+26.
+public class Solution {
+   public int sumNumbers(TreeNode root) {
+    return helper(root,0);
+}
+private int helper(TreeNode root, int sum)
+{
+    if(root == null)
+        return 0;
+    if(root.left==null && root.right==null)
+        return sum*10+root.val;
+    return helper(root.left,sum*10+root.val)+helper(root.right,sum*10+root.val);
+}
+}
+
+27.
+public class Solution {
+    private int max = 0;
+    public int longestConsecutive(TreeNode root) {
+        if(root == null) return 0;
+        helper(root, 0, root.val);
+        return max;
+    }
+
+    public void helper(TreeNode root, int cur, int target){
+        if(root == null) return;
+        if(root.val == target) cur++;
+        else cur = 1;
+        max = Math.max(cur, max);
+        helper(root.left, cur, root.val + 1);
+        helper(root.right, cur, root.val + 1);
+    }
+}
+
+28.［SerDeser］
+private static final String spliter = ",";
+    private static final String NN = "X";
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        buildString(root, sb);
+        return sb.toString();
+    }
+
+    private void buildString(TreeNode node, StringBuilder sb) {
+        if (node == null) {
+            sb.append(NN).append(spliter);
+        } else {
+            sb.append(node.val).append(spliter);
+            buildString(node.left, sb);
+            buildString(node.right,sb);
+        }
+    }
+    
+    
+    
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        Queue<String> nodes = new LinkedList<>();
+        nodes.addAll(Arrays.asList(data.split(spliter)));
+        return buildTree(nodes);
+    }
+
+    private TreeNode buildTree(Queue<String> nodes) {
+        String val = nodes.remove();
+        if (val.equals(NN)) return null;
+        else {
+            TreeNode node = new TreeNode(Integer.valueOf(val));
+            node.left = buildTree(nodes);
+            node.right = buildTree(nodes);
+            return node;
+        }
+    }
+BST优化
+private TreeNode deserializeArrayOptimized(int[] preorder, int[] currIndex, int min, int max)
+34	    {
+35	        if (currIndex[0] >= preorder.length) return null;
+36	        
+37	        TreeNode root = null;
+38	        
+39	        if ((preorder[currIndex[0]] > min) && (preorder[currIndex[0]] < max))
+40	        {
+41	            root = new TreeNode(preorder[currIndex[0]]);
+42	            currIndex[0] += 1;
+43	            root.left = deserializeArrayOptimized(preorder, currIndex, min, root.val);
+44	            root.right = deserializeArrayOptimized(preorder, currIndex, root.val, max);
+45	        }
+46	        
+47	        return root;
+48	    }
+
+
+29.public class Solution {
+   private TreeNode prev = null;
+   public void flatten(TreeNode root) {
+    if (root == null)
+           return;
+           
+    flatten(root.right);
+    flatten(root.left);
+    root.right = prev;
+    // left全为空
+    root.left = null;
+    prev = root;//6 5 4 3 2
+}
+}
+30.
+public int kthSmallest(TreeNode root, int k) {
+        int count = countNodes(root.left);
+        if (k <= count) {
+            return kthSmallest(root.left, k);
+        } else if (k > count + 1) {
+            return kthSmallest(root.right, k-1-count); // 1 is counted as current node
+        }
+
+        return root.val;
+    }
+
+    public int countNodes(TreeNode n) {
+        if (n == null) return 0;
+
+        return 1 + countNodes(n.left) + countNodes(n.right);
+    }
+
+31.
+public class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+    if(preorder==null || inorder==null)
+        return null;
+    HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    for(int i=0;i<inorder.length;i++){
+        map.put(inorder[i],i);
+    }
+    return helper(preorder,0,preorder.length-1,inorder,0,inorder.length-1, map);
+}
+private TreeNode helper(int[] preorder, int preL, int preR, int[] inorder, int inL, int inR, HashMap<Integer, Integer> map)
+{
+    if(preL>preR || inL>inR)
+        return null;
+    TreeNode root = new TreeNode(preorder[preL]);
+    int index = map.get(root.val);
+    root.left = helper(preorder, preL+1, index-inL+preL, inorder, inL, index-1, map);
+    root.right = helper(preorder, preL+index-inL+1, preR, inorder, index+1, inR,map);
+    return root;
+}
+}
+
+32.
+public class Solution {
+   public TreeNode buildTree(int[] inorder, int[] postorder) {
+    if(inorder==null || postorder==null || inorder.length==0 || postorder.length==0)
+    {
+        return null;
+    }
+    HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    for(int i=0;i<inorder.length;i++)
+    {
+        map.put(inorder[i],i);
+    }
+    return helper(inorder,postorder,0,inorder.length-1, 0, postorder.length-1,map);
+}
+private TreeNode helper(int[] inorder, int[] postorder, int inL, int inR, int postL, int postR, HashMap<Integer, Integer> map)
+{
+    if(inL>inR || postL>postR)
+        return null;
+    TreeNode root = new TreeNode(postorder[postR]);
+    int index = map.get(root.val);
+    root.left = helper(inorder,postorder,inL,index-1,postL,postL+index-inL-1,map);
+    root.right = helper(inorder,postorder,index+1,inR,postR-(inR-index),postR-1,map);
+    return root;
+}//两个序列都要分
+}
+
+33.
+public class Solution {
+    int count = 0;
+    boolean all(TreeNode root, int val) {
+        if (root == null)
+            return true;
+        if (!all(root.left, root.val) | !all(root.right, root.val))//保证后面这个函数也要执行，全局
+            return false;
+        count++;
+        return root.val == val;
+    }
+    public int countUnivalSubtrees(TreeNode root) {
+        all(root, 0);
+        return count;
+    }
+}
+
+34.
+public class Solution {
+
+    TreeNode firstElement = null;
+    TreeNode secondElement = null;
+    // The reason for this initialization is to avoid null pointer exception in the first comparison when prevElement has not been initialized
+    TreeNode prevElement = new TreeNode(Integer.MIN_VALUE);
+
+    public void recoverTree(TreeNode root) {
+
+        // In order traversal to find the two elements
+        traverse(root);
+
+        // Swap the values of the two nodes
+        int temp = firstElement.val;
+        firstElement.val = secondElement.val;
+        secondElement.val = temp;
+    }
+
+    private void traverse(TreeNode root) {
+
+        if (root == null)
+            return;
+
+        traverse(root.left);
+
+        // Start of "do some business", 
+        // If first element has not been found, assign it to prevElement (refer to 6 in the example above)
+        if (firstElement == null && prevElement.val >= root.val) {
+            firstElement = prevElement;
+        }
+
+        // If first element is found, assign the second element to the root (refer to 2 in the example above)
+        if (firstElement != null && prevElement.val >= root.val) {
+            secondElement = root;
+        }  //主要情况      
+        prevElement = root;// 遍历preElement
+
+        // End of "do some business"
+
+        traverse(root.right);
+}
+}
+
+35.
+public class Solution {
+    public boolean verifyPreorder(int[] preorder) {
+        Stack<Integer> stk = new Stack<Integer>();
+        // 初始化最小值为最小整数
+        int min = Integer.MIN_VALUE;
+        for(int num : preorder){
+            // 违反最小值限定则是无效的
+            if(num < min) return false;
+            // 将路径中所有小于当前的数pop出来并更新最小值
+            while(!stk.isEmpty() && num > stk.peek()){
+                min = stk.pop();
+            }
+            // 将当前值push进去
+            stk.push(num);
+        }
+        return true;
+    }
+}
+
+
+37.
+public class Solution {
+    public void connect(TreeLinkNode root) {
+    // 新建一个链表
+    TreeLinkNode dummyHead = new TreeLinkNode(0);
+    TreeLinkNode pre = dummyHead;
+    
+    while (root != null) {
+        //处理好根的左右链接
+        if (root.left != null) {
+            pre.next = root.left;
+            pre = pre.next;
+        }
+        if (root.right != null) {
+            pre.next = root.right;
+            pre = pre.next;
+        }
+        // 跟
+        root = root.next;
+        //空的时候把根过渡到左节点，不空直接到了右节点
+        if (root == null) {
+            pre = dummyHead;
+            root = dummyHead.next;
+            dummyHead.next = null;
+        }
+    }
+}
+
+38.
+public TreeNode UpsideDownBinaryTree(TreeNode root) {  
+    if (root == null)  
+        return null;  
+    TreeNode parent = root, left = root.left, right = root.right;  
+    if (left != null) {  
+        TreeNode ret = UpsideDownBinaryTree(left);  
+        left.left = right;  
+        left.right = parent;  
+        return ret;  
+    }  
+    return root;  
+}  
+
+
+
+
+39. 
+public class Solution {
+    public class SuperNode {
+        int ans;
+        int small, large;
+        boolean isBST;
+        public SuperNode() {
+            ans = 0;
+            isBST = true;
+            small = Integer.MAX_VALUE;
+            large = -Integer.MAX_VALUE;
+        }
+    }
+    public int largestBSTSubtree(TreeNode root) {
+        return dfs(root).ans;
+    }
+    public SuperNode dfs(TreeNode node) {
+        if (node == null) {
+            return new SuperNode();
+        }
+        SuperNode now = new SuperNode();
+        SuperNode left = dfs(node.left);
+        SuperNode right = dfs(node.right);
+        if (left.small < node.val) {
+            now.small = left.small;
+        } else {
+            now.small = node.val;
+        }
+        now.large = Math.max(right.large,node.val);
+        if (left.isBST && right.isBST && left.large <= node.val && right.small >= node.val) {
+            now.ans = left.ans + right.ans +1;
+            now.isBST = true;
+        } else {
+            now.ans=Math.max(left.ans,right.ans);
+            now.isBST = false;
+        }
+        return now;
+    }
+}
+
+
+40.
+public class Solution {
+    public List<List<Integer>> findLeaves(TreeNode root) {
+        List<List<Integer>> list = new ArrayList<>();
+        helper(list, root);
+        return list;
+    }
+
+//calculate the index of this root passed in and put it in that index, at last return where this root was put
+    private int helper(List<List<Integer>> list, TreeNode root) {
+        if (root == null)
+            return -1;
+        int left = helper(list, root.left);
+        int right = helper(list, root.right);
+        int cur = Math.max(left, right) + 1;
+        if (list.size() == cur)
+            list.add(new ArrayList<Integer>());
+        list.get(cur).add(root.val);
+        return cur;
+    }
+}
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+Google Tag1
+3. Tree
+	1. 2sum in BST［］
+	A O(n) time, O(n) space solution:
+	The most straight-forward solution is first do a in-order traverse of the BST, store the 	results into an array. Then the problem can be transformed into a 2 sum problem. 
+So the time and space complexity for this solution is O(n). 
+	A O(n) time, O(log n) space solution:
+	双栈，存右列，左列
+	小于的话，把左列第一个右儿子的左列加进去，再peek
+	大于的话，把右列第一个左儿子的右列加进去，再peek
+	2. BST 插入删除查找
+	http://www.bysocket.com/?p=1209
+	树的问题，总假设为先处理了，然后根据条件判断，或者是把返回值多加参数
+	3. 删除一些node，剩下多少树
+	4. 删除子树，子树和为0
+	5. 删除重复的子树
+	你之前写的那个serialize tree有可能得到一个比较好的答案的，你再去看看。 我就回去一看是啊，开始建立一个hashmap(dictionary), 在递归建立serialization的时候其实就可以同时查现在的结果是不是已经在hashmap里了。很快就写完了，毕竟代码没多少。
+	6.sorted array to BST
+	二分法，先建根，再左右
+	7.linkedlist to BST
+	count，取中，先建好左，左推出根
+	8.LCA BST
+	9.LCA BT
+	10.大小树的与
+	每一层的node个数是 2^n， 所以假设大的那棵树的leaf那一层有 M 个 node， 小的那棵树的leaf那一层有 N 个 node, M 一定是 N 的 2^k 倍数。
+所以先对 小的那棵树 做 bfs， 然后存储Leaf 的 n 个Node。 然后再对 大的那颗树做 bfs, 在 leaf 那一层 进行Update 应该就可以了
+	11.给一堆nodes有，每个里面有 id，有parent_id实现获取当某点的子节点 function 1
+实现获取当某点的后代点 function 2
+follow up：
+先用O(n)做了，然后问如何做到O(1)
+取后代的时候注意什么问题？. From 1point 3acres bbs
+1、自己是自己的父节点
+2、nodes里面有环（如何防范？）
+hashmap《》建临接表
+
+=====================================================================================
+Tree（All Tree）Google Tag2
+	4.验证前序遍历是不是树
+		删除叶子节点，删2个进一个＃
+		非空提供1出度，空提供一入度
+	https://www.hrwhisper.me/leetcode-verify-preorder-serialization-of-a-binary-tree/
+	13. binary vertical ，  给一个queue的col和queue的元素队列＋一个col－元素的map

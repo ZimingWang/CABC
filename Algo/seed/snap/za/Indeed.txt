@@ -1,0 +1,212 @@
+0.
+	1.自我介绍。
+        Under[Base,Aca] Gra[Data, SE]
+	2.What is the underlying data structure for stacks and queues?
+
+	3.data base
+	    http://www.infoq.com/cn/news/2014/04/sqlite-mysql-postgresql
+	4.介绍简历上的preject1, project2［特色］
+	    特色,more than coding[configuration, team]
+	5.Hadoop: 解释什么是hadoop, mapreduce的key idea是什么，都有过哪些hadoop的经验
+        Hadoop是一种分析和处理大数据的软件平台，是Appach的一个用Java语言所实现的开源软件的加框，在大量计算机组成的集群当中实现了对于海量的数据进行的分布式计算。 Hadoop的框架最核心的设计就是：HDFS和MapReduce.HDFS为海量的数据提供了存储，则MapReduce为海量的数据提供了计算.
+	6.投4个fair coin, 求3个head的概率。一堆数据，有些数据Y存在，有些数据Y不存在，怎么去predict 那些不存在的数据。如果发现建模不work，应该怎么办?
+        Phd
+	7.Why indeed，对indeed有什么了解，问简历项目
+	    indeed culture fit, new, energetic, data
+	8.checked exception vs. unchecked exception.
+        Checked exceptions must be caught at
+        compile time.
+        Run time
+	9.SQL: 解释inner join, outer join, left join, right join的区别； 解释什么是composite key; 解释什么是index, 为什么要用index;
+	    1.主鍵(Primary Key) 中的每一筆資料都是表格中的唯一值。換言之，它是用來獨一無二 ... 當主鍵包含多個欄位時，稱為組合鍵(Composite Key)
+	    2.http://www.powerxing.com/sql-join/ 图
+	    3.join 是两张表做交连后里面条件相同的部分记录产生一个记录集，
+        4.union是产生的两个记录集(字段要一样的)并在一起，成为一个新的记录集 。
+        5.聚集索引一个表只能有一个，而非聚集索引一个表可以存在多个，这个跟没问题没差别，一般人都知道。
+          聚集索引存储记录是物理上连续存在，而非聚集索引是逻辑上的连续，物理存储并不连续，这个大家也都知道。
+          http://database.51cto.com/art/201104/257104.htm
+        6.索引B+等http://database.51cto.com/art/201504/473322_all.htm
+            http://blog.csdn.net/kennyrose/article/details/7532032
+            数据库索引，是数据库管理系统中一个排序的数据结构，以协助快速查询、更新数据库表中数据。索引的实现通常使用B树及其变种B+树。
+==========================================================================================
+1. Array
+
+    1. Two sum 但只问是否存在
+	2.刚面完立即来报，还是输入sorted [1,2,3,5,7,8,13,20] 输出"1-3,5,7-8,13,20"这道题。问了两个follow up,第一个说如果有duplicate怎么办，
+	第二个说改为输出"1-3/1,5-7/2,8-13/5,20"，即找等差的子列。第二个要注意点是任意两个数都算子列，
+	所以输出只可能最后一个是single number，中间的都是range。. 1point3acres.com/bbs
+	https://leetcode.com/problems/summary-ranges/
+	题目就是leetcode summer range
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=173601&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3089%5D%5Bvalue%5D%5B2%5D%3D2%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3046%5D%5Bvalue%5D%3D26%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+Follow-up:
+[-3, -2, 1, 2, 3, 5, 8, 10, 11, 12, 15], does your code still work?
+      ==> Math.abs() instead of nums - num[i - 1];
+
+Another Array [1, 3, 5, 8, 12, 16], new output "1-5/2, 8-16/4". more info on 1point3acres.com
+      ==> 2 and 4 are distances, need add a new variable to record distance
+              initialize distance to -1, reset after appendding range/distance string
+
+昨天自己看面经，做了contains duplicates 的情况，也很直接，不过今天他没问这个。
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=173601&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3089%5D%5Bvalue%5D%5B2%5D%3D2%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3046%5D%5Bvalue%5D%3D26%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+	6.面的是在两个sorted array里找median。
+
+	7.http://buttercola.blogspot.com/2016/02/indeed-sum-dice-possibility.html
+
+	8.Coding: 口述，不是写code. 1) given a list of numbers, how to output top 10 numbers. 如果不能用python中的function, 又怎么做。
+	2) given a list of numbers, how to count frequency of each number. 如果不能用python中的function, 又怎么做。
+	3) how to calculate the product of previous integers.
+==========================================================================================
+2. String
+	1.reverse a string. Then, the follow up is to reverse the string with html entity, but keep html entity not reversed 
+	 reverse string
+    reverse string except HTML entity
+    eg.  // "1234&euro;" => &euro;4321"
+          // "1234&euro" => "orue&4321"
+         // "1234&euro;567" => "765&euro;4321"
+大家可以去地里查一查，这是indeed的高频题
+做法也非常简单，楼主参考了之前地里的帖子 
+因为html entity有一个特性：&开头 ;结尾， 用这个特性来traverse string，碰到&就把前面的substring翻转一下并存到list里面，然后查一下;在不在剩下的string 里面-google 1point3acres
+eg. "1234&euro;" => ["4321", "&euro;"]. visit 1point3acres.com for more.
+最后把这个list从后往前traverse一遍，产生新的string就行. more info on 1point3acres.com
+-google 1point3acres
+有个问题，一般面试官让问问题的时候，大家都问什么问题呢？ 应不应该问：什么时候能知道结果这种话？（楼主是没问那种。。。然后现在特别想知道他们什么时候给回复）。
+题目就是reverse string和reverse html，会问一些复杂度问题，java的话上string buffer就行了，自己用的python就跟他说我转array做吧
+reverse html注意"a&&nbsp;;b"这样的情况就行
+半小时就面完了
+leetcode reverse word in string 2要求是html entity要作为一个整体来reverse
+今早刚面完的电面， 面试官是个美国大叔，一上来就问那道经典的反转html的题，楼主很快写出来了，刚写完就被大叔挑出来一个唯一的bug， b了狗 。。。然后分析时间空间复杂度，时间按复杂度没啥后说的，O(n). 楼主用StringBuilder做的，空间复杂度明显也是O(n), 这里大叔表示不满意，我问为毛，大叔：我也知道是n, 那你给算下是几n呗 (就是n前面那个常数). 我:。。。然后我就算了一下常数。 然后大叔又让我一个劲优化，就是把那个常数减得尽可能小， 虽然还是线性空间。。。最后到点了就结束了。
+http://buttercola.blogspot.com/2016/01/indeed-reverse-string-except-html-entity.html
+
+	2.integer to Alphabet string.....感觉自己表现不咋好，还蛮
+        https://leetcode.com/problems/integer-to-english-words/
+	3.然后hackrank做题excel sheet column title这道easy题
+	    https://leetcode.com/problems/excel-sheet-column-title/
+	做完会有一些followup比如%26改成%3，时间复杂度，字符串如何移动复杂度之类
+==========================================================================================
+3. DP
+	1.题目是leetcode那个permutation palindrome，没啥难度可以用hashmap或者是hashset
+	。估计时间也快到了就没问follow up了。就说让我好好准备onsite,我说大哥你们考system design吗，
+	我以前没学过。他说考让我了解下怎么搭建个购物网站，query,和搭建database相关的就行了，然后准备下algorithm和data structure
+	2. https://leetcode.com/problems/palindrome-permutation-ii/
+	   https://leetcode.com/problems/palindrome-permutation/
+==========================================================================================
+5. BFS Graph
+	1.Given two points on a directed acyclic graph determine their least common ancestor,
+	 give it's time complexity, and describe any improvements you could make (if possible).
+==========================================================================================
+6. DS & Design
+	1.最新的hashmap带时间戳
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=203157&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3089%5D%5Bvalue%5D%5B2%5D%3D2%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3046%5D%5Bvalue%5D%3D26%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+是一道ExpiringMap的题目，楼主之前虽然看过这个，不过思路不清晰，在skype的时候，楼主使用的是自定义数据结构，Node中包含key value以及一个expiretime，这样在put的时候，就可以new一个node同时获得整个node过期的时间，于是当get一个node的时候，我们就将其过期时间和当前时间比较，如果小于当期时间，就从map中删除该key，返回nul，否则就正常返回。最后面试官问，如果大量数据过期怎么办，
+使用一个PriorityQueue，比较器是根据过期时间来的，这样堆顶就是最早过期的元素，于是我们可以在get的时候或者put的时候，将过期的元素都删除。楼主忘了在put的时候也要加上过滤过期数据的代码了。。。刚想起来，在最后的时候让分析了put和set的时间复杂度。 然后就结束了。不知道哪位有较好的解法，跪求。
+
+	2.List in List
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=200071&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3089%5D%5Bvalue%5D%5B2%5D%3D2%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3046%5D%5Bvalue%5D%3D26%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+public static List<List<Integer>> splitList(List<Integer> source) {
+         List<List<Integer>> result = new ArrayList<>();
+         while( source.size() > 0) {
+                 int i = 0;
+                 List<Integer> list = new ArrayList<>();-google 1point3acres
+                 Set<Integer> set = new HashSet<>();
+                 while(i<source.size()) {
+                         if(!set.contains(source.get(i))) {
+                                 list.add(source.get(i));
+                                 set.add(source.get(i));
+                                 source.remove(i);
+                         } else {
+                                 i++;
+                         }
+                 }
+                 result.add(list);
+         }. 1point 3acres 璁哄潧
+         return result;
+}
+	4.Implementing an LRU = Least recently used cache.
+	Question was I have a cached of storing just 50 objects now how do you
+	make sure you have unique 50 elements in a cache adding 51 should kick out least recently used
+	one from that 50 objects.
+    http://www.lintcode.com/zh-cn/problem/lru-cache/
+
+
+	5.find the first duplicated word in a string.
+	 like "sky blue dark blue", simply return blue. Just use a hashset and it is solved!
+	  I wrote the code in one shot and then he asked about some of the basic problems of hashtable,
+	  time complexity etc, which I was able to answer very…  too big how could you do that 然后是一个follow-up:
+	  Instead of returning the first duplicated word, return the earlier duplicated word which has the
+	   smallest index. e.g. "dog cat fish cat dog" => return dog
+也很简单，用一个HashMap 保存最早的Index就行。
+
+
+ 	6.given a String and a length return the string
+	回傳長度以內的完整word
+	如果遇到space 去掉
+	ex:
+	search for jobs
+	n=3 return null;
+	n=6 or 7 return search
+	n=13, return search for
+	7.follow up如果这是一个real word的function怎么办，比如说你的输入是一本杂志里面的词，找出所有duplicate的词。
+这里的意思是，真实中的输入不一定严格的以一个空格隔开每个单词（不能简单用split(“ ”))，不一定全部小写等等
+lz答首先处理成全部小写，然后把单词分隔开，可以用trie来省内存（要是内存放不下还可以放进disk），
+然后说了一下因为现实中有些词出现次数很多但是没什么意义的，比如I, you, he, she这些
+，可以另外设置一个filter来把这些不valuable的输出过滤掉（小哥表示赞同），
+最后又补充了可以多台机器一起做。（小哥表示对的你是不是有什么distributed system的经验，
+其实lz并没有，我就说之后有project会涉及到所以有点点了解）.1point3acres缃�
+
+
+
+11.
+	题目大意：
+这个公司有很多candidate要筛选。每个有自己的ID。 
+现在给我一个stream of IDs 找出在所有stream中出现过 >= targetnum 次数的 candidate。
+
+假如 有n个steam, avg长度是m 鏉ユ簮涓€浜�.涓夊垎鍦拌鍧�. 
+面试官说  时间复杂度应该是  O(n*m)。. 鐗涗汉浜戦泦,涓€浜╀笁鍒嗗湴
+
+==========================================================================================
+7. Linkedlist & BS & Bit & Math & Sort
+	1.Merge two sorted lists.
+	    recursive VS non-recursive
+	    我们来分析一下上述算法的时间复杂度。假设总共有k个list，每个list的最大长度是n，
+	    那么运行时间满足递推式T(k) = 2T(k/2)+O(n*k)。根据主定理，可以算出算法的总复杂度是O(nklogk)。
+	    如果不了解主定理的朋友，可以参见主定理-维基百科。空间复杂度的话是递归栈的大小O(logk)。
+        接下来我们来看第二种方法。这种方法用到了堆的数据结构，思路比较难想到，但是其实原理比较简单
+   。维护一个大小为k的堆，每次取堆顶的最小元素放到结果中，然后读取该元素的下一个元素放入堆中，重新维护好。
+   因为每个链表是有序的，每次又是去当前k个元素中最小的，所以当所有链表都读完时结束，这个时候所有元素按从小到大放在结果链表中。
+   这个算法每个元素要读取一次，即是k*n次，然后每次读取元素要把新元素插入堆中要logk的复杂度，
+        所以总时间复杂度是O(nklogk)。空间复杂度是堆的大小，即为O(k)。代码如下
+        10.例子:［peeking iterator］
+        [1,3,5,8,233]    TargetNum=2
+        [0,1,1,3]. 鐣欏鐢宠璁哄潧-涓€浜╀笁鍒嗗湴
+        [0,0,5]. 鐗涗汉浜戦泦,涓€浜╀笁鍒嗗湴
+        输出:    0,1,3
+        Interface Iterator{
+            int peek(){};   //返回steam的第一个element
+            int next(){};   //返回并删除stream的第一个element
+            bool hasNext(){};  //返回是否还有element
+        }
+	2.find intersection of two sorted list。。。
+	    duplicate?
+	    https://discuss.leetcode.com/topic/45685/three-java-solutions
+	    https://leetcode.com/problems/intersection-of-two-arrays-ii/
+	    https://leetcode.com/problems/intersection-of-two-linked-lists/
+==========================================================================================
+8. Tree
+	1.http://buttercola.blogspot.com/2016/02/indeed-tree-to-array.html
+==========================================================================================
+?????
+11.
+	题目大意：
+这个公司有很多candidate要筛选。每个有自己的ID。
+现在给我一个stream of IDs 找出在所有stream中出现过 >= targetnum 次数的 candidate。
+
+假如 有n个steam, avg长度是m 鏉ユ簮涓€浜�.涓夊垎鍦拌鍧�.
+面试官说  时间复杂度应该是  O(n*m)。. 鐗涗汉浜戦泦,涓€浜╀笁鍒嗗湴
+
+
+2. 也很简单，多加用一个HashMap 保存最早的Index就行。
+
+
+3.
+Given two points on a directed acyclic graph determine their least common ancestor,
+give it's time complexity, and describe any improvements you could make (if possible).

@@ -1,0 +1,1356 @@
+
+
+==========================================================================
+
+
+1. 
+public class Solution {
+   public boolean isReflected(int[][] points) {
+    int max = Integer.MIN_VALUE;
+    int min = Integer.MAX_VALUE;
+    HashSet<String> set = new HashSet<>();
+    for(int[] p: points){
+        max = Math.max(max,p[0]);
+        min = Math.min(min,p[0]);
+        String str = p[0] + "a" + p[1];
+        set.add(str);
+    }
+    int sum = max + min;
+    for(int[] p : points){
+        // int[] arr = {sum - p[0], p[1]};
+        String str = (sum - p[0]) + "a" + p[1];
+        if( !set.contains(str))
+            return false;
+        
+    }
+    return true;
+}
+}
+
+2.
+public class MovingAverage {
+    private int [] window;
+    private int insert;
+    private int count;
+    private long sum;
+    
+    /** Initialize your data structure here. */
+    public MovingAverage(int size) {
+        window = new int[size];
+        insert = 0;
+        sum = 0;
+        count = 0;
+    }
+    
+    public double next(int val) {
+        if (n < window.length)  n++;
+        sum -= window[insert];
+        sum += val;
+        window[insert] = val;
+        insert = (insert + 1) % window.length;
+        
+        return (double)sum / count;
+    }
+}
+
+3.
+// 继承iterator 因为要override方法
+public class NestedIterator implements Iterator<Integer> {
+    //stack存的是NestedInteger
+    Stack<NestedInteger> stack = new Stack<>();
+    // 把list元素push进来初始化，因为是stack，所以倒着放进去保证出来的顺序
+    public NestedIterator(List<NestedInteger> nestedList) {
+        for(int i = nestedList.size() - 1; i >= 0; i--) {
+            stack.push(nestedList.get(i));
+        }
+    }
+    // next直接pop整数就可以，因为要与hasNext配合
+    @Override
+    public Integer next() {
+        return stack.pop().getInteger();
+    }
+
+    @Override
+    public boolean hasNext() {
+        while(!stack.isEmpty()) {
+            // hasNext的话，栈不空，peek一下看是不是整数，是直接返回
+            NestedInteger curr = stack.peek();
+            if(curr.isInteger()) {
+                return true;
+            }
+            // 否则pop出来，因为是stack，所以倒着放进去保证出来的顺序
+            stack.pop();
+            for(int i = curr.getList().size() - 1; i >= 0; i--) {
+                stack.push(curr.getList().get(i));
+            }
+        }
+        return false;
+    }
+}
+
+
+4. 
+1
+2
+3
+4
+5
+6
+7
+8
+9
+public boolean isValidSerialization(String preorder) {
+    String[] nodes = preorder.split(",");
+    int diff = 1;
+    for (String node: nodes) {
+        if (--diff < 0) return false;
+        if (!node.equals("#")) diff += 2;
+    }
+    return diff == 0;
+}
+public class Solution {
+    public boolean isValidSerialization(String preorder) {
+        // using a stack, scan left to right
+        // case 1: we see a number, just push it to the stack
+        // case 2: we see #, check if the top of stack is also #
+        // if so, pop #, pop the number in a while loop, until top of stack is not #
+        // if not, push it to stack
+        // in the end, check if stack size is 1, and stack top is #
+        if (preorder == null) {
+            return false;
+        }
+        Stack<String> st = new Stack<>();
+        String[] strs = preorder.split(",");
+        for (int pos = 0; pos < strs.length; pos++) {
+            // 删除叶子节点，删完就行
+            String curr = strs[pos];
+            while (curr.equals("#") && !st.isEmpty() && st.peek().equals(curr)) {
+                st.pop();
+                if (st.isEmpty()) {
+                    return false;
+                }
+                st.pop();
+            }
+            st.push(curr);
+        }
+        // 最后剩下一个＃
+        return st.size() == 1 && st.peek().equals("#");
+    }
+}
+
+5.
+public class Solution {
+    public int minPatches(int[] nums, int n) {
+        int count = 0, i = 0;
+        // cover 从0到n
+        for (long covered=0; covered < n; ) {
+            // at this moment, we need (covered+1), patch it.
+            // 现在的大于covered ＋ 1，前面只到covered，或者数组穷尽了
+            if ((i < nums.length && nums[i] > covered + 1) || i >= nums.length) {  
+                covered += covered+1;
+                ++count;
+            } else { 
+                // 否则直接加nums[i++]
+                covered += nums[i++]; 
+            }
+        }
+        return count;
+    }
+}
+
+
+
+6.I
+public class Solution {
+    public int countRangeSum(int[] nums, int lower, int upper) {
+        if(nums.length == 0) return 0;
+        long[] sum = new long[nums.length + 1];
+        for (int i = 0; i < nums.length; i++)
+            sum[i + 1] = sum[i] + nums[i];
+ 
+        int ans = 0;
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j <= nums.length; j++) {
+                if(lower  <= sum[j] - sum[i] && sum[j] - sum[i] <= upper)
+                    ans++;
+            }
+        }
+        return ans;
+    }
+}
+public class Solution {
+    public int countRangeSum(int[] nums, int lower, int upper) {
+    int n = nums.length;
+    long[] sums = new long[n + 1];
+    // prefix树
+    for (int i = 0; i < n; ++i)
+        sums[i + 1] = sums[i] + nums[i];
+    return countWhileMergeSort(sums, 0, n + 1, lower, upper);
+}
+
+    private int countWhileMergeSort(long[] sums, int start, int end, int lower, int upper) {
+    if (end - start <= 1) return 0;
+    int mid = (start + end) / 2;
+    int count = countWhileMergeSort(sums, start, mid, lower, upper) 
+              + countWhileMergeSort(sums, mid, end, lower, upper);
+    int j = mid, k = mid, t = mid;
+    long[] cache = new long[end - start];
+    for (int i = start, r = 0; i < mid; ++i, ++r) {
+        while (k < end && sums[k] - sums[i] < lower) k++;
+        while (j < end && sums[j] - sums[i] <= upper) j++;
+        while (t < end && sums[t] < sums[i]) cache[r++] = sums[t++];
+        cache[r] = sums[i];
+        count += j - k;
+    }
+    System.arraycopy(cache, 0, sums, start, t - start);
+    return count;
+}
+}
+7.
+public class Solution {
+    public int lengthLongestPath(String input) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0); // "dummy" length
+        int maxLen = 0;
+        
+        for(String s:input.split("\n")){
+            int lev = s.lastIndexOf("\t") + 1; // number of "\t"
+            //跳过兄弟节点，找每一层对应的par 
+            while(lev + 1 < stack.size()) stack.pop(); // find parent
+            // 每一次pushlen，下一次直接peek
+            int len = stack.peek() + s.length() - lev + 1; // remove "/t", add"/"
+            stack.push(len);
+            // check if it is file
+            if(s.contains(".")) maxLen = Math.max(maxLen, len-1); 
+        }
+        return maxLen;
+    }
+}
+8.
+public class Solution {
+    public void wiggleSort(int[] nums) {
+        for(int i=0;i<nums.length;i++)
+            //按定义来，奇偶分开算，偶的话不能为0，避免越界
+            if(i%2==1){
+               if(nums[i-1]>nums[i]) swap(nums, i);
+            }else if(i!=0 && nums[i-1] < nums[i]) swap(nums, i);
+    }
+    public void swap(int[] nums, int i){
+          int tmp=nums[i];
+          nums[i]=nums[i-1];
+          nums[i-1]=tmp;
+    }
+}
+
+9.
+public class Solution {
+    public void wiggleSort(int[] nums) {
+        int median = findMedian(nums, 0, nums.length - 1, (nums.length + 1) >> 1);
+        int s = 0, t = nums.length - 1 , mid_index = (nums.length + 1) >> 1;
+        int[] temp = new int[nums.length];
+        // 找到中位数之后，partition一下
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] < median)
+                temp[s++] = nums[i];
+            else if (nums[i] > median)
+                temp[t--] = nums[i];
+        }
+        // median 在前面不做处理，之后再补充上，可能在s段，也可能在t段［没到mid index就算］
+         while (s < mid_index) temp[s++] = median;
+         while (t >= mid_index) temp[t--] = median;
+        // 分别指向所分段的前一个元素，先－－ 再赋值（与先sort再排序一样）
+        t = nums.length;
+        for (int i = 0; i < nums.length; i++)
+            nums[i] = (i & 1) == 0 ? temp[--s] : temp[--t];
+    }
+    // 找第k个数，k是中位数
+    private int findMedian(int[] nums, int L, int R, int k) {
+        if (L >= R) return nums[R];
+        int i = partition(nums, L, R);
+        // 现在i之前有多少
+        int cnt = i - L + 1;
+        // 找到就返回，否则看在那边，以i分左右
+        if (cnt == k) return nums[i];
+        return cnt > k ? findMedian(nums, L, i - 1, k) : findMedian(nums, i + 1, R, k - cnt);
+    }
+
+    private int partition(int[] nums, int L, int R) {
+        //就以L做标准
+        int val = nums[L];
+        int i = L, j = R + 1;
+        // 优秀的写法，交换
+        while (true) {
+            // 遍历
+            while (++i < R && nums[i] < val) ;
+            while (--j > L && nums[j] > val) ;
+            // 退出条件
+            if (i >= j) break;
+            // 交换
+            swap(nums, i, j);
+        }
+        // i 或者是 j 就是现在的count, 交换之后留作下一次的part
+        swap(nums, L, j);
+        return j;
+    }
+    
+    
+
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+
+/*public class Solution {
+    // 排序之后倒着取，一个指针在中，一个指针在最后，奇偶
+    public void wiggleSort(int[] nums) {
+        Arrays.sort(nums);
+        int[] temp = new int[nums.length];
+        int start = (nums.length + 1) >> 1, end = nums.length;
+        for (int i = 0; i < nums.length; i++) {
+            temp[i] = (i & 1) == 0 ?  nums[--start] : nums[--end] ;
+        }
+        for (int i = 0; i < nums.length; i++)
+            nums[i] = temp[i];
+    }
+}*/
+
+
+
+10.
+public class Solution {
+    public int combinationSum4(int[] nums, int target) {
+        Arrays.sort(nums);
+        // 类似于coin change， dp开的是target长度，dp中的跳帧
+        int[] res = new int[target + 1];
+        for (int i = 1; i <= target; i++) {
+	    for (int num : nums) {
+	        if (num > i)
+		    break;
+		else if (num == i)// 等于i，单取这一个
+		    res[i] += 1;
+		else// 小于i，取这一个的话加上之前的解
+		    res[i] += res[i - num];
+	    }
+	}
+        return res[target];
+    }
+}
+
+11.
+public class Solution {
+    public int DP(int i, int j, int[] nums, int[][] dp) {
+        //包括两头的1，如果有结果就直接返回
+        if (dp[i][j] > 0) return dp[i][j];
+        // 区间上的动态规划，
+        for (int x = i; x <= j; x++) {
+            // 更新还是两头， 前面的加后面的，加自己得到的
+            dp[i][j] = Math.max(dp[i][j], DP(i, x - 1, nums, dp) + nums[i - 1] * nums[x] * nums[j + 1] + DP(x + 1, j, nums, dp));
+        }
+        return dp[i][j];
+    }
+ 
+    public int maxCoins(int[] iNums) {
+        int n = iNums.length;
+        // 首位各加一个，为1，不影响结果，方便计算，有i - 1 和 j＋1
+        int[] nums = new int[n + 2];
+        nums[0] = nums[n + 1] = 1;
+        // 初始化赋值
+        for (int i = 0; i < n; i++) nums[i + 1] = iNums[i];
+        // 打破的气球在i到j之间，区间型动态规划
+        int[][] dp = new int[n + 2][n + 2];
+        // 要求的是从1-n
+        return DP(1, n, nums, dp);
+    }
+}
+
+
+12
+public class Solution {
+    // 矩阵里的方向问题，简便解法
+    int[][] dirs = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+
+// 并查集
+public List<Integer> numIslands2(int m, int n, int[][] positions) {
+    List<Integer> result = new ArrayList<>();
+    if(m <= 0 || n <= 0) return result;
+
+    int count = 0;                      // number of islands
+    int[] roots = new int[m * n];       // one island = one tree
+    // 填充
+    Arrays.fill(roots, -1);            
+
+    for(int[] p : positions) {
+        // 转换成一维数组的点确定唯一位置
+        int root = n * p[0] + p[1];     // assume new point is isolated island
+        // 初始化，根是自己
+        roots[root] = root;             // add new island
+        //  加岛
+        count++;
+        // 四个方向
+        for(int[] dir : dirs) {
+            // 确定四个方向在一维化的唯一位置nb
+            int x = p[0] + dir[0]; 
+            int y = p[1] + dir[1];
+            int nb = n * x + y;
+            
+            // 越界了或者不是根，跳过
+            if(x < 0 || x >= m || y < 0 || y >= n || roots[nb] == -1) continue;
+           
+            // 扩的这四个点的根rootNb不是本根
+            int rootNb = findIsland(roots, nb);
+            if(root != rootNb) {  // if neighbor is in another island
+                // 把自己合并岛rootNb上
+                roots[root] = rootNb;   // union two islands 
+                // 改换rootNb
+                root = rootNb;          // current tree root = joined tree root
+                // 少一个岛
+                count--;               
+            }
+        }
+        // 没进来一个点刷新一次
+        result.add(count);
+    }
+    return result;
+}
+
+// 找根
+public int findIsland(int[] roots, int id) {
+    while(id != roots[id]) {
+        roots[id] = roots[roots[id]];   // 压缩优化
+        id = roots[id];
+    }
+    return id;
+}
+}
+
+13.
+public class Solution {
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+	List<List<Integer>> res = new ArrayList<>();
+	if(root == null) return res;
+	
+	Map<Integer, ArrayList<Integer>> map = new HashMap<>();
+	Queue<TreeNode> q = new LinkedList<>();
+	Queue<Integer> cols = new LinkedList<>();
+
+	q.add(root); 
+	cols.add(0);
+    // min max 是col的左右界，一直在扩张 是可以为负的，注意map的定义
+	int min = 0, max = 0;
+	while(!q.isEmpty()) {
+		TreeNode node = q.poll();
+		int col = cols.poll();
+		//没有就建新的
+		if(!map.containsKey(col)) map.put(col, new ArrayList<Integer>());
+		// poll出来先加入
+		map.get(col).add(node.val);
+		if(node.left != null) {
+		    // 左子树是col － 1
+			q.add(node.left); 
+			cols.add(col - 1);
+			// 不断撑大col范围
+			if(col <= min) min = col - 1;
+		}
+		if(node.right != null) {
+		    // 右子树是col ＋ 1
+			q.add(node.right);
+			cols.add(col + 1);
+				// 不断撑大col范围
+			if(col >= max) max = col + 1;
+		}
+	}
+
+	for(int i = min; i <= max; i++) {
+		res.add(map.get(i));
+	}
+
+	return res;
+}
+}
+
+14.
+public class NumMatrix {
+
+private int[][] colSums;
+private int[][] matrix;
+
+public NumMatrix(int[][] matrix) {
+    if(   matrix == null
+       || matrix.length    == 0
+       || matrix[0].length == 0   ){
+        return;   
+     }
+     
+     this.matrix = matrix;
+     int m   = matrix.length;
+     int n   = matrix[0].length;
+     colSums = new int[m + 1][n];
+     //方便表示 m 设成1开头
+     //列和
+     for(int i = 1; i <= m; i++){
+         for(int j = 0; j < n; j++){
+             colSums[i][j] = colSums[i - 1][j] + matrix[i - 1][j];
+         }
+     }
+}
+//time complexity for the worst case scenario: O(m)
+public void update(int row, int col, int val) {
+    // 之前多加一行，colSums = new int[m + 1][n];这行也加上
+    // 从这一行起，受影响的colSums
+    for(int i = row + 1; i < colSums.length; i++){
+        colSums[i][col] = colSums[i][col] - matrix[row][col] + val;
+    }
+    // 再update原矩阵
+    matrix[row][col] = val;
+}
+
+//time complexity for the worst case scenario: O(n)
+public int sumRegion(int row1, int col1, int row2, int col2) {
+    int ret = 0;
+    // 求完列和之后行和就一维了，从col1列到col2列
+    for(int j = col1; j <= col2; j++){
+        // row2＋1是row2 行，row1是row1前一行
+        ret += colSums[row2 + 1][j] - colSums[row1][j];
+    }
+    
+    return ret;
+}
+}
+
+15.
+public class Solution {
+    public int[] maxNumber(int[] nums1, int[] nums2, int k) {
+        int[] ans = new int[k];
+        for (int i = Math.max(k - nums2.length, 0); i <= Math.min(nums1.length, k); i++) {
+            // 分给nums1 i个，nums2 k － i
+            int[] res1 = get_max_sub_array(nums1, i);
+            int[] res2 = get_max_sub_array(nums2, k - i);
+            int[] res = new int[k];
+            
+            // 三指针，两个源，一个结果
+            int pos1 = 0, pos2 = 0, tpos = 0;
+            while (pos1 < res1.length || pos2 < res2.length) {
+                //数字比较，interleaving
+                res[tpos++] = greater(res1, pos1, res2, pos2) ? res1[pos1++] : res2[pos2++];
+            }
+            // 更新结果，ans小于res
+            if (!greater(ans, 0, res, 0))
+                ans = res;
+        }
+ 
+        return ans;
+    }
+ 
+    // 从start开始比出一个（==的不算）
+    public boolean greater(int[] nums1, int start1, int[] nums2, int start2) {
+        for (; start1 < nums1.length && start2 < nums2.length; start1++, start2++) {
+            if (nums1[start1] > nums2[start2]) return true;
+            if (nums1[start1] < nums2[start2]) return false;
+        }
+        //谁先穷尽
+        return start1 != nums1.length;
+    }
+ 
+    public int[] get_max_sub_array(int[] nums, int k) {
+        int[] res = new int[k];
+        int len = 0;
+        for (int i = 0; i < nums.length; i++) {
+            //别减到越界（len－－）&& 已有的长度加上剩下的数 组成的结果大k && 前面的数比新来的要小，len倒退，让下一个if加入
+            while (len > 0 && len + nums.length - i > k && res[len - 1] < nums[i]) {
+                len--;
+            }
+            //先加到k，
+            if (len < k)
+                res[len++] = nums[i];
+        }
+        return res;
+    }
+}
+
+16.
+public class Solution {
+    public char findTheDifference(String s, String t) {
+	int n = t.length();
+	char c = t.charAt(n - 1);
+	for (int i = 0; i < n - 1; ++i) {
+		c ^= s.charAt(i);
+		c ^= t.charAt(i);
+	}
+	return c;
+}
+}
+
+
+17.
+public class Logger {
+HashMap<String,Integer> map;
+/** Initialize your data structure here. */
+public Logger() {
+    map=new HashMap<>();
+}
+
+/** Returns true if the message should be printed in the given timestamp, otherwise returns false. The timestamp is in seconds granularity. */
+public boolean shouldPrintMessage(int timestamp, String message) {
+//update timestamp of the message if the message is coming in for the first time,or the last coming time is earlier than 10 seconds from now
+    if(!map.containsKey(message) || timestamp - map.get(message) >= 10){
+        map.put(message,timestamp);
+        return true;
+    }
+    return false;
+}
+}
+18.
+public class HitCounter {
+    private int[] times;
+    private int[] hits;
+    /** Initialize your data structure here. */
+    // 
+    public HitCounter() {
+        times = new int[300];
+        hits = new int[300];
+    }
+    
+    /** Record a hit.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    public void hit(int timestamp) {
+        int index = timestamp % 300;
+        // 取余后找到存的发现不相等，说明过了五分钟，更新timestamp，重置hit为1，
+        if (times[index] != timestamp) {
+            times[index] = timestamp;
+            hits[index] = 1;
+        } else {
+            hits[index]++;
+        }
+    }
+    
+    /** Return the number of hits in the past 5 minutes.
+        @param timestamp - The current timestamp (in seconds granularity). */
+    public int getHits(int timestamp) {
+        int total = 0;
+        for (int i = 0; i < 300; i++) {
+            // 距离每个点存的time不超过5min就加
+            if (timestamp - times[i] < 300) {
+                total += hits[i];
+            }
+        }
+        return total;
+    }
+}
+
+19.
+public class TicTacToe {
+private int[] rows;
+private int[] cols;
+// 加入对角线，只有两条中心对角线满足条件
+private int diagonal;
+private int antiDiagonal;
+
+// 初始化, 两个一维数组代表二维数组
+public TicTacToe(int n) {
+    rows = new int[n];
+    cols = new int[n];
+}
+
+public int move(int row, int col, int player) {
+    // 1的＋1，否则－1，这样可以判断一列或者一对角线
+    int toAdd = player == 1 ? 1 : -1;
+    
+    rows[row] += toAdd;
+    cols[col] += toAdd;
+    
+    //在中心对角线上
+    
+    if (row == col)
+    {
+        diagonal += toAdd;
+    }
+    //在另对角线上
+    if (col == (cols.length - row - 1))
+    {
+        antiDiagonal += toAdd;
+    }
+    //判断当前这部玩家是否胜利
+    int size = rows.length;
+    if (Math.abs(rows[row]) == size ||
+        Math.abs(cols[col]) == size ||
+        Math.abs(diagonal) == size  ||
+        Math.abs(antiDiagonal) == size)
+    {
+        return player;
+    }
+    //没谁胜利返回0
+    return 0;
+}
+}
+
+
+20.
+public class Solution {
+    public int maxKilledEnemies(char[][] grid) {
+    if(grid == null || grid.length == 0 ||  grid[0].length == 0) return 0;
+    int max = 0;
+    int row = 0;
+    // 每个点遍历一遍
+    // row为什么一个，因为j == 0必然算一次，之后有墙再更新
+    // col则需要存储每一个值，先行再列，列里每个j都要算一次，但是只有一个i
+    int[] col = new int[grid[0].length];
+    for(int i = 0; i < grid.length; i++){
+        for(int j = 0; j < grid[0].length;j++){
+            // 遇墙停止
+            if(grid[i][j] == 'W') continue;
+            // 前一个是墙，从j开始往后
+            if(j == 0 || grid[i][j-1] == 'W'){
+                 row = killedEnemiesRow(grid, i, j);
+            }
+            // 上一个是墙，从j还是往后
+            if(i == 0 || grid[i-1][j] == 'W'){
+                 col[j] = killedEnemiesCol(grid,i,j);
+            }
+            // 遇到该放的点更新值
+            if(grid[i][j] == '0'){
+                max = (row + col[j] > max) ? row + col[j] : max;
+            }
+        }
+    }
+    return max;
+}
+
+
+//加个变量合成一个
+//column j从row i开始有多少E
+private int killedEnemiesRow(char[][] grid, int i, int j){
+    int num = 0;
+    while(j <= grid[0].length-1 && grid[i][j] != 'W'){
+        if(grid[i][j] == 'E') num++;
+        j++;
+    }
+    return num;
+}
+//column j从row i开始有多少E
+private int killedEnemiesCol(char[][] grid, int i, int j){
+    int num = 0;
+    while(i <= grid.length -1 && grid[i][j] != 'W'){
+        if(grid[i][j] == 'E') num++;
+        i++;
+    }
+    return num;
+}
+}
+
+21.
+public class Solution {
+    // 相当于点集（组成String）和点所属的四个性质方向情况（可叠加）
+    // 三种点，两条边，三条边，四条边
+    Map<String, Integer> map = new HashMap<String, Integer>();
+    public boolean isRectangleCover(int[][] rectangles) {
+        if (rectangles.length == 0 || rectangles[0].length == 0) return false;
+        //左max右min
+        int lx = Integer.MAX_VALUE, ly = lx, rx = Integer.MIN_VALUE, ry = rx, sum = 0;
+        //遍历矩形
+        for (int[] rec : rectangles) {
+            //左min 右max求出范围
+            lx = Math.min(lx, rec[0]);
+            ly = Math.min(ly, rec[1]);
+            rx = Math.max(rx, rec[2]);
+            ry = Math.max(ry, rec[3]);
+            // sum把所有面积加起来
+            sum += (rec[2] - rec[0]) * (rec[3] - rec[1]);
+            // 分配四个点
+            //bottom-left
+            if (overlap(rec[0] + " " + rec[1], 1)) return false;
+            //top-left
+            if (overlap(rec[0] + " " + rec[3], 2)) return false;
+            //bottom-right
+            if (overlap(rec[2] + " " + rec[1], 4)) return false;
+            //top-right
+            if (overlap(rec[2] + " " + rec[3], 8)) return false;
+        }
+        // 检验是不是有四个端点，只属于一种性质1，2，4，8 
+        int count = 0;
+        Iterator<Integer> iter = map.values().iterator();
+        while (iter.hasNext()) {
+            Integer i = iter.next();
+            if (i != 15 && i != 12 && i != 10 && i != 9 && i != 6 && i != 5 && i != 3) count++;
+        }
+        
+        // 4个端点不overlap，且面积不重叠
+        return count == 4 && sum == (rx - lx) * (ry - ly);
+    }
+    
+    private boolean overlap(String corner, Integer type) {
+        Integer temp = map.get(corner);
+        if (temp == null) temp = type;
+        else if ((temp & type) != 0) return true;
+        //相当于加，说明同属于于两种性状 ex：  //bottom-left 和 bottom-right
+        else temp |= type;
+        map.put(corner, temp);
+        return false;
+    }
+}
+
+22.
+public class Solution {
+    public String alienOrder(String[] words) {
+    // 存的是下一个入度
+    Map<Character, Set<Character>> map=new HashMap<Character, Set<Character>>();
+    //度数
+    Map<Character, Integer> degree=new HashMap<Character, Integer>();
+    String result="";
+    
+    
+    if(words==null || words.length==0) return result;
+    
+    // 把所有字符先存好度数表里初始化－－－为什么不直接存好
+    for(String s: words){
+        for(char c: s.toCharArray()){
+            degree.put(c,0);
+        }
+    }
+    
+    
+    for(int i=0; i<words.length-1; i++){
+        // 已经有序了，存当前和下一个
+        String cur=words[i];
+        String next=words[i+1];
+        
+        // 取小的那一个长度做比较
+        int length=Math.min(cur.length(), next.length());
+        for(int j=0; j<length; j++){
+            char c1 = cur.charAt(j);
+            char c2 = next.charAt(j);
+            // 不等时候作比较，把c2存c1里，然后更新c2的入度
+            if(c1!=c2){
+                Set<Character> set=new HashSet<Character>();
+                if(map.containsKey(c1)) set=map.get(c1);
+                if(!set.contains(c2)){
+                    set.add(c2);
+                    map.put(c1, set);
+                    degree.put(c2, degree.get(c2)+1);
+                }
+                break;
+            }
+        }
+    }
+    
+    // Topo Sort
+    
+    Queue<Character> q=new LinkedList<Character>();
+    // 找入度为0的点，keySet，存入
+    for(char c: degree.keySet()){
+        if(degree.get(c)==0) q.add(c);
+    }
+    while(!q.isEmpty()){
+        //取出放入结果
+        char c = q.remove();
+        result += c;
+        //看他入谁，取出来－1，为0就加到queue里
+        if(map.containsKey(c)){
+            for(char c2: map.get(c)){
+                degree.put(c2,degree.get(c2)-1);
+                if(degree.get(c2) == 0) q.add(c2);
+            }
+        }
+    }
+    // 如果不等，则还有没法覆盖判断的
+    if(result.length()!=degree.size()) return "";
+    return result;
+}
+}
+
+
+23.
+public class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if(nums == null || nums.length == 0) return new int[0];
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>(Collections.reverseOrder());
+        int[] res = new int[nums.length + 1 - k];
+        for(int i = 0; i < nums.length; i++){
+            // 把窗口最左边的数去掉
+            if(i >= k) pq.remove(nums[i - k]);
+            // 把新的数加入窗口的堆中
+            pq.offer(nums[i]);
+            // 堆顶就是窗口的最大值
+            if(i + 1 >= k) res[i + 1 - k] = pq.peek();
+        }
+        return res;
+    }
+}
+http://my.oschina.net/kevinair/blog/191630
+
+public class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if(nums == null || nums.length == 0) return new int[0];
+        LinkedList<Integer> deque = new LinkedList<Integer>();
+        // 结果数组，nums.length + 1 - k
+        int[] res = new int[nums.length + 1 - k];
+        for(int i = 0; i < nums.length; i++){
+            
+            // 每当新数进来时，如果发现队列头部的数的下标，是窗口最左边数的下标，则扔掉，之后加入新数
+            if(!deque.isEmpty() && deque.peekFirst() == i - k) deque.poll();
+            // while 把队列尾部所有比新数小的都扔掉，保证队列是降序的
+            while(!deque.isEmpty() && nums[deque.peekLast()] < nums[i]) deque.removeLast();
+            // 加入新数，存的是index
+            deque.offerLast(i);
+            // 如果超过了k，队列头部就是该窗口内第一大的
+            if((i + 1) >= k) res[i + 1 - k] = nums[deque.peek()];
+        }
+        // [1  3  -1] -3  5  3  6  7    
+        return res;
+    }
+}
+
+
+24.
+public class Solution {
+    public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+    List<Interval> result = new LinkedList<>();
+    int i = 0;
+    
+    // 在interval start之前的加入
+    while (i < intervals.size() && intervals.get(i).end < newInterval.start)
+        result.add(intervals.get(i++));
+    // merge起来
+    while (i < intervals.size() && intervals.get(i).start <= newInterval.end) {
+        // new一个两个合起来最小的最大的
+        newInterval = new Interval( // we could mutate newInterval here also
+                Math.min(newInterval.start, intervals.get(i).start),
+                Math.max(newInterval.end, intervals.get(i).end));
+        i++;
+    }
+    result.add(newInterval); // add the union of intervals we got
+    // 加完之后把其余的加入
+    while (i < intervals.size()) result.add(intervals.get(i++)); 
+    return result;
+}
+}
+
+
+25.
+public class Solution {
+    // 
+    public int[] sortTransformedArray(int[] nums, int a, int b, int c) {
+        int n = nums.length;
+        int[] sorted = new int[n];
+        //双指针从两端走
+        int i = 0, j = n - 1;
+        int index = a >= 0 ? n - 1 : 0;
+        while (i <= j) {
+            if (a >= 0) {//==0时候两边都可以，所以无所谓，比两端谁大，双指针移动
+                sorted[index--] = quad(nums[i], a, b, c) >= quad(nums[j], a, b, c) ? quad(nums[i++], a, b, c) : quad(nums[j--], a, b, c);
+            } else {
+                sorted[index++] = quad(nums[i], a, b, c) >= quad(nums[j], a, b, c) ? quad(nums[j--], a, b, c) : quad(nums[i++], a, b, c);
+            }
+        }
+        return sorted;
+    }
+    // 方程
+    private int quad(int x, int a, int b, int c) {
+        return a * x * x + b * x + c;
+    }
+}
+
+26.
+import java.util.Random;
+public class Solution {
+    private ListNode head;
+    private Random random;
+    /** @param head The linked list's head. Note that the head is guanranteed to be not null, so it contains at least one node. */
+    public Solution(ListNode head) {
+        this.head = head;
+        this.random = new Random();
+    }
+    // 根据code看代码，假设选到了第N个点，它的概率计算是之前的点没被选中，(1/2)* （2/3）*（3/4）* ……….. (n-1) / n = 1/n 
+    // 我们实时的计算当前遍历了多少个元素cnt，然后以 1/cnt 的概率选择[random.nextInt(cnt) == 0] 当前的元素，直到遍历完链表。
+    /** Returns a random node's value. */
+    public int getRandom() {
+        int ans = 0;
+		ListNode p = head;
+		for (int cnt = 1; p != null; cnt++, p = p.next) if (random.nextInt(cnt) == 0) ans = p.val;
+		return ans;
+    }
+}
+
+27.
+public class Solution {
+    public List<int[]> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        // 函数做参数,存int[]
+        PriorityQueue<int[]> que = new PriorityQueue<>((a,b)->a[0]+a[1]-b[0]-b[1]);
+        List<int[]> res = new ArrayList<>();
+        if(nums1.length==0 || nums2.length==0 || k==0) return res;
+        
+        // 初始变量，第一个配nums2[0]全存进去，小于k限定， 还要存住第二个的下标
+        for(int i=0; i<nums1.length && i<k; i++) que.offer(new int[]{nums1[i], nums2[0], 0});
+       
+        while(k-- > 0 && !que.isEmpty()){
+            // poll出来加上去
+            int[] cur = que.poll();
+            res.add(new int[]{cur[0], cur[1]});
+            // poll出来的nums2 index 都越界了，跳过
+            if(cur[2] == nums2.length-1) continue;
+            // 存新的，cur ［1］刚刚取过，存第二个数组的下一个并且更新下标
+            que.offer(new int[]{cur[0],nums2[cur[2]+1], cur[2]+1});
+        }
+        return res;
+    }
+}
+
+28.
+public class Solution {
+    public List<int[]> getSkyline(int[][] buildings) {
+        List<int[]> result = new ArrayList<>();
+        List<int[]> height = new ArrayList<>();
+        // 矩形存为左顶点，右顶点 与高
+        // 拆解矩形，构建顶点的列表
+        for(int[] b:buildings) {
+            // 左顶点存为负数
+            height.add(new int[]{b[0], -b[2]});
+            // 右顶点存为正数
+            height.add(new int[]{b[1], b[2]});
+        }
+        // 根据横坐标对列表排序，相同横坐标的点纵坐标小的排在前面
+        Collections.sort(height, new Comparator<int[]>(){
+            public int compare(int[] a, int[] b){
+                if(a[0] != b[0]){
+                    return a[0] - b[0];
+                } else {
+                    return a[1] - b[1];
+                }
+            }
+        });
+        // 构建堆，按照纵坐标来判断大小 11 ?
+        Queue<Integer> pq = new PriorityQueue<Integer>(11, new Comparator<Integer>(){
+            public int compare(Integer i1, Integer i2){
+                return i2 - i1;
+            }
+        });
+        // 将地平线值9先加入堆中
+        pq.offer(0);
+        // prev用于记录上次keypoint的高度
+        int prev = 0;
+        for(int[] h:height) {
+            // 将左顶点加入堆中
+            if(h[1] < 0) {
+                pq.offer(-h[1]);
+            } else {
+            // 将右顶点对应的左顶点移去
+                pq.remove(h[1]);
+            }
+            int cur = pq.peek();
+            // 如果堆的新顶部和上个keypoint高度不一样，则加入一个新的keypoint
+            if(prev != cur) {
+                result.add(new int[]{h[0], cur});
+                prev = cur;
+            }
+        }
+        return result;
+    }
+}
+
+29.
+public class Solution {
+    public int minMeetingRooms(Interval[] intervals) {
+    if (intervals == null || intervals.length == 0)
+        return 0;
+        
+    // Sort the intervals by start time［按start time 排序］
+    Arrays.sort(intervals, new Comparator<Interval>() {
+        public int compare(Interval a, Interval b) { return a.start - b.start; }
+    });
+    
+    // Use a min heap to track the minimum end time of merged intervals［heap是按end排序］
+    PriorityQueue<Interval> heap = new PriorityQueue<Interval>(intervals.length, new Comparator<Interval>() {
+        public int compare(Interval a, Interval b) { return a.end - b.end; }
+    });
+    
+    
+    // 把0放进去
+    heap.offer(intervals[0]);
+    
+    for (int i = 1; i < intervals.length; i++) {
+        // get the meeting room that 最早end
+        Interval interval = heap.poll();
+        
+        if (intervals[i].start >= interval.end) {
+           // 现在开始大于上次结束，不需要new房间，merge，
+            interval.end = intervals[i].end;
+        } else {
+            // 不然则需要
+            heap.offer(intervals[i]);
+        }
+        
+        // 无论merge与否，还得再存进去
+        heap.offer(interval);
+    }
+    
+    return heap.size();
+}
+}
+
+30.
+public class Solution {
+  //https://www.hrwhisper.me/leetcode-kth-smallest-element-sorted-matrix/
+  // 先把第一行存进去，有序的，第一行总体是整个行数里头最小的
+  // 再poll遍历k - 1次就可以
+    
+   /*Comparator<Point> comp = new Comparator<Point>() {
+        public int compare(Point left, Point right) {
+            return left.val - right.val;
+        }
+    };
+    
+    public int kthSmallest(int[][] matrix, int k) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return 0;
+        }
+        if (k > matrix.length * matrix[0].length) {
+            return 0;
+        }
+        return vertical(matrix, k);
+    }
+    
+    private int vertical(int[][] matrix, int k) {
+        Queue<Point> heap = new PriorityQueue<Point>(k, comp);
+        //先放一行或K个进去
+        for (int i = 0; i < Math.min(matrix[0].length, k); i++) {
+            heap.offer(new Point(0, i, matrix[0][i]));
+        }
+        
+        for (int i = 0; i < k - 1; i++) {
+            Point curr = heap.poll();
+            if (curr.x  < matrix.length - 1) {
+                heap.offer(new Point(curr.x + 1, curr.y, matrix[curr.x + 1][curr.y]));
+            }
+        }
+        return heap.peek().val;
+    }
+}
+
+   class Point {
+        public int x, y, val;
+        public Point(int x, int y, int val) {
+            this.x = x;
+            this.y = y;
+            this.val = val;
+        }*/
+        //[ 1,  5,  9],
+        //[10, 11, 13],
+        //[12, 13, 15]
+        //为什么最优,看解析
+
+    public int kthSmallest(int[][] matrix, int k) {
+	    int n = matrix.length;
+		int L = matrix[0][0], R = matrix[n - 1][n - 1];
+		while (L + 1 < R) {
+			int mid = L + ((R - L) >> 1);
+			int temp = 0;
+			for (int i = 0; i < n; i++) temp += binary_search(matrix[i], n - 1, mid);
+			System.out.println(mid+"dddd"+temp);
+			if (temp < k){
+			    L = mid;
+			} else {
+			    R = mid;
+			}
+		}
+		int start = 0;
+		for (int i = 0; i < n; i++) start += binary_search(matrix[i], n - 1, L);
+		int end = 0;
+		for (int i = 0; i < n; i++) end += binary_search(matrix[i], n - 1, R);
+		if (start >= k){
+		    return L;
+		}
+		return R;
+	}
+	
+	private int binary_search(int[] row,int R,int x){
+	    int L = 0;
+	    while (L + 1 < R){
+	        int mid = (L + R) >> 1;
+	        if(row[mid] <= x){
+	            L = mid;
+	        } else {
+	            R = mid;
+	        }
+	    }
+	    // 合并条件
+	    if (row[L] == x){
+	        return L + 1;
+	    }
+	    if (row[R] == x){
+	        return R + 1;
+	    }
+	    if (row[L] > x){
+	        return 0;
+	    }
+	    if (row[R] < x){
+	        return R + 1;
+	    }
+	    return L + 1;
+    } 
+}    
+
+31.
+public class Solution {
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        int n = nums.length;
+        int[] count = new int[n];
+        
+        int[] pre = new int[n];
+        // 对于这类对顺序没有要求的序列问题，我们总是可以选择先进行排序。
+        Arrays.sort(nums);
+        // 存一个做全局擂台
+        int max = 0, index = -1;
+        for (int i = 0; i < n; i++) {
+            count[i] = 1;
+            pre[i] = -1;
+            // 前后无所谓
+            for (int j = i - 1; j >= 0; j--) {
+                if (nums[i] % nums[j] == 0) {
+                    if (1 + count[j] > count[i]) {
+                        count[i] = count[j] + 1;
+                        // i的前一个index是j
+                        pre[i] = j;
+                    }
+                }
+            }
+            if (count[i] > max) {
+                max = count[i];
+                index = i;
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        while (index != -1) {
+            res.add(nums[index]);
+            index = pre[index];
+        }
+        return res;
+    }
+}
+
+33.
+public class Solution {
+    public String rearrangeString(String str, int k) {
+        
+        StringBuilder rearranged = new StringBuilder();
+        //每个字符出现次数
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : str.toCharArray()) {
+           map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+        }
+        
+        //construct a max heap using self-defined comparator, which holds all Map entries
+        // 把map entrys 全放进去，按从大到小排 
+        Queue<Map.Entry<Character, Integer>> maxHeap = new PriorityQueue<>(new Comparator<Map.Entry<Character, Integer>>() {
+            public int compare(Map.Entry<Character, Integer> entry1, Map.Entry<Character, Integer> entry2) {
+                return entry2.getValue() - entry1.getValue();
+            }
+        });
+         maxHeap.addAll(map.entrySet());
+         
+         // entry的queue
+        Queue<Map.Entry<Character, Integer>> waitQueue = new LinkedList<>();
+       
+        
+        while (!maxHeap.isEmpty()) {
+            
+            Map.Entry<Character, Integer> current = maxHeap.poll();
+            // 先poll出来，加一个
+            rearranged.append(current.getKey());
+            // 次数－1
+            current.setValue(current.getValue() - 1);
+            // 放到queue里
+            waitQueue.offer(current);
+            // 不到k后面就不用做
+            if (waitQueue.size() < k) { // intial k-1 chars, waitQueue not full yet
+                continue;
+            }
+            // release from waitQueue if char is already k apart
+            // 已经离了k个距离，就可以弹出来了
+            Map.Entry<Character, Integer> front = waitQueue.poll();
+            // note that char with 0 count still needs to be placed in waitQueue as a place holder
+            // 大于0，再放进堆里去
+            if (front.getValue() > 0) {
+                maxHeap.offer(front);
+            }
+        }
+        // 能不能放完，没放完说明没结果
+        return rearranged.length() == str.length() ? rearranged.toString() : "";
+    }
+    
+}
+
+34.
+public class Solution {
+    public String decodeString(String s) {
+        //
+        String res = "";
+        Stack<Integer> countStack = new Stack<>();
+        Stack<String> resStack = new Stack<>();
+        int idx = 0;
+        // 一个idx从头到尾
+        while (idx < s.length()) {
+            // 是数字的话while一直计算出数字大小
+            if (Character.isDigit(s.charAt(idx))) {
+                int count = 0;
+                while (Character.isDigit(s.charAt(idx))) {
+                    count = 10 * count + (s.charAt(idx) - '0');
+                    idx++;
+                }
+                // 放入数字栈中
+                countStack.push(count);
+            }
+            // [ 的话结果栈存进去，清空结果串
+            else if (s.charAt(idx) == '[') {
+                // 结果栈
+                resStack.push(res);
+                res = "";
+                idx++;
+            }
+            // 
+            else if (s.charAt(idx) == ']') {
+                // 取出字符串
+                StringBuilder temp = new StringBuilder (resStack.pop());
+                // 取出次数
+                int repeatTimes = countStack.pop();
+                for (int i = 0; i < repeatTimes; i++) {
+                    temp.append(res);
+                }
+                res = temp.toString();
+                idx++;
+            }
+            else {
+                // 组成字符串
+                res += s.charAt(idx++);
+            }
+        }
+        return res;
+    }
+}
+
+35. 
+public class Solution {
+    public boolean validUtf8(int[] data) {
+        int n = data.length;
+        if (n == 0) return true;
+        int skip = 0b10000000;
+        int check = 0;
+        for (int i = 0; i < data.length; i++) {
+            if (check > 0) {
+                if ((data[i] & skip) == skip) check--;
+                else return false;
+            } else {
+                check = getOneBitCountFromHead(data[i]);
+                if (check < 0) return false;
+            }
+        }
+        return check == 0;
+    }
+    private int getOneBitCountFromHead(int num) {
+        if ((num & 0b11110000) == 0b11110000) return 3;
+        if ((num & 0b11100000) == 0b11100000) return 2;
+        if ((num & 0b11000000) == 0b11000000) return 1;
+        if ((num & 0b10000000) == 0b10000000) return -1; //error
+        return 0;
+    }
+}

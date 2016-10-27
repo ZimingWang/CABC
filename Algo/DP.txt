@@ -1,0 +1,1268 @@
+http://www.1point3acres.com/bbs/thread-189741-3-1.html
+http://www.cnblogs.com/python27/p/3303721.html
+https://tw.answers.yahoo.com/question/index?qid=20101104000015KK03034
+maxSubArray，保留dp的一个解
+DP通常求方案个数， 最小值，有无可行性
+这种给定一个规则，计算有多少种结果的题目一般都是动态规划，因为我们可以从这个规则中得到递推式
+ 本质:dp本质,记忆化搜索
+    适用情况: 最值, 可行, 方案个数
+    不适用: 具体方案, 输入数据是无序的, 暴力法已经多项式
+    复杂度: 指数级n! 2^n 降到多项式
+    内容:
+    1. 状态
+    2. 方程: 状态联系
+    3. 初始化, 极限小状态[通常为输入数据起点]
+    4. 答案: 最大, 最后一个值	
+
+ 
+ 二维dp,初始化第一行第一列
+• 划分型动态规划 10% • 背包型动态规划 10% • 区间型动态规划 5%
+Fib 和 Climb Stair
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+坐标型[第i个位置的情况］
+1.unique paths
+	初始化横竖两边，然后new int[m][n]
+2.unique pathsII  有障碍物
+	初始化时，遇到1整个行列之后都为0
+	之后，遇到1就置0，
+4.Miniumum Path Sum
+	与unique path一样， 但是是累加， 然后初始化后， result＝ grid＋ min（res1， res2）
+5.数字三角形 先初始两边（一个for） 然后再遍历1-n 1-i， min（双肩），最后一行取最小值
+
+
+3.Climb Stairs 
+	递归， if 0 1 2，  n-1 n－2
+6.  Jump Game 能不能到
+	https://segmentfault.com/a/1190000003488956
+	result[j] && (A[j] + j >= i)
+	result[i] = true;
+        break;
+7.  Jump Game 最少跳几次
+	n2, 1-n-1,  step[i] 初始化为最大值，0-i（）｛steps[i] = steps[j] + 1;｝
+8.  LIS
+	n2 －－ 每一个点初始化1，遍历0-i， 对于每个比它小的点，算算是那个点＋1好，还是自己保留自己已有结果好
+
+
+单序列动态规划［前i个位置］不是坐标型, N个数开N+1个位置, 第0个做初始化
+	9. 单词切分
+		A.boolean[] result = new boolean[s.length() + 1];
+		前i个能不能被切分
+		B.int maxLen = getMaxLength(dict);
+	n2, 前i个字符， 分割点从1到maxLen i， 两段可不可以
+
+	
+双序列［前i个位置］
+10. 最长公共子串
+	int[][] result = new int[lenA + 1][lenB + 1];
+	forfor Ai ＝ Bj， result[i][j] = result[i - 1][j - 1] + 1; 最大值更新
+11. 最长公共子序列
+		
+	两步： A. result[i][j] = Math.max(result[i - 1][j], result[i][j - 1]);
+	      B. 相等的话， 更新result[i][j] = Math.max(result[i][j], result[i - 1][j - 1] + 		1);
+12. A的子序列有多少个有T
+	A.初始化
+	for (int i = 0; i <= lenS; i++){
+            result[i][0] = 1;
+        }
+	for for  result[i][j] = result[i - 1][j];初始化
+	如果Ai ＝ Bj result[i][j]＋＝result[i - 1][j - 1]
+13. word1变word2 最少次数
+	初始化
+	forfor
+	相等就不用＝＝i－1 j－1， 
+	否则 ＋＝ 最小的（删除，插入，替换）
+
+14. 分割回文串 s最少几刀能全分成回文串
+	从i到j 
+	A. boolean[][] isPalindrome = new boolean[s.length()][s.length()];
+	B. 从i到j 初始化 单点一定是， 相邻点i，i＋1 判断是不是
+	C. forfor长度为2开始， （start end）
+     	D.isPalindrome[start][start + length]
+                    = isPalindrome[start + 1][start + length - 1] && s.charAt(start) == 	   s.charAt(start + length);
+	然后单序列，for 1-s， j＝0-i  f[i] = Math.min(f[i], f[j] + 1);（if）
+15. 两个字符串交叉构成字符串
+	  //输入检查
+     //序列初始化 
+     //拿前i个和前j个能否组成 i ＋ j
+     //第i ＋ j个字符与哪个串匹配， 剩下，拿 i － 1 和 j 或者  i j － 1匹配
+ 应用
+16. Integer break
+17. 计算1-n所有数字1的个数
+ //f[i] = f[i / 2] + i % 2.（） 
+   右移（除2）的数的个数 ＋ 自己这位是不是1
+18.T在S里有几个subsequence
+
+19. Binary Watch
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+19.
+public class Solution {
+    private int[] leds = new int[10];
+    private List<String> result = new ArrayList<>();
+    private int num;
+    public List<String> readBinaryWatch(int num) {
+        this.result.clear();
+        this.num = num;
+	// 从第0个灯决定
+        backtracking(0);
+        return result;
+    }
+    // k means the kth led to be determined
+    public void backtracking(int k) {
+        for (int j = 0; j < 2; j++) {
+	    // 第k个灯是否亮［并不是亮了几个灯］
+            leds[k] = j;
+	    // 如果合法
+            if (legal(leds, k, false)) {
+                if (k == 9) {
+		    // k到了最后一位，
+                    int[] hhmm = decodeLEDS(leds, k);
+                    if (legal(leds, k, true))
+                        result.add(String.format("%d:%02d", hhmm[0], hhmm[1]));
+                } else {
+                    backtracking(k + 1);
+                }
+            }
+        }
+    }
+
+    // decode the LED sequence to human readable time format
+    public int[] decodeLEDS(int[] leds, int k) {
+        int[] hhmm = new int[] {0, 0};
+	// 从高位到低位
+	// 前4个灯管时钟
+        for (int i = 0; i <= Math.min(3, k); i++)
+            hhmm[0] += (leds[i] << (3 - i));
+	// 后面的管分钟
+        for (int i = 4; i <= Math.min(9, k); i++)
+            hhmm[1] += (leds[i] << (9 - i));
+        return hhmm;
+    }
+
+    // check that whether the LEDS are legal for time representation
+    public boolean legal(int[] leds, int k, boolean strict) {   // if strict, the count of led on must exactly be num
+        int countsOn = 0;
+	// 亮着的灯
+        for (int i = 0; i <= k; i++)
+            countsOn += leds[i];
+	// 灯有没有超
+        if (countsOn > num)
+            return false;
+        int[] hhmm = decodeLEDS(leds, k);
+	// 如果是严格，则代表最后结果应当是刚好亮起这么多灯
+        if (strict)
+            return countsOn == num && hhmm[0] < 13 && hhmm[1] < 60;
+	// 当前结果有没有违规
+        return hhmm[0] < 12 && hhmm[1] < 60;
+    }
+}
+
+18.
+public class Solution {
+    public int numDistinct(String S, String T) {
+    int[][] mem = new int[T.length()+1][S.length()+1];
+
+    // 0个肯定有1种情况
+    for(int j=0; j<=S.length(); j++) {
+        mem[0][j] = 1;
+    }
+    
+    //对T来说    
+    for(int i=0; i<T.length(); i++) {
+        for(int j=0; j<S.length(); j++) {
+	    //如果字符相同，两者相加，可以不用i＋1（S［i］）来匹配
+            if(T.charAt(i) == S.charAt(j)) {
+                mem[i+1][j+1] = mem[i][j] + mem[i+1][j];
+            } else {
+		//如果字符相同，两者相加，可以不用i＋1（S［i］）来匹配
+                mem[i+1][j+1] = mem[i+1][j];
+            }
+        }
+    }
+    
+    return mem[T.length()][S.length()];
+}
+}
+
+17.
+public class Solution {
+   public int[] countBits(int num) {
+    int[] f = new int[num + 1];
+     //f[i] = f[i / 2] + i % 2.（）
+    for (int i=1; i<=num; i++) f[i] = f[i >> 1] + (i % 2);
+    return f;
+}
+}
+16.
+public class Solution {
+    public int integerBreak(int n) {
+       int[] dp = new int[n + 1];
+       // dp[1]初始化
+       dp[1] = 1;
+       for(int i = 2; i <= n; i ++) {
+           for(int j = 1; j < i; j ++) {
+		// 所有情况，j的划分
+               // j, dp[j] j代表分还是不分最大，后面代表之后的分还是不分最大
+               dp[i] = Math.max(dp[i], (Math.max(j,dp[j])) * (Math.max(i - j, dp[i - j])));
+           }
+       }
+       return dp[n];
+    }
+}
+
+
+1. unique path
+	public int uniquePaths(int m, int n) {
+        // write your code here
+        int[][] result = new int[m][n];
+        for (int i = 0; i < m; i++){
+            result[i][0] = 1;
+        }
+        for (int i = 0; i < n; i++){
+            result[0][i] = 1;
+        }
+        for (int i = 1; i < m; i++){
+            for (int j = 1; j < n; j++){
+                result[i][j] = result[i - 1][j]
+                                + result[i][j - 1];
+            }
+        }
+        return result[m - 1][n - 1];
+    }
+
+2.
+public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        // write your code here
+        //二维数组的输入检查
+        if (obstacleGrid == null || obstacleGrid.length == 0 || obstacleGrid[0].length == 0) {
+            return 0;
+        }
+        int n = obstacleGrid.length;
+        int m = obstacleGrid[0].length;
+        int[][] path = new int[n][m];//默认为0
+        for (int i = 0; i < n; i++){
+            if (obstacleGrid[i][0] != 1){
+                path[i][0] = 1;
+            } else {
+                break;
+            }
+        }
+        for (int i = 0; i < m; i++){
+            if (obstacleGrid[0][i] != 1){
+                path[0][i] = 1;
+            } else {
+                break;
+            }
+        }
+        //判断自己是否为1
+        for (int i = 1; i < n; i++){
+            for (int j = 1; j < m; j++){
+                if (obstacleGrid[i][j] != 1){
+                    path[i][j] = path[i - 1][j]
+                                            + path[i][j - 1];
+                } else {
+                    path[i][j] = 0;
+                }
+            }
+        }
+        return path[n - 1][m - 1];
+    }
+}
+
+3.
+if (n == 0){
+            return 0;//输入检查
+        }
+        if (n == 1){
+            return 1;
+        }
+        if (n == 2){
+            return 2;
+        }
+        return climbStairs(n - 1) + climbStairs(n - 2);
+        递归重复计算， 44的时候
+
+
+ if (n <= 1){
+            return 1;
+        }
+       int now = 0;
+       int last = 1;
+       int lastLast = 1;
+       //不是用数组，然要到n为止，台阶数，不是序号 
+       for (int i = 2; i <= n; i++){
+           now = last + lastLast;
+           lastLast = last;
+           last = now;
+       }
+       return now;
+    }
+
+
+4.
+//原来矩阵和结果／状态矩阵一定要分清，找个小一点的矩阵走一遍 
+    public int minPathSum(int[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0){
+            return 0;
+        }
+        // write your code here
+        int n = grid.length;
+        int m = grid[0].length;
+        int[][] result = new int[n][m];
+        result[0][0] = grid[0][0];
+        for (int i = 1; i < n; i++){
+            result[i][0] = grid[i][0] + result[i - 1][0];
+        }
+        for (int j = 1; j < m; j++){
+            result[0][j] = grid[0][j] + result[0][j - 1];
+        }
+        for (int i = 1; i < n; i++){
+            for (int j = 1; j < m; j++){
+             result[i][j] = grid[i][j] + Math.min(result[i - 1][j], 
+                                                  result[i][j - 1]);
+            }
+        }
+        return result[n - 1][m - 1];
+    }
+
+
+
+5.
+public int minimumTotal(int[][] triangle) {
+        // write your code here
+        if (triangle == null || triangle.length == 0) {
+            return -1;
+        }
+        if (triangle[0] == null || triangle[0].length == 0) {
+            return -1;
+        }
+        int n = triangle.length;
+        int[][] result = new int[n][n];
+        result[0][0] = triangle[0][0];
+        for (int i = 1; i < n; i++){
+            result[i][0] = triangle[i][0] + result[i - 1][0];
+            result[i][i] = triangle[i][i] + result[i - 1][i - 1];
+        }
+        for (int i = 1; i < n; i++){
+            for (int j = 1; j < i; j++){
+                result[i][j] = triangle[i][j] + Math.min(result[i - 1][j - 1],
+                                                result[i - 1][j]);
+            }
+        }
+        int min = result[n - 1][0];
+        for (int i = 0; i < n; i++){
+            min = Math.min(min, result[n - 1][i]);
+        }
+        return min;
+    }
+}
+
+6.
+public boolean canJump(int[] A) {
+        // wirte your code here
+        if (A == null || A.length == 0){
+            return false;
+        }
+        int len = A.length;
+        boolean[] result = new boolean[len];
+        result[0] = true;
+        //对于每一个点的状态需要前面所有点的判断
+        //j = 0 而不是j ＝ 1，分清状态和原数据
+        for (int i = 1; i < len; i++){
+            for (int j = 0; j < i; j++){
+                if (result[j] && (A[j] + j >= i)){
+                    result[i] = true;
+                    break;
+                }
+            }
+        }
+        return result[len - 1];
+    }
+
+7.
+public class Solution {
+    /**
+     * @param A: A list of lists of integers
+     * @return: An integer
+     */
+    //2,3,1,1,4//跑一遍 
+    public int jump(int[] A) {
+        // write your code here
+        if (A == null || A.length == 0){
+            return -1;
+        }
+        int[] steps = new int[A.length];
+        steps[0] = 0;
+        for (int i = 1; i < A.length; i++) {
+            steps[i] = Integer.MAX_VALUE;
+            for (int j = 0; j < i; j++) {
+                if (steps[j] != Integer.MAX_VALUE && j + A[j] >= i) {
+                    steps[i] = steps[j] + 1;
+                    break;
+                }
+            }
+        }
+        return steps[A.length - 1];
+    }
+}
+
+
+8.
+ public int longestIncreasingSubsequence(int[] nums) {
+        int[] f = new int[nums.length];
+        int max = 0;
+        for (int i = 0; i < nums.length; i++) {
+            f[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (nums[j] <= nums[i]) {
+                    f[i] = f[i] > f[j] + 1 ? f[i] : f[j] + 1;
+                }
+            }
+            max = Math.max(max, f[i]);
+        }
+        return max;
+
+9.
+ public boolean wordBreak(String s, Set<String> dict) {
+        // write your code here
+        if (s == null || s.length() == 0){
+            return true;
+        }
+        boolean[] result = new boolean[s.length() + 1];
+        int maxLen = getMaxLength(dict);
+        result[0] = true;
+        for (int i = 1; i <= s.length(); i++){
+            for (int wordLen = 1; wordLen <= maxLen && wordLen <= i; wordLen++){
+                //除去单词，前面不成立则无需走接下来几步
+                if (!result[i - wordLen]){
+                    continue;
+                }
+                String word = s.substring(i - wordLen, i);
+                if (dict.contains(word)) {
+                    result[i] = true;
+                    break;
+                }
+            }
+        }
+        return result[s.length()];
+    }
+    private int getMaxLength(Set<String> dict){
+         int maxLength = 0;
+            for (String word : dict) {
+            maxLength = Math.max(maxLength, word.length());
+            }
+            return maxLength;
+    }
+}
+
+10.
+public int longestCommonSubstring(String A, String B) {
+        // write your code here
+        if (A == null || A.length() == 0 || B == null || B.length() == 0){
+            return 0;
+        }
+        int lenA = A.length();
+        int lenB = B.length();
+        //挪一位，便于把i － 1 代入
+        int[][] result = new int[lenA + 1][lenB + 1];
+        for (int i = 0; i < lenA + 1; i++){
+            //0
+        }
+        for (int i = 0; i < lenB + 1; i++){
+            //0
+        }
+        int max = 0;//不一定最后一个才是结果
+        for (int i = 1; i < lenA + 1; i++){
+            for (int j = 1; j < lenB + 1; j++){
+                if (A.charAt(i - 1) == B.charAt(j - 1)){
+                    result[i][j] = result[i - 1][j - 1] + 1;
+                } 
+                if (result[i][j] > max){
+                    max = result[i][j];
+                }
+            }
+        }
+        return max;
+    }
+11.
+ public int longestCommonSubsequence(String A, String B) {
+        // write your code here
+        if (A == null || A.length() == 0){
+            return 0; 
+        }
+        if (B == null || B.length() == 0){
+            return 0; 
+        }
+        int lenA = A.length();
+        int lenB = B.length();
+        int[][] result = new int[lenA + 1][lenB + 1];
+        //一行一列默认初始化,正好是0
+        for (int i = 1; i < lenA + 1; i++){
+            for (int j = 1; j < lenB + 1; j++){
+                result[i][j] = Math.max(result[i - 1][j], result[i][j - 1]);
+                //i代表A的第i个字符，index是i - 1
+                if (A.charAt(i - 1) == B.charAt(j - 1)){
+                    //加不加判断都一样
+                    result[i][j] = Math.max(result[i][j], result[i - 1][j - 1] + 1);
+                }
+            }
+        }
+        return result[lenA][lenB];
+    }
+
+12.
+ public int numDistinct(String S, String T) {
+        // write your code here
+        if (S == null || T == null){
+            return 0;
+        }
+        
+        int lenS = S.length();
+        int lenT = T.length();
+        int[][] result = new int[lenS + 1][lenT + 1];
+        //for 的边界检查
+        for (int i = 0; i <= lenS; i++){
+            result[i][0] = 1;
+        }
+        for (int i = 1; i <= lenS; i++){
+            for (int j = 1; j <= lenT; j++){
+                result[i][j] = result[i - 1][j];
+                if (S.charAt(i - 1) == T.charAt(j - 1)){
+                    //相当于，用 i － 1个字符匹配 j个字符
+                    //加上， 用 i－1 匹配 j - 1 字符
+                    // rabb rab -> rab 匹配rab, 加上 rab 匹配ra
+                    result[i][j] += result[i - 1][j - 1];
+                }
+            }
+        }
+        return result[lenS][lenT];
+    }
+
+13.
+ public int minDistance(String word1, String word2) {
+        // write your code here
+        //不一定所有输入检查，长度为0一定错
+        if (word1 == null || word2 == null){
+            return -1;
+        }
+        
+        int len1 = word1.length();
+        int len2 = word2.length();
+        int[][] result = new int[len1 + 1][len2 + 1];
+        for (int i = 1; i < len1 + 1; i++){
+            result[i][0] = i;//删除
+        }
+        for (int i = 1; i < len2 + 1; i++){
+            result[0][i] = i;//添加
+        }
+        for (int i = 1; i < len1 + 1; i++){
+            for (int j = 1; j < len2 + 1; j++){
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)){
+                    result[i][j] = result[i - 1][j - 1];
+                } else {
+                    //加1三种情况，增，删， 替换
+                    result[i][j] = 1 + Math.min(result[i - 1][j],
+                                    Math.min(result[i][j - 1], 
+                                    result[i - 1][j - 1]));
+                }
+            }
+        }
+        return result[len1][len2];
+    }
+}
+
+14.
+private boolean[][] getIsPalindrome(String s) {
+        boolean[][] isPalindrome = new boolean[s.length()][s.length()];
+
+        //单点判断
+        for (int i = 0; i < s.length(); i++) {
+            isPalindrome[i][i] = true;
+        }
+        
+        //初始化，相邻判断
+        for (int i = 0; i < s.length() - 1; i++) {
+            isPalindrome[i][i + 1] = (s.charAt(i) == s.charAt(i + 1));
+        }
+        
+        //前面是长度1，长度2，现在长度为2开始，从0位置遍历所有长度为length
+        for (int length = 2; length < s.length(); length++) {
+            for (int start = 0; start + length < s.length(); start++) {
+                isPalindrome[start][start + length]
+                    = isPalindrome[start + 1][start + length - 1] && s.charAt(start) == s.charAt(start + length);
+            }
+        }
+        return isPalindrome;
+    }
+
+    public int minCut(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+
+        // preparation
+        boolean[][] isPalindrome = getIsPalindrome(s);
+        
+        // initialize
+        int[] f = new int[s.length() + 1];
+        f[0] = 0;
+        
+        // main
+        for (int i = 1; i <= s.length(); i++) {
+            //至少i个回文串
+            f[i] = Integer.MAX_VALUE; // or f[i] = i
+            //0 - i,f[j] + 后面的能不能是回文串
+            for (int j = 0; j < i; j++) {
+                if (isPalindrome[j][i - 1]) {
+                    f[i] = Math.min(f[i], f[j] + 1);
+                }
+            }
+        }
+        return f[s.length()] - 1;
+    }
+15.
+//双序列集大成者
+     //输入检查
+     //序列初始化 
+     //拿前i个和前j个能否组成 i ＋ j
+     //第i ＋ j个字符与哪个串匹配， 剩下，拿 i － 1 和 j 或者  i j － 1匹配
+    public boolean isInterleave(String s1, String s2, String s3) {
+        if (s1.length() + s2.length() != s3.length()) {
+            return false;
+        }
+        
+        boolean [][] interleaved = new boolean[s1.length() + 1][s2.length() + 1];
+        interleaved[0][0] = true;
+        
+        for (int i = 1; i <= s1.length(); i++) {
+            if(s3.charAt(i - 1) == s1.charAt(i - 1) && interleaved[i - 1][0])
+                interleaved[i][0] = true;
+        }
+        
+        for (int j = 1; j <= s2.length(); j++) {
+            if(s3.charAt(j - 1) == s2.charAt(j - 1) && interleaved[0][j - 1])
+                interleaved[0][j] = true;
+        }
+        
+        for (int i = 1; i <= s1.length(); i++) {
+            for (int j = 1; j <= s2.length(); j++) {
+                if(((s3.charAt(i + j - 1) == s1.charAt(i - 1) && interleaved[i - 1][j]))
+                    || ((s3.charAt(i + j - 1)) == s2.charAt(j - 1) && interleaved[i][j - 1]))
+                interleaved[i][j] = true;
+            }
+        }
+        
+        return interleaved[s1.length()][s2.length()];
+    }
+
+16. 通配符匹配（wildcard matching）
+// 最难题，但是常常考 
+    // 待解决 
+    // 百分之两百的动态规划 
+    //[解题思路]
+    //主要是*的匹配问题。p每遇到一个*，就保留住当前//*的坐标和s的坐标，然后s从前往后扫描，如果不成功，则s++,重新扫描。
+    //http://bangbingsyb.blogspot.com/2014/11/leetcode-wildcard-matching.html
+    //https://simpleandstupid.com/2014/10/26/wildcard-matching-leetcode-%E8%A7%A3%E9%A2%98%E7%AC%94%E8%AE%B0/
+    public boolean isMatch(String s, String p) {
+        boolean[][] match=new boolean[s.length()+1][p.length()+1];
+        match[s.length()][p.length()]=true;
+        // 找p的通配符？
+        for(int i= p.length() - 1; i >= 0; i--){
+            if(p.charAt(i) != '*')
+                break;
+            else
+                match[s.length()][i]=true;
+        }
+        
+        for(int i = s.length() - 1; i >= 0; i--){
+            for(int j = p.length()-1;j >= 0; j--){
+                if(s.charAt(i) == p.charAt(j) || p.charAt(j) == '?')
+                        match[i][j] = match[i + 1][j + 1];
+                else if(p.charAt(j) == '*')
+                        match[i][j]=match[i + 1][j] || match[i][j + 1];
+                else
+                    match[i][j]=false;
+            }
+        }
+        return match[0][0];
+    }
+}
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+划分型动态规划
+http://liangjiabin.com/blog/2015/04/leetcode-best-time-to-buy-and-sell-stock.html
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
+1. Buy Stock I
+	只能买一次
+	遍历一遍，维护一个curMin和maxProfits，然后每次更新maxProfits  price［i］－ curMin
+2. Buy Stock II
+	不限制买卖次数，prices[i+1]-prices[i];每次大于0就加，理论上次数大于数组长度就行，
+	贪心法，解释可以是股市的蜡烛图
+3. Buy Stock III
+	考虑所有情况，i天前一次，i天后一次，curMin，curMax，维护pre post两个数组，最后for一遍，找出相加最大的
+4. Buy Stock IV
+	fordays， forK
+	“粘在后面”
+	k大于的时候用贪心，Buy II
+	diff仍然是price［i］ － price［i － 1］
+	local[i][j]和global[i][j]的区别是：local[i][j]意味着在第i天一定有交易（卖出）发生
+	local[i][j] = max(global[i – 1][j – 1]｛diff小于0｝ , local[i – 1][j] + diff｛大于0｝)
+	第i天有无交易
+	global[i][j] = max(global[i – 1][j], local[i][j])
+	最后i省掉
+5. Buy Stock CoolDown
+	As many as you can，一维数组
+	diff ＝ (prices[i] - prices[j]）
+	for i 代表卖， for j代表买（1 － i，j－－）
+	在i卖的话，j<2前面没有cooldown，否则，与dp［j - 2］比较
+	在i不卖的话，dp[i]与dp［i － 1］做比较（j！＝0）否则必须卖，没有dp［i － 1］
+	最后全局选
+
+6.Max Subarray
+	local, global 从nums［0］开始
+	for i ＝ 1， nums.length
+		local local之前大于0就加上，小于0就扔掉赋值为nums［i］
+		global是在local里选出最大的
+7.Max Subarray II
+	从前到后，从后到前同样方法都算一遍［］比最大值
+8.Max Subarray III
+	len < k 则return 0;
+	localMax[i][k] 表示前i个数，取k个子数组，包含第i个数的Maximum Sum
+	globalMax[i][k] 表示前i个数，取k个子数组，可以不包含第i个数的Maximum Sum
+
+9.（非划分）
+	int maxProduct = A[0];  每次乘一下A[i], 与A[i]更新， maxtemp找最大值 
+        int max_temp   = A[0];  
+        int min_temp   = A[0]; 
+
+D&Q解决（二分）三种情况
+http://fisherlei.blogspot.com/2012/12/leetcode-maximum-subarray.html
+http://www.lintcode.com/zh-cn/problem/maximum-subarray-iii/
+通用解法
+http://www.jianshu.com/p/5045dda5ea1f
+http://hehejun.blogspot.com/2015/01/lintcodemaximum-subarray-iii.html
+
+
+10. house robber (dp[n+1][2]从1开始)偷或者不偷
+
+11. 算两遍
+	int[] dp = new int[len+1];
+	dp[0] = 0;
+        dp[1] = nums[0];.//偷
+
+	dp[0] = 0;
+        dp[1] = 0;// 不偷
+	优化为两个变量
+12. 树的话算两遍
+	先得到int［］ left int［］right
+	如果now［0］不偷 左右的最大值相加
+	如果now［1］偷，左右都不偷的值＋自己
+
+13.刷篱笆
+	// 递推式：第三根柱子要么根第一个柱子不是一个颜色，要么跟第二根柱子不是一个颜色
+https://segmentfault.com/a/1190000003903965
+14. 刷房子
+	costs[i][0]
+	costs[i][1]
+	costs[i][2]// 直接在输入数组上改是不是不太好
+15. 刷房子II
+	和I的思路一样，不过这里我们有K个颜色，不能简单的用Math.min方法了。如果遍历一遍颜色数组就找出除了自身外最小的颜色呢？我们只要把最小和次小的都记录下来就行了，这样如果和最小的是一个颜色，就加上次小的开销，反之，则加上最小的开销。
+	    prevMin = currMin;
+            prevSec = currSec;
+            prevIdx = currIdx;
+
+
+==========================================================================================
+1. Buy Stocks I
+	public class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices.length < 2) return 0;
+        
+        int maxProfit = 0;
+        int curMin = prices[0];
+        
+        for (int i = 1; i < prices.length; i++) {
+            curMin = Math.min(curMin, prices[i]);
+            maxProfit = Math.max(maxProfit, prices[i] - curMin);
+        }
+        
+        return maxProfit;
+    }
+}
+2. Buy Stocks II
+	public class Solution {
+  	public int maxProfit(int[] prices) {
+	    if(prices == null || prices.length==0)
+        	return 0;
+    		int res = 0;
+    	for(int i=0;i<prices.length-1;i++){
+      	  int diff = prices[i+1]-prices[i];
+       	 if(diff>0){
+             res += diff;//累加的传递性，当然可能不需要这么多次交易1，2，3，4-》1，4
+        	}
+   	 }
+    return res;
+}
+}
+3.
+public class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices.length < 2) return 0;
+        
+        int n = prices.length;
+        int[] preProfit = new int[n];
+        int[] postProfit = new int[n];
+        
+        int curMin = prices[0];
+        for (int i = 1; i < n; i++) {
+            curMin = Math.min(curMin, prices[i]);
+            preProfit[i] = Math.max(preProfit[i - 1], prices[i] - curMin);
+        }
+        
+        int curMax = prices[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            curMax = Math.max(curMax, prices[i]);
+            postProfit[i] = Math.max(postProfit[i + 1], curMax - prices[i]);
+        }
+        
+        int maxProfit = 0;
+        for (int i = 0; i < n; i++) {
+            maxProfit = Math.max(maxProfit, preProfit[i] + postProfit[i]);
+        }
+        
+        return  maxProfit;
+    }
+}
+
+4.
+local[i][j] = max(global[i – 1][j – 1] , local[i – 1][j] + diff)
+global[i][j] = max(global[i – 1][j], local[i][j])
+
+local global互相交互 local表示一定有交易，即使＋diff《0
+public class Solution {
+    public int maxProfit(int k, int[] prices) {
+        if (prices.length < 2) return 0;
+        if (k >= prices.length) return maxProfit2(prices);
+        
+        int[] local = new int[k + 1];
+        int[] global = new int[k + 1];
+        
+        for (int i = 1; i < prices.length ; i++) {
+            int diff = prices[i] - prices[i - 1];
+            for (int j = 1; j <= k; j++){
+                local[j] = Math.max(global[j - 1], local[j] + diff);
+                global[j] = Math.max(global[j], local[j]);
+            }
+        }
+        
+        return global[k];
+    }
+    
+     public int maxProfit2(int[] prices) {
+        int maxProfit = 0;
+        
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]) {
+                maxProfit += prices[i] - prices[i - 1];
+            }
+        }
+        
+        return maxProfit;
+    }
+}
+
+5. 
+public class Solution {
+    public int maxProfit(int[] prices) {
+    if (prices == null || prices.length == 0) {
+        return 0;
+    }
+    // 在每个点卖的时候的最大值
+    int[] dp = new int[prices.length]; 
+    int max = 0;
+    // 组成buy sell 的组合
+    for (int i = 1; i < prices.length; i++) { // i sell
+        for (int j = i - 1; j >= 0; j--) { // j buy
+            // 1. 如果在i卖
+            //j小于2，之前没有交易，也没有cooldown，直接搞就是
+            if (j < 2) {
+                dp[i] = Math.max(prices[i] - prices[j], dp[i]);
+            } else {
+                // 反推，如果今天卖过了，前面就要停一天，在这次交易买j之前一天的cooldown
+                dp[i] = Math.max(dp[j - 2] + (prices[i] - prices[j]), dp[i]);
+            }
+            // 2.如果在i不卖和卖谁更赚，j＝＝0时不存在在i不卖，必须卖了才有钱
+            dp[i] = (j == 0) ? dp[i] : Math.max(dp[i - 1], dp[i]);//买不买，在i
+        }
+        // 并没有累积关系
+        max = Math.max(max, dp[i]);
+    }
+    return max;
+}
+}
+
+6.
+public class Solution {
+    public int maxSubArray(int[] nums) {//记录的话就用数组，不需要所以节省空间
+        if(nums == null || nums.length == 0){
+            return 0;
+        }
+        int global = nums[0];
+        int local = nums[0];
+        for(int i = 1;i<nums.length;i++){
+            local = (local > 0) ? local + nums[i] : nums[i];
+        	global=Math.max(global,local);//看包含到哪里最优，断与不断
+        }
+        return global;
+    }
+}
+public static int maxSubArray(int[] nums) {
+	        if(nums == null || nums.length == 0){
+	            return 0;
+	        }
+	        int global = nums[0];
+	        int local = nums[0];
+	        ArrayList<Integer>[] group = new ArrayList[nums.length];
+	        group[0] = new ArrayList<Integer>();
+	        group[0].add(nums[0]);
+	        int index = 0;
+	        for(int i = 1;i<nums.length;i++){
+	        	group[i] = new ArrayList<Integer>();
+	        	if (local > 0){
+	        		local = local + nums[i];
+	        		group[i].addAll(group[i - 1]);
+	        		group[i].add(nums[i]);
+	        	} else {
+	        		local = nums[i];
+	        		group[i].add(nums[i]);
+	        	}
+	        	if (global < local){
+	        		global = local;
+	        		index = i;
+	        	} 
+	        }
+	        for (int m : group[index]){
+        		System.out.print(m);
+        	}
+	        return global;
+	 }
+
+7.
+public int maxTwoSubArrays(ArrayList<Integer> nums) {
+        // write your code
+        int size = nums.size();
+        int[] left = new int[size];
+        int[] right = new int[size];
+        int sum = 0;
+        int max = Integer.MIN_VALUE;
+        for(int i = 0; i < size; i++){
+            sum = Math.max(sum + nums.get(i), nums.get(i));
+            max = Math.max(max, sum);
+            left[i] = max;
+        }
+        sum = 0;
+        max = Integer.MIN_VALUE;
+        for(int i = size - 1; i >= 0; i--){
+            sum = Math.max(sum + nums.get(i), nums.get(i));
+            max = Math.max(max, sum);
+            right[i] = max;
+        }
+        max = Integer.MIN_VALUE;
+        for(int i = 0; i < size - 1; i++){
+            max = Math.max(max, left[i] + right[i + 1]);
+        }
+        return max;
+    }
+8.
+
+public int maxSubArray(int[] nums, int k) {
+        if (nums.length < k) {
+            return 0;
+        }
+        int len = nums.length;
+        
+       
+        int[][] globalMax = new int[k + 1][len + 1];
+        int[][] localMax = new int[k + 1][len + 1];
+        
+        for (int i = 1; i <= k; i++) {
+            localMax[i][i-1] = Integer.MIN_VALUE;
+            //小于 i 的数组不能够partition
+            for (int j = i; j <= len; j++) {
+                localMax[i][j] = Math.max(localMax[i][j-1], globalMax[i - 1][j-1]) + nums[j-1];
+                if (j == i)
+                    globalMax[i][j] = localMax[i][j];
+                else
+                    globalMax[i][j] = Math.max(globalMax[i][j-1], localMax[i][j]);
+            }
+        }
+        return globalMax[k][len];
+    }
+9. max product
+public int maxProduct(int A[]) {  
+        if(A==null||A.length==0) {  
+          return 0;  
+        }  
+        int maxProduct = A[0];  
+        int max_temp   = A[0];  
+        int min_temp   = A[0];  
+          
+        for(int i=1;i<A.length;i++) {  
+            int a = A[i]*max_temp;  
+            int b = A[i]*min_temp;  
+            max_temp = Math.max(Math.max(a,b), A[i]);  
+            min_temp = Math.min(Math.min(a,b), A[i]);  
+            maxProduct = Math.max(maxProduct, max_temp);  
+        }  
+        return maxProduct;  
+    }  
+
+10. 
+public class Solution {
+   public int rob(int[] num) {
+    int[][] dp = new int[num.length + 1][2];
+    for (int i = 1; i <= num.length; i++) {
+        dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1]);
+        dp[i][1] = num[i - 1] + dp[i - 1][0];
+    }
+    return Math.max(dp[num.length][0], dp[num.length][1]);
+}
+}//打印出来
+
+11.
+public class Solution {
+    public int rob(int[] nums) {
+        if(nums==null || nums.length==0) return 0;
+        if(nums.length==1) return nums[0];
+
+        int len = nums.length;
+        int[] dp = new int[len+1];
+        // case1: have first one not have last one
+        int case1 = 0;
+        int case2 = 0;
+        dp[0] = 0;
+        dp[1] = nums[0];
+        for(int i=2; i<=len-1; i++){ // attention: len-1
+            dp[i] = Math.max(dp[i-2]+nums[i-1], dp[i-1]);
+        }
+        case1 = dp[len-1]; // attention: len-1
+        
+        // case2: have last one not have first one
+        dp[0] = 0;
+        dp[1] = 0;
+        for(int i=2; i<=len; i++){ // attention: len
+            dp[i] = Math.max(dp[i-2]+nums[i-1], dp[i-1]);
+        }
+        case2 = dp[len]; // attention: dp[len] not dp[len-1] as case1
+        return Math.max(case1,case2);
+        
+        
+
+    } }
+private int rob(int[] num, int lo, int hi) {
+    int include = 0, exclude = 0;
+    for (int j = lo; j <= hi; j++) {
+        int i = include, e = exclude;
+        include = e + num[j];
+        exclude = Math.max(e, i);
+    }
+    return Math.max(include, exclude);
+}
+
+12.
+public class Solution {
+    public int rob(TreeNode root) {
+        int[] ans = dp(root);
+        return Math.max(ans[0], ans[1]);
+    }
+    public int[] dp(TreeNode root) {
+        if (root == null) {
+            int[] now = new int[]{0, 0};
+            return now;
+        }
+        int[] left = dp(root.left);
+        int[] right = dp(root.right);
+        int[] now = new int[2];
+        //不偷，左右偷或者不偷最大的加起来
+        now[0] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+        //偷, 左右的结果中只能选不偷的那个
+        now[1] = left[0] + right[0] + root.val;
+        return now;
+    }
+}
+
+13
+public class Solution {
+    public int numWays(int n, int k) {
+        // 当n=0时返回0
+        
+        int dp[] = {0, k , k*k, Integer.MIN_VALUE};
+        if(n <= 2){
+            return dp[n];
+        }
+	// 从dp[2]第三个开始
+        for(int i = 2; i < n; i++){
+            // 递推式：第三根柱子要么根第一个柱子不是一个颜色，要么跟第二根柱子不是一个颜色
+            dp[3] = (k - 1) * (dp[1] + dp[2]);
+            dp[1] = dp[2];
+            dp[2] = dp[3];
+        }
+        return dp[3];
+    }
+}
+
+14.
+public class Solution {
+    public int minCost(int[][] costs) {
+        if(costs != null && costs.length == 0) return 0;
+        for(int i = 1; i < costs.length; i++){
+            // 涂第一种颜色的话，上一个房子就不能涂第一种颜色，这样我们要在上一个房子的第二和第三个颜色的最小开销中找最小的那个加上
+            costs[i][0] = costs[i][0] + Math.min(costs[i - 1][1], costs[i - 1][2]);
+            // 涂第二或者第三种颜色同理
+            costs[i][1] = costs[i][1] + Math.min(costs[i - 1][0], costs[i - 1][2]);
+            costs[i][2] = costs[i][2] + Math.min(costs[i - 1][0], costs[i - 1][1]);
+        }
+        // 返回涂三种颜色中开销最小的那个
+        return Math.min(costs[costs.length - 1][0], Math.min(costs[costs.length - 1][1], costs[costs.length - 1][2]));
+    }
+}
+
+15.
+public class Solution {
+    public int minCostII(int[][] costs) {
+        if(costs != null && costs.length == 0) return 0;
+        int prevMin = 0, prevSec = 0, prevIdx = -1;
+        for(int i = 0; i < costs.length; i++){
+            // 每一轮把对应的cur都初始化最大，－1
+            int currMin = Integer.MAX_VALUE, currSec = Integer.MAX_VALUE, currIdx = -1;
+            for(int j = 0; j < costs[0].length; j++){
+                // preIdx＝＝j 一种颜色，那么只能加次小的
+                costs[i][j] = costs[i][j] + (prevIdx == j ? prevSec : prevMin);
+                // 找出最小和次小的，最小的要记录下标，方便下一轮判断［<curMin,curMin变curSec，<curSec就换curSec］
+                if(costs[i][j] < currMin){
+                    currSec = currMin;
+                    currMin = costs[i][j];
+                    currIdx = j;
+                } else if (costs[i][j] < currSec){
+                    currSec = costs[i][j];
+                }
+            }
+            // 最小，次小，
+            prevMin = currMin;
+            prevSec = currSec;
+            prevIdx = currIdx;
+        }
+        return prevMin;
+    }
+}
+
+
+16.
+https://leetcode.com/problems/frog-jump/
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+http://blog.csdn.net/trochiluses/article/details/37966729
+http://nillhex.com/2015/06/24/dynamic-programming-summary-part-one-leetcode/
+http://my.oschina.net/leejun2005/blog/117167
+==========================================================================================
+贪心dp专题
+1. wiggle subsequence
+dp解［1-i，1-j］signj，，贪心解
+http://www.cnblogs.com/grandyang/p/5697621.html
+https://www.hrwhisper.me/leetcode-wiggle-subsequence/
+
+贪心法
+1.public class Solution {
+    public int wiggleMaxLength(int[] nums) {
+        if (nums.length == 0) return 0;
+		int n = nums.length;
+		int ans = 1;
+		for (int i = 1, j = 0; i < n; j = i,i++) {
+			if (nums[j] < nums[i]) {
+				ans++;
+				while (i + 1 < n && nums[i] <= nums[i + 1]) i++;
+			}
+			else if (nums[j] > nums[i]) {
+				ans++;
+				while (i + 1 < n && nums[i] >= nums[i + 1]) i++;
+			}
+		}
+		return ans;
+    }
+}
+
+2. Gas Station
+cost[i] gas[i]  能否travel
+public class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+    int tank = 0;
+     // tank总量不够，直接返回，不可能完成旅程
+    for(int i = 0; i < gas.length; i++)
+        tank += gas[i] - cost[i];
+    if(tank < 0)
+        return - 1;
+    
+    // 初始化起点从0开始，积累量为0    
+    int start = 0;
+    int accumulate = 0;
+    for(int i = 0; i < gas.length; i++){
+        int curGain = gas[i] - cost[i];
+        // 积累＋当前可收获 小于0
+        if(accumulate + curGain < 0){
+	    // 重定此点为开始点，积累清空
+            start = i + 1;
+            accumulate = 0;
+        }
+	// 否则积累
+        else accumulate += curGain;
+    }
+    // 一定能找到，前面总量判断过了
+    return start;
+}
+}
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+From Google1
+	1.	Integer.toBinaryString(int i)   
+    1.	Integer.valueOf("0101",2).toString()   
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+1. DP
+	9.5 wordwarp[多dp，前两个只存结果，后一个开始比较]
+		3个i（1-n）j（i－n）
+		1. 算extra[][] 
+		2. lc[i][j] = extras[i][j]*extras[i][j];
+		3.c[i] = c[j-1] + lc[i][j];
+		p[i] = j;用来记录断点
+	1.2 How many 1-bits are there in a 2^20 sized array with numbers in sequence from 0 to 2^20 - 1?
+	n为从0到20之间的整数,
+	规律: f(n) = 2*f(n-1) + 2^(n-1)	
+0~2^20-1就是从0到11111111111111111111(20个1)，用数组dp记录从0到i个1中1bit的个数。
+dp = dp[i-1]*2+1.
+因为对于i个1来说，最高位为0时的个数是dp[i-1]，最高位为1时的个数是1+dp[i-1]，加起来就是dp[i-1]*2+1
+	1.3 如果假设除了用1和0表示数字的binary方式，还可以用2来表示，给一个数字，求有多少种表达方式。
+                   例子：4 = 100, 20 所以答案是2。 8 = 1000, 200, 120, 112 所以答案是4
+	如果n是奇数， 那么他的binary表示方式的最右位必然是1， 所以我们只要考虑除去最后一位剩下左边几位的表现形式，即dp[n] = dp[(n-1)/2]
+如果n是偶数，那么他的binary表示方式的最右位必然是0或2，我们分情况讨论：
+     如果最右位是0，那么只要把n/2的每种表示方式后面加个0即可， 即dp[n] = dp[n/2]
+     如果最右位是2，类似的可以得到dp[n] = dp[(n-2)/2]
+	1.4 house robberIII
+	1.5 BT最长连续序列
+	1.6 最长连续子序列
+	http://www.cnblogs.com/grandyang/p/4938187.html
+	dp，老式， 或者nlogn，遍历找到该插的地方
+	1.7供热站
+	第一问给房子排序，从左扫到右就好。第二问二分查找，先假设一个m，用第一问算n，n富裕了减小m，否则增加［二分］
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝DP  Google Tag2
+	10.combination4，解的方案
+	coin change 跳帧 for target for mums［在里面找］
+	11. 爆气球，区间型动态规划，dp[n+2][n+2] 重置原来数组(首尾各加一个）, 从i到j
+		想不出好dp了，干脆根据规则直接更新 
+	dp[i][j] = Math.max(dp[i][j], DP(i, x - 1, nums, dp) + nums[i - 1] * nums[x] * nums[j + 1] + DP(x + 1, j, nums, dp));
+
+	15. 两个数组创建最大的数字
+	https://www.hrwhisper.me/leetcode-create-maximum-number/
+	子问题，如何组一个最大的subarray，［字面上］，先加到底，再更新while
+	枚举数组长度复杂度O(k)，找出最大子数组O(n)，合并的话O(k^2)
+而k最坏是m+n,所以总的复杂度就是O((m+n)^3)
+	31. 最大可分子集
+		前一个的因子是后加入的http://chuansong.me/n/630708649936
+		仍然for，1 － length， i － 1 ， if（j ％ i）
+		用pre［］存i之前的indexj

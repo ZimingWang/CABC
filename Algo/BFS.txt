@@ -1,0 +1,1007 @@
+网络爬虫－－－bfs可解，dfs可解
+BFS 找最短，找层数（level order）
+图的形式，邻接表， 边集合
+图的序列化 序列化图 {0,1,2  #    1,2     #    2,2}第一个点是本点，随后是邻接点
+
+图可以只给一个入口点，或者给一个list 点集
+BFS和DFS模糊化，从什么角度看决定是DFS还是BFS
+找边界区域块，用BFS
+
+BFS适合建立距离场
+这道题用DFS就会很麻烦，因为我们的目标是要建立Distance Map，所以BFS的特性使得其非常适合建立距离场，而DFS由于是沿着一个方向一股脑的搜索，然后之后会面临着更新距离的问题，那么只有当递归函数都调用结束后，距离场才建立好，那么我们累加距离场时又得整个遍历一遍，非常不高效。主要原因还是由于DFS的搜索方式不适合距离场，因为BFS遍历完一个点后，不会再来更改这个点的值，而DFS会反复的更改同一个点的值
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
+ 图
+    直接运用
+	1. 图上的层序遍历（每一层有几个点）
+		A.边的集合如何转换成邻接表 -> map<边，邻接表>
+		B.BFS遍历， queue外offer，level外初始化0， while ＋ for（queue.size()）
+		注意size要提前在for外取出，因为在一层遍历的过程中主要是为了一边清空这一层的节点一边注入新的		下一层节点   
+        树（部分）层次遍历 
+	先进根再while（for） 从底层往上层，add（0，list）锯齿－－1.if（）add（0，）或者add（）
+	                                                2. 先加右再加左，不需要方向判断
+	3. clone graph
+			根据一个节点复制另外一个节点	
+	4. 如何根据一个图得到它的所有节点（与3功能辨析）
+	5. 图是否是树 quickunion 遍历边集 找根
+	8. 有向图中两点是否有路径  // 图的遍历，一般防止重复访问，必有set， 多是BFS（一个queue，一个set）
+	9. 无向图的联通块 －－－－－ 类似数色块或者是 A.for每一个点做bfs，设立访问map（可以set）
+					      B.  一个arraylist跟在bfs中加结果
+	
+
+	12. 无向图的联通块（边集转成邻接表（List[]数组）
+	http://buttercola.blogspot.com/2016/01/leetcode-number-of-connected-components.html
+	dfs：建好邻接表 每个点遍历，邻接表（visited）之后count＋＋染色
+	quick union：初始化 对每条边union一下 对每个点找根－－统计数目 union把node1的根的father赋成node2
+	
+	14. 最小生成树，取点做根生成树最高
+	    给定一个n个结点n-1条边的无向图（就是树啦），让你找从哪个点出发，到其他结点的最长距离最小？（返回所有答案）答案一定是最长距离的中间结点位置上。我们要的是中间结点，沿着树的外围每次把叶子结点砍掉，那么，最后剩下的不就是中间结点了么？
+	16，17 （与14和7toposort）一个系列，  保持一个list的list存之后的点，preNum存之前的店（入度）
+		一个判断是否可以，一个返回一个结果（result array index＋＋）
+
+	15. 去除char使得字符串合法（）－－－递归bfs    valid函数单算，把string初始化为1的list，建立visited set，第一遍bfs，遍历，去除一个char，结果放入结果集，如果都不合法，进行下一轮，合法则最小，返回结果
+
+
+
+间接运用
+	2. word ladder A. getnextwordslist 
+		       B. hashset 遍历一层就加进去，防止重复访问，
+		       C. 如何最短，bfs一旦有end就return length  //O(26*word_length)
+	6.surround region(BFS四叉树)
+	Trick 在涂色的时候压栈
+	// BFS + DFS BFS加点没有限制 －－－ 综合性直逼word ladder
+    	  // 思想： 把没被包围的找到, 同时需要x,y 利用Point 数据结构
+   	  // 第一步，扫四边，找到出发点存入栈 (函数，存栈， 变色一体)
+    	  // 第二步，BFS ＋ DFS， DFS扩大搜的点，找范围, 此时DFS充当找
+     	  // 类似树的儿子， 图的neighbors的角色, 可以理解四叉树
+    	  // 第三步，没被包围的颜色和包围的颜色分别涂色
+	7. TopoSort
+/*
+那么我们既然要遍历一个图，那么我们可以用宽度优先的方法，因为宽度优先的方法非常适合通过一点去遍历整个图，只不过对于求拓扑排序的问题，我们宽度优先搜索有一个条件就是每一次只能遍历当前入度为0的点，也就是说宽度优先所有的队列中只能放入入度为0的点，然后每次遍历一个点之后，就更新这个点相邻的点的入度信息，因为遍历了这个点，相当于相邻的点的依赖前序工序减少了1个，也就是相邻点的入度减少了1，如果相邻点中更新后有入度为0的点，那么我们就把相邻点放入到队列当中以便下一次进行访问。
+
+通过这样的方法我们遍历一遍整个图。用O(m)，m为图的边数，的时间复杂度就可以求出这个图的拓扑排序解。
+
+*/
+// 图有些直接给全图，有些给的是一个入口点
+// 图的入度与出度
+
+	10. wall and gate [找到每一个building到最近gate的距离值]
+	    dfs 每一个building都dfs，出发更新（不是回溯），四个方向更新depth
+	    bfs 初始化把所有门加入queue，不空时候，一次弹出一个门，四个方向更新，（变相的dfs，四个方向的		    dfs）
+	11. 岛的数量 与数色块类似，for每个点bfs，dfs完后count＋＋，注意染色
+	13. 到各个building距离最短 ，buiding本身不能穿过
+		这道理类似于Walls ang Gates, 解决方法也应该是从building出发进行BFS，不过这里不同的是这里需要返回最小距离和，所以我们应该一个一个的对building的点BFS，用一个二维矩阵存每个点到所有building的距离和，每次BFS，都更新相应的距离和。最后遍历那个距离和矩阵，找出最小值即可。
+
+需要注意的是，这道题还有个条件就是empty room 必须 reach all buildings，所以我们可以用另外一个矩阵存对应empty room到building的个数，如果最终个数不等于总的building数，对应点存的距离和无效。
+
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+1.
+import java.util.*;
+public int[] solution(int[] T) {
+        // write your code in Java SE 8
+        if (T == null || T.length == 0){
+            return new int[]{};
+        }    
+        int len = T.length;
+        int[] result = new int[len - 1];
+        int capital = -1; 
+       
+        HashMap<Integer, ArrayList<Integer>> map = new 
+                                        HashMap<Integer, ArrayList<Integer>>();
+         for (int i = 0; i < len; i++){
+            if (T[i] == i){
+                capital = i;
+            }
+            if (map.containsKey(T[i])){
+                map.get(T[i]).add(i);
+            } else {
+               ArrayList<Integer> list = new ArrayList<Integer>();
+               list.add(i);
+               map.put(T[i], list);
+            }    
+        }                                
+        Queue<Integer> queue = new LinkedList<Integer>();
+        queue.offer(capital);
+        int level = 0;
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            int sum = 0;
+            for(int i = 0; i < size; i++){
+             int city = queue.poll();
+             if (map.containsKey(city)){
+                 for (int ele : map.get(city)){
+                     if (T[ele] != ele){
+                         queue.offer(ele);
+                         sum++;
+                     }           
+                 }     
+             }     
+         }
+         result[level++] = sum;
+        }
+        return result;
+    }
+2.
+public class Solution {
+    //O(26*word_length)
+   public int ladderLength(String start, String end, Set<String> dict) {
+        if (dict == null) {
+            return 0;
+        }
+        if (start.equals(end)) {
+            return 1;// // 
+        }
+        
+        dict.add(start);
+        dict.add(end);
+
+        HashSet<String> hash = new HashSet<String>();
+        Queue<String> queue = new LinkedList<String>();
+       
+        queue.offer(start);
+        hash.add(start);
+        
+        int length = 1;//
+        while(!queue.isEmpty()) {
+            length++;
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                String word = queue.poll();
+                for (String nextWord: getNextWords(word, dict)) {
+                    //hit －－ hot   不能再转回去 hot －－ hit
+                    if (hash.contains(nextWord)) {
+                        continue;
+                    }
+                    if (nextWord.equals(end)) {
+                        return length;
+                    }
+                    hash.add(nextWord);
+                    queue.offer(nextWord);
+                }
+            }
+        }
+        return 0;
+    }
+
+    
+    // replace 把string转charArray再转string
+    private String replace(String s, int index, char c) {
+        char[] chars = s.toCharArray();
+        chars[index] = c;
+        return new String(chars);
+    }
+    
+    
+    // get connections with given word.
+    // for example, given word = 'hot', dict = {'hot', 'hit', 'hog'}
+    // it will return ['hit', 'hog']
+    private ArrayList<String> getNextWords(String word, Set<String> dict) {
+        ArrayList<String> nextWords = new ArrayList<String>();
+        // 如果一次能变两个字母？
+        // 每个字母 从a到z全走一遍，在字典里有就加
+        for (char c = 'a'; c <= 'z'; c++) {
+            for (int i = 0; i < word.length(); i++) {
+                // 不包括自己
+                if (c == word.charAt(i)) {
+                    continue;
+                }
+                String nextWord = replace(word, i, c);
+                if (dict.contains(nextWord)) {
+                    nextWords.add(nextWord);
+                }
+            }
+        }
+        return nextWords;
+    }
+}
+
+
+3. 
+public class Solution {
+    /**
+     * @param node: A undirected graph node
+     * @return: A undirected graph node
+     */
+    //原理类似copy链表 with random pointer 
+    //原来进去什么点，出去什么点
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        // write your code here
+        //UndirectedGraphNode node = new UndirectedGraphNode()
+        if (node == null){
+            return null;
+        }
+        // 邻接表形式的图
+        // Copy 图和random链表，先建原node和newnode一对一联系
+        // 再遍历建新图
+        HashMap<UndirectedGraphNode, UndirectedGraphNode> map = 
+            new HashMap<UndirectedGraphNode, UndirectedGraphNode>();
+        //  list做bfs材料，bfs原图节点
+        //如何另创一个一点牵出全图//利用以前的一个易错bug，size()动态变化
+        //原理和queue一样 
+        ArrayList<UndirectedGraphNode> nodes = new ArrayList<UndirectedGraphNode>();
+       
+        
+        
+        nodes.add(node);
+        map.put(node, new UndirectedGraphNode(node.label));
+        int start = 0;
+        // BFS把原图一对一加进去，有的就不加里＝了，
+        while (start < nodes.size()){
+           // for遍历
+           UndirectedGraphNode nodeT = nodes.get(start++);
+           for (UndirectedGraphNode neigh : nodeT.neighbors){
+               if (!map.containsKey(neigh)){
+                 map.put(neigh, new UndirectedGraphNode(neigh.label));
+                 nodes.add(neigh);
+               }
+           }
+        }
+        // 根据一对一关系，把newnode的邻接加上
+        for (UndirectedGraphNode temp : nodes){
+            UndirectedGraphNode newNode = map.get(temp);
+            for (UndirectedGraphNode neigh : temp.neighbors){
+                newNode.neighbors.add(map.get(neigh));
+            }
+        }
+        return map.get(node);
+    }  
+}
+
+4.
+    /*如何根据一个node得出整个图// 与树不同，bfs注意避免重复访问*/
+    //上图子方法亦可
+    private ArrayList<UndirectedGraphNode> getNodes(UndirectedGraphNode node) {
+        Queue<UndirectedGraphNode> queue = new LinkedList<UndirectedGraphNode>();
+        HashSet<UndirectedGraphNode> set = new HashSet<>();
+        
+        queue.offer(node);
+        set.add(node);
+        while (!queue.isEmpty()) {
+            UndirectedGraphNode head = queue.poll();
+            for (UndirectedGraphNode neighbor : head.neighbors) {
+                if(!set.contains(neighbor)){
+                    set.add(neighbor);
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        return new ArrayList<UndirectedGraphNode>(set);
+    }
+
+
+5.
+// http://blog.csdn.net/pointbreak1/article/details/48796691
+     // https://segmentfault.com/a/1190000003791051
+     // http://www.cnblogs.com/grandyang/p/5257919.html
+     //最简便的写法是Quick-Union,耗费时间
+     public boolean validTree(int n, int[][] edges) { 
+         // 图的边集
+        if (edges.length != n - 1){
+            return false;
+        }
+        // 初始化
+        int[] root = new int[n];  
+        for(int i = 0; i < n; i++)  
+            root[i] = i; 
+        // 遍历边集，找边两个点的根，如果相同则不是树
+        // 否则以其中一个为根 root1为根
+        for(int i = 0; i < edges.length; i++) {
+            // 如果一条边的两个节点已经在同一集合(同一个根)中，
+            // 说明新的边将产生环路
+            int root1 = find(root, edges[i][0]);  
+            int root2 = find(root, edges[i][1]);  
+            if(root1 == root2)  
+                return false;
+            // 不然以其中一个为根 root1为根
+            root[root2] = root1;  
+        }
+        return true;
+    }  
+    // find是找根，root[e] == e时候返回  
+    private int find(int[] root, int e) {  
+        if(root[e] == e)  
+            return e;  
+        else  
+            return find(root, root[e]);  
+    }  
+}
+
+6.
+// BFS + DFS BFS加点没有限制 －－－ 综合性直逼word ladder
+    // 思想： 把没被包围的找到, 同时需要x,y 利用Point 数据结构
+    // 第一步，扫四边，找到出发点存入栈 (函数，存栈， 变色一体)
+    // 第二步，BFS ＋ DFS， DFS扩大搜的点，找范围, 此时DFS充当找
+    // 类似树的儿子， 图的neighbors的角色, 可以理解四叉树
+    // 第三步，没被包围的颜色和包围的颜色分别涂色
+    public void surroundedRegions(char[][] board) {
+        // Write your code here
+    if (board == null || board.length == 0 || board[0].length == 0) return;
+
+    int m = board.length, n = board[0].length;
+    Queue<Point> queue = new LinkedList<Point>();//java point awt
+
+    // Step 1: Get all 'O' on edges first
+    for (int i = 0; i < m; i++) {
+        if (board[i][0] == 'O')   addPoint(board, queue, i, 0);
+        if (board[i][n-1] == 'O') addPoint(board, queue, i, n-1);//两横
+    }
+    for (int j = 0; j < n; j++) {
+        if (board[0][j] == 'O')   addPoint(board, queue, 0, j);
+        if (board[m-1][j] == 'O') addPoint(board, queue, m-1, j);//两竖
+    }
+
+    // Step 2: BFS for 'O' and put them to '+'
+    while (!queue.isEmpty()) {
+        // Point点 java类
+        Point p = queue.poll();
+        int x = p.x, y = p.y;
+        if (x-1 >= 0   && board[x-1][y] == 'O') addPoint(board, queue, x-1, y);
+        if (x+1 <= m-1 && board[x+1][y] == 'O') addPoint(board, queue, x+1, y);
+        if (y-1 >= 0   && board[x][y-1] == 'O') addPoint(board, queue, x, y-1);
+        if (y+1 <= n-1 && board[x][y+1] == 'O') addPoint(board, queue, x, y+1);//上下左右//0变＋
+    }
+
+    // Step 3: Put all '+' to 'O' and 'O' to 'X'
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (board[i][j] == 'O') board[i][j] = 'X';
+            if (board[i][j] == '+') board[i][j] = 'O';//
+        }
+    }
+    }
+// Change 'O' to '+' and add the point to queue
+private void addPoint(char[][] board, Queue queue, int i, int j) {
+    board[i][j] = '+';
+    //
+    queue.add(new Point(i, j));
+}
+}
+
+
+7.
+public class Solution {
+    /**
+     * @param graph: A list of Directed graph node
+     * @return: Any topological order for the given graph.
+     */    
+     // 有向图－－－ topo －－ bfs（类似层次遍历）
+    public ArrayList<DirectedGraphNode> topSort(ArrayList<DirectedGraphNode> graph) {
+        ArrayList<DirectedGraphNode> result = new ArrayList<DirectedGraphNode>();
+        // write your code here
+        if (graph == null){
+            return result;
+        }
+        HashMap<DirectedGraphNode, Integer> inDegree =
+                            new HashMap<DirectedGraphNode, Integer>();
+        //所有 有入度的点的入度
+        for (DirectedGraphNode node : graph){
+            for (DirectedGraphNode neigh : node.neighbors){
+                if (inDegree.containsKey(neigh)){
+                    inDegree.put(neigh, inDegree.get(neigh) + 1);
+                } else {
+                    inDegree.put(neigh, 1);
+                }
+            }
+        }
+        //最开始的，没在map里出现的点就是初始点，加入结果并入栈
+        Queue<DirectedGraphNode> queue = new LinkedList<DirectedGraphNode>();
+        for (DirectedGraphNode node : graph){
+            if (!inDegree.containsKey(node)){
+                result.add(node);
+                queue.offer(node);
+            }
+        }
+        // 每一次更新 为0则加入结果并入栈
+        while (!queue.isEmpty()){
+           DirectedGraphNode node  = queue.poll();
+           for (DirectedGraphNode neigh : node.neighbors){
+               inDegree.put(neigh, inDegree.get(neigh) - 1);
+               if (inDegree.get(neigh) == 0){
+                   result.add(neigh);
+                   queue.offer(neigh);
+               }
+           }
+        }
+        return result;
+    }
+}
+
+8.
+public boolean hasRoute(ArrayList<DirectedGraphNode> graph, 
+                            DirectedGraphNode s, DirectedGraphNode t) {
+        // write your code here
+        // 图的遍历，一般防止重复访问，必有set， 且多是BFS
+        if (s == t){
+            return true;
+        }
+        HashSet<DirectedGraphNode> visited = new HashSet<DirectedGraphNode>();
+        Queue<DirectedGraphNode> queue = new LinkedList<DirectedGraphNode>();
+        
+        queue.offer(s);
+        visited.add(s);
+        while (!queue.isEmpty()) {
+            DirectedGraphNode node = queue.poll();
+            for (int i = 0; i < node.neighbors.size(); i++) {
+                if (visited.contains(node.neighbors.get(i))) {
+                    continue;
+                }
+                visited.add(node.neighbors.get(i));
+                queue.offer(node.neighbors.get(i));
+                if (node.neighbors.get(i) == t) {
+                    return true;
+                }
+            }
+        }
+        // 假设起点终点一样, 与开头判断留下一个
+        return visited.contains(t);
+    }
+}
+
+
+
+
+
+9.
+public class Solution {
+    /**
+     * @param nodes a array of Undirected graph node
+     * @return a connected set of a Undirected graph
+     */
+     // BFS 与 6度问题相似， 不同在于过程中点的记录
+    public List<List<Integer>> connectedSet(
+        ArrayList<UndirectedGraphNode> nodes) {
+        // Write your code here
+        List<List<Integer>> result = new ArrayList<>();
+        if (nodes == null){
+            return result;
+        }
+      HashMap<UndirectedGraphNode, Boolean> visit = 
+                            new HashMap<UndirectedGraphNode, Boolean>();
+      for (UndirectedGraphNode node : nodes){
+          visit.put(node, false);
+       }
+      for (UndirectedGraphNode node : nodes){
+          if (visit.get(node) == false){
+             bfs(node, visit, result);
+          }
+      }
+        return result;
+    }
+    //bfs不太一定单独起一个函数，除非多个bfs
+    //bfs过程， queue while前入根，while里再弹
+    public void bfs(UndirectedGraphNode node, Map<UndirectedGraphNode, Boolean> visit, List<List<Integer>> result){
+        //每一次执行函数清0
+         Queue<UndirectedGraphNode> queue = new 
+                                    LinkedList<UndirectedGraphNode>();
+         ArrayList<Integer> subset = new ArrayList<Integer>();
+              queue.offer(node);
+              visit.put(node, true);//同样可以更新
+              while (!queue.isEmpty()){
+                  UndirectedGraphNode temp = queue.poll();
+                  subset.add(temp.label);
+                for (UndirectedGraphNode neigh : temp.neighbors){
+                  if (visit.get(neigh) == false){
+                      //弹出来的时候加即可
+                      //subset.add(neigh.label);
+                      visit.put(neigh, true);
+                      queue.offer(neigh);
+                    }
+                }
+            }
+        Collections.sort(subset);
+        result.add(subset);  
+    }    
+}
+
+
+10.
+public class Solution {
+    public void wallsAndGates(int[][] rooms) {
+        if (rooms.length == 0 || rooms[0].length == 0) return;
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < rooms.length; i++) {
+            for (int j = 0; j < rooms[0].length; j++) {
+                if (rooms[i][j] == 0) queue.add(new int[]{i, j});
+            }
+        }
+        while (!queue.isEmpty()) {
+            int[] top = queue.remove();
+            int row = top[0], col = top[1];
+            if (row > 0 && rooms[row - 1][col] == Integer.MAX_VALUE) {// judgement
+                rooms[row - 1][col] = rooms[row][col] + 1;
+                queue.add(new int[]{row - 1, col});
+            }
+            if (row < rooms.length - 1 && rooms[row + 1][col] == Integer.MAX_VALUE) {
+                rooms[row + 1][col] = rooms[row][col] + 1;
+                queue.add(new int[]{row + 1, col});
+            }
+            if (col > 0 && rooms[row][col - 1] == Integer.MAX_VALUE) {
+                rooms[row][col - 1] = rooms[row][col] + 1;
+                queue.add(new int[]{row, col - 1});
+            }
+            if (col < rooms[0].length - 1 && rooms[row][col + 1] == Integer.MAX_VALUE) {
+                rooms[row][col + 1] = rooms[row][col] + 1;
+                queue.add(new int[]{row, col + 1});
+            }
+        }
+    }
+}
+
+
+
+/*
+public class Solution {
+    public void wallsAndGates(int[][] rooms) {
+        for (int i = 0; i < rooms.length; i++) {
+            for (int j = 0; j < rooms[0].length; j++) {
+                if (rooms[i][j] == 0) {
+                    dfs(rooms, i, j, 0);
+                }
+            }
+        }
+    }
+
+    public void dfs(int[][] rooms, int i, int j, int depth) {
+        if (i < 0 || i >= rooms.length || j < 0 || j >= rooms[0].length || rooms[i][j] == -1) 
+        {
+            return;
+        } 
+
+        if (depth == 0 || depth < rooms[i][j])
+        {
+            rooms[i][j] = depth;
+
+            dfs(rooms, i + 1, j, depth + 1);
+            dfs(rooms, i, j + 1, depth + 1);
+            dfs(rooms, i - 1, j, depth + 1);
+            dfs(rooms, i, j - 1, depth + 1);
+        }
+    }
+}
+
+*/
+
+11
+public class Solution {
+
+private int n;
+private int m;
+
+public int numIslands(char[][] grid) {
+    int count = 0;
+    n = grid.length;
+    if (n == 0) return 0;
+    m = grid[0].length;
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++)
+            if (grid[i][j] == '1') {
+                DFSMarking(grid, i, j);//使得连接地方
+                ++count;
+            }
+    }    
+    return count;
+}
+
+private void DFSMarking(char[][] grid, int i, int j) {
+    if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] != '1') return;
+    grid[i][j] = '0';
+    DFSMarking(grid, i + 1, j);
+    DFSMarking(grid, i - 1, j);
+    DFSMarking(grid, i, j + 1);
+    DFSMarking(grid, i, j - 1);
+}
+}
+
+12.
+private int[] father;
+public int countComponents(int n, int[][] edges) {
+ 
+    Set<Integer> set = new HashSet<Integer>();
+    father = new int[n];
+    // 初始化
+    for (int i = 0; i < n; i++) {
+        father[i] = i;
+    }
+    // 对每条边union一下
+    for (int i = 0; i < edges.length; i++) {
+         union(edges[i][0], edges[i][1]);
+    }
+    // 对每个点找根－－统计数目
+    for (int i = 0; i < n; i++){ 
+        set.add(find(i));
+    }
+    return set.size();
+}
+//找根
+int find(int node) {
+    if (father[node] == node) {
+        return node;
+    }
+    father[node] = find(father[node]);
+    return father[node];
+}
+ 
+void union(int node1, int node2) {
+    //把node1的根的father赋成node2
+    father[find(node1)] = find(node2);
+}
+}
+ 
+int find(int node) {
+    if (father[node] == node) {
+        return node;
+    }
+    father[node] = find(father[node]);
+    return father[node];
+}
+ 
+void union(int node1, int node2) {
+    father[find(node1)] = find(node2);
+}
+
+
+public class Solution {
+    public int countComponents(int n, int[][] edges) {
+        if (n <= 0 || edges == null) {
+            return 0;
+        }
+         
+        if (n == 1 && edges.length == 0) {
+            return 1;
+        }
+         
+        int result = 0;
+        boolean[] visited = new boolean[n];
+         
+        // step 1: create the adj list from edge list
+        List[] adjList = new List[n];
+        for (int i = 0; i < n; i++) {
+            adjList[i] = new ArrayList<>();
+        }
+         
+        for (int[] edge : edges) {
+            int from = edge[0];
+            int to = edge[1];
+             
+            adjList[from].add(to);
+            adjList[to].add(from);
+        }
+         
+        // step 2: calculate the number of cc
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                result++;
+                countCCHelper(i, adjList, visited);
+            }
+        }
+         
+        return result;
+    }
+     
+    private void countCCHelper(int node, List[] adjList, boolean[] visited) {
+        if (visited[node]) {
+            return;
+        }
+         
+        visited[node] = true;
+         
+        List<Integer> neighbors = adjList[node];
+         
+        for (int neighbor : neighbors) {
+            countCCHelper(neighbor, adjList, visited);
+        }
+    }
+}
+
+
+13.
+public class Solution {
+    public int shortestDistance(int[][] grid) {
+        // row and col
+        int rows = grid.length;
+        if (rows == 0) {
+            return -1;
+        }
+        int cols = grid[0].length;
+ 
+        // 记录每一个点到各个building距离和
+        int[][] dist = new int[rows][cols];
+        
+        // 记录到能到达的building的数量
+        int[][] nums = new int[rows][cols];            
+        int buildingNum = 0;
+        
+        // 从每个building开始BFS
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                // 把每个建筑到各个点的距离算一遍，累加，再反求
+                if (grid[i][j] == 1) {
+                    buildingNum++;
+                    bfs(grid, i, j, dist, nums);
+                }
+            }
+        }
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                // 是符合的点（不是障碍不是房子），距离不为0（初始化了），都能到
+                if (grid[i][j] == 0 && dist[i][j] != 0 && nums[i][j] == buildingNum)
+                    min = Math.min(min, dist[i][j]);
+            }
+        }
+        if (min < Integer.MAX_VALUE)
+            return min;
+        return -1;
+    }
+    
+    public void bfs(int[][] grid, int row, int col, int[][] dist, int[][] nums) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        
+        Queue<int[]> q = new LinkedList<>();
+        // 加入这个点
+        q.add(new int[]{row, col});
+        // 四个方向
+        int[][] dirs = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+        
+        // 记录访问过的点
+        boolean[][] visited = new boolean[rows][cols];
+        
+        int level = 0;
+        while (!q.isEmpty()) {
+            level++;
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                int[] coords = q.remove();
+                // 四个方向扩展的另一种写法
+                for (int k = 0; k < 4; k++) {
+                    int x = coords[0] + dirs[k][0];
+                    int y = coords[1] + dirs[k][1];
+                    if (x >= 0 && x < rows && y >= 0 && y < cols && !visited[x][y] && grid[x][y] == 0) {
+                        //访问过（四个方向访问，必须避免循环）
+                        visited[x][y] = true;
+                        // 距离加上（到这个点）
+                        dist[x][y] += level;
+                        // 能到的点
+                        nums[x][y]++;
+                        q.add(new int[]{x, y});
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+14.
+public class Solution {
+    // 边集
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        // 0个和1个不用考虑
+        if (n == 0) return new ArrayList<>();
+        else if (n == 1) {
+            List<Integer> ret = new ArrayList<>();
+            ret.add(0);
+            return ret;
+        }
+        // list数组
+        List<Integer>[] lists = new ArrayList[n];
+        for (int i = 0; i < n; i++) {
+            lists[i] = new ArrayList<>();
+        }
+        // 建立邻接表，老套路
+        for (int i = 0; i < edges.length; i++) {
+            int v1 = edges[i][0];
+            int v2 = edges[i][1];
+            lists[v1].add(v2);
+            lists[v2].add(v1);
+        }
+        // 把叶子节点初始化, 只接一条边
+        List<Integer> leaves = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (lists[i].size() == 1) {
+                leaves.add(i);
+            }
+        }
+        // 最多是两个
+        int count = n;
+        while (count > 2) {
+            //得到size
+            int size = leaves.size();
+            count -= size;
+            //新叶子节点
+            List<Integer> newLeaves = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                // 遍历叶子节点
+                int leaf = leaves.get(i);
+                // 把leaves从每个邻接边的相邻定点中去掉
+                    int toRemove = lists[leaf].get(0);
+                    lists[toRemove].remove(Integer.valueOf(leaf));
+                    if (lists[toRemove].size() == 1)
+                        newLeaves.add(toRemove);
+            }
+            // list重新赋值
+            leaves = newLeaves;
+        }
+        return leaves;
+    }
+}
+
+
+15.
+public class Solution {
+    private List<String> ret = new ArrayList<>();
+
+    public List<String> removeInvalidParentheses(String s) {
+        if (s == null) {
+            return new ArrayList<String>();
+        }
+        // 要按list来算
+        Set<String> visited = new HashSet<>();
+        visited.add(s);
+        bfs(Arrays.asList(s), visited);
+        return ret;
+    }
+
+    //遍历一遍数左右括号数量
+    private boolean valid(String str) {
+        int left = 0;
+        int right = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == '(') {
+                left++;
+            } else if (str.charAt(i) == ')') {
+                right++;
+            }
+            if (right > left) {
+                return false;
+            }
+        }
+        return left == right;
+    }
+    // 
+    private void bfs(List<String> list, Set<String> visited) {
+        boolean found = false;
+        List<String> next = new ArrayList<>();
+        for (String str : list) {
+             // 遍历字符串，如果合法就加
+            if (valid(str)) {
+                found = true;
+                ret.add(str);
+            } else {
+                // 
+                for (int i = 0; i < str.length(); i++) {
+                    // 新的字符串
+                    String newStr = str.substring(0, i) + str.substring(i + 1);
+                    // 没有过，则加入visited，和next
+                    if (!visited.contains(newStr)) {
+                        next.add(newStr);
+                        visited.add(newStr);
+                    }
+                }
+            }
+        }
+        //找到就返回
+        if (found) {
+            return;
+        }
+        bfs(next, visited);
+    }
+}
+
+/*
+public List<String> removeInvalidParentheses(String s) {
+    List<String> ans = new ArrayList<>();
+    remove(s, ans, 0, 0, new char[]{'(', ')'});
+    return ans;
+}
+
+public void remove(String s, List<String> ans, int last_i, int last_j,  char[] par) {
+    for (int stack = 0, i = last_i; i < s.length(); ++i) {
+        if (s.charAt(i) == par[0]) stack++;
+        if (s.charAt(i) == par[1]) stack--;
+        if (stack >= 0) continue;
+        for (int j = last_j; j <= i; ++j)
+            if (s.charAt(j) == par[1] && (j == last_j || s.charAt(j - 1) != par[1]))
+                remove(s.substring(0, j) + s.substring(j + 1, s.length()), ans, i, j, par);
+        return;
+    }
+    String reversed = new StringBuilder(s).reverse().toString();
+    if (par[0] == '(') // finished left to right
+        remove(reversed, ans, 0, 0, new char[]{')', '('});
+    else // finished right to left
+        ans.add(reversed);
+}
+
+*/
+
+
+16.
+public class Solution {  
+     // http://blog.csdn.net/ljiabin/article/details/45846837
+     // finding if a cycle exists in a directed graph.
+    public boolean canFinish(int numCourses, int[][] prerequisites) { 
+        // list的list，能选的课的数目，选完后能选的课
+        // list的list的初始化
+        List<List<Integer>> posts = new ArrayList<List<Integer>>();  
+        for (int i = 0; i < numCourses; i++) {  
+            posts.add(new ArrayList<Integer>());  
+        }  
+        int[] preNums = new int[numCourses];  
+        for (int i = 0; i < prerequisites.length; i++) {
+            //记录选完这门课后能选的课
+            posts.get(prerequisites[i][1]).add(prerequisites[i][0]);
+            // 记录选这门课之前得选的课的数目
+            preNums[prerequisites[i][0]]++;  
+        }  
+        // BFS 能初始化的课，preNum为0（入度为0） 
+        Queue<Integer> queue = new LinkedList<Integer>();  
+        for (int i = 0; i < numCourses; i++) {  
+            if (preNums[i] == 0){  
+                queue.offer(i);  
+            }  
+        }  
+        //能选尽则
+        int count = numCourses;  
+        while (!queue.isEmpty()) {  
+            int cur = queue.poll();  
+            for (int i : posts.get(cur)) {
+                // 把post选出来再把新的入度为0的扔回去
+                preNums[i]--;
+                if (preNums[i] == 0) {  
+                    queue.offer(i);  
+                }  
+            }  
+            count--;  
+        }  
+          
+        return count == 0;  
+    }  
+}  
+
+17.
+public class Solution {  
+    public int[] findOrder(int numCourses, int[][] prerequisites) {  
+        List<Set<Integer>> adjLists = new ArrayList<Set<Integer>>();  
+        for (int i = 0; i < numCourses; i++) {  
+            adjLists.add(new HashSet<Integer>());  
+        }  
+          
+        for (int i = 0; i < prerequisites.length; i++) {  
+            adjLists.get(prerequisites[i][1]).add(prerequisites[i][0]);  
+        }  
+          
+        int[] indegrees = new int[numCourses];  
+        for (int i = 0; i < numCourses; i++) {  
+            for (int x : adjLists.get(i)) {  
+                indegrees[x]++;  
+            }  
+        }  
+          
+        Queue<Integer> queue = new LinkedList<Integer>();  
+        for (int i = 0; i < numCourses; i++) {  
+            if (indegrees[i] == 0) {  
+                queue.offer(i);  
+            }  
+        }  
+          
+        int[] res = new int[numCourses];  
+        int count = 0;  
+        while (!queue.isEmpty()) {  
+            int cur = queue.poll();  
+            for (int x : adjLists.get(cur)) {  
+                indegrees[x]--;  
+                if (indegrees[x] == 0) {  
+                    queue.offer(x);  
+                }  
+            }  
+            res[count++] = cur;  
+        }  
+          
+        if (count == numCourses) return res;  
+        return new int[0];  
+    }  
+}  
+

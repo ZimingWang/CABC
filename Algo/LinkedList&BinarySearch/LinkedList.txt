@@ -1,0 +1,1406 @@
+Tips：
+0.插入删除链表时，先后面再前面，这样遍历不用担心说丢失方向
+1. 新建一个dummy node 指向head，最后返回dummy.next
+2. 快慢针，head一个，preHead ＝ dummy一个，一前一后
+3. 判空与head，还是head.next
+4. 新建一个dummy node 指向head，最后返回dummy.next，再把指针提前（预备式）
+	ListNode dummy = new ListNode(0);
+            dummy.next = head;
+            head = dummy;
+4.4. 新建一个dummy node 指向head，最后返回dummy.next，再把指针往后（建表）
+	ListNode dummy = new ListNode(0);
+            	 dummy.next = head;
+            	 dummy = head;
+5.做操作的同时，如果不满足条件，至少步长也要做到
+6. 为什么要有dummy，试想一下如果要删除点在head上
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+AAAAAAAAAAAAAAAAAAAAAAAAA
+1. 删除倒数第N个节点
+	一前一后，A. head先移n个（注意越界）B.  while 双指针走完 C.pre.next = pre.next.next
+3. 删除重复元素，留下一个
+	while head.next != null ,   走两步还是走一步
+4. 删除重复元素，不留
+	A. while (head.next != null && head.next.next != null)
+	  head提前， 判断是 head.next 与head。next。next（假设head.next是判断点，至少保留其前驱）B. 	找到之后一直while
+22.删除指定点－－－把next值赋给它O（1）
+8. 指定删除链表的元素  pre head，一前一后
+      //找到删除跳两格［删除加遍历］，不然也跳一格［遍历］
+     // head正常遍历， pre 遇到跳两格，否则跳一格
+7. 无序列表删除重复 A. head提前，B. HashSet,一边遍历一边加，同时做判断
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+BBBBBBBBBBBBBBBBBBBBBBBBB
+6.找中点
+     快慢针， head head.next    while (fast != null && fast.next != null)  //前一个控制结果，后一个防报错
+	//不错开， 1 2 3 4 5 6 返回4
+	
+11. 带环链表
+	一个点肯定无环。   快慢针错开，while（!）内部如果if(fast==null || fast.next==null)return
+	核心
+	while (head != slow.next) {
+            head = head.next;
+            slow = slow.next;
+        	}
+21. 找两个链表相交点
+	1. 得到2个链条的长度
+	2. 将长的链条向前移动差值（len1 - len2）
+	3. 两个指针一起前进，遇到相同的即是交点，如果没找到，返回null.
+	交叉点
+	(temp1.val==temp2.val) && (temp1.next==temp2.next)
+23. 交换链表两个节点（先）
+	两次prev，cur搜寻， 找到一个之后，新建prev cur找第二轮
+	注意两个链表相邻和不相邻两种情况
+26. 每两个交换， 存p 存p.next.next 
+	 // 交换两个节点实际上是4个点的事 t1 p p.next t2
+    while(p.next != null && p.next.next != null){	
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+CCCCCCCCCCCCCCCCCCCCCCCC
+指向型
+5.翻转链表
+	head和pre做交换， head往后走，pre往后走，
+	temp存住head。next，之后再回给head
+	递归解，先假设n－1已经翻转好了，然后再操作	
+9. 翻转指定段
+	head提前，找到preM， next即是Mnode，然后 nNode（Mnode）（pre）postN（head） 做n次翻转，然后重接链表，
+28. 每k个翻转
+18. rotate， tail和head挪到后面一个段
+
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+DDDDDDDDDDDDDDDDDDDDDDDD
+排序型
+2.链表划分
+	临时建两个dummy node，双指针ListNode left，right “建表”，head＋左右，拆分成两个表，最后合并，返回left.next
+
+10. 合并k个链表， 
+	1.写一个comparator，建一个priority queue（全存进去），建一个newNode建表
+	不空时，poll出来，offer（next（不为空）
+	2. 与翻转链表排序写法相似， merge0-size， 二分法合并左右，然后单独merge左右（）
+	3.merger ，新表指针， while（1不空）（2不空）别忘都有next遍历
+16.合并两个链表（递归）
+	谁空返回另一个， 比较头值，谁小谁做头，然后返回
+
+13.链表转换成二叉树
+	（全局current） ，遍历链表
+	A. 建树length做参数，二分建左右；
+	B. 中序，左根， root ＝ current（val） 右根，root。left root。right
+24. BST转成double linked list （1. 非递归中序遍历 dummy充当prev   2.  递归，先左子树转，再右子树转）
+       recursion 左BST找最小的，一直右，右BST一直左， 前驱后继然后一连
+
+	
+14. 链表排序
+	merge sort －－－ 找中点（fast fast.next != null）merge() 
+			          找中－－sort右边，mid.next = null  sort左边  merge左右
+15.reorder，     reverse，middle， 交替（设一个计数器）
+	 ListNode mid = findMiddle(head);
+        ListNode tail = reverse(mid.next);
+        mid.next = null;
+        merge(head, tail);	
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+EEEEEEEEEEEEEEEEEEEEEEEE
+12.   复制随机指针链表
+	1.建表过程 dummy，pre， 每接一个节点， pre	
+	2.head稳定遍历 一个map存一对一关系
+	    先是head，再是random（如果有的话） 共用
+      1－ 1’-2 -2’ 构建，  
+
+19.   把链表奇偶拆开
+	 ListNode odd = head, even = head.next, evenHead = even; 
+ 	odd.next = odd.next.next; 
+            even.next = even.next.next; 
+            作用不同
+            odd = odd.next;
+            even = even.next;
+
+20.   判断链表是不是回文
+	找中点
+	翻转
+	比相同
+17. add two numbers
+27. plus one 正常顺序 // 有进位先加一个1节点 递归，看进位是否返回true
+18. 顺序从高位到低位  reverse两个，相加之后再reverse回去
+29. 电话号码本， 类似的排票也可以用， BitSet	
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+1.public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @param n: An integer.
+     * @return: The head of linked list.
+     */
+    ListNode removeNthFromEnd(ListNode head, int n) {
+        // write your code here
+        //返回空
+        if (n < 1){
+            return null;
+        }
+        //存住head 让head去浪 最后返回点
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        //开始点在哪, 就在head, 快慢指针,错开一个位置／／防越出
+        ListNode preDelete = dummy;
+        for (int i = 0; i < n; i++){
+            if (head == null){
+                //反向溢出
+                return null;
+            }
+            head = head.next;
+        }
+        //移出界
+        while (head != null){
+            head = head.next;
+            prehead = prehead.next;
+        }
+        prehead.next = prehead.next.next;
+        return dummy.next;
+    }
+}
+
+
+
+2.
+ public ListNode partition(ListNode head, int x) {
+        // write your code here
+        if (head == null){
+            return null;
+        }
+        //新建两个链表,左牵右牵引
+        //dummy 临时节点, 句柄
+        ListNode leftDummy = new ListNode(0);
+        ListNode left = leftDummy;
+        ListNode rightDummy = new ListNode(0);
+        ListNode right = rightDummy;
+        while (head != null){
+            //看题意要求
+            if (head.val < x){
+                left.next = head;
+                left = head;
+            } else {
+                right.next = head;
+                right = head;
+            }
+            head = head.next;
+        }
+        right.next = null;
+        left.next = rightDummy.next;
+        return leftDummy.next;
+    }
+
+
+
+3.
+public class Solution {
+    /**
+     * @param ListNode head is the head of the linked list
+     * @return: ListNode head of linked list
+     */
+     //留下一个 还有不留的
+    public static ListNode deleteDuplicates(ListNode head) { 
+        // write your code here
+        if (head == null){
+            return null;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        while (head.next != null){
+            if (head.val == head.next.val){
+                head.next = head.next.next;
+            } else {
+                 head = head.next;
+            }
+        }
+        return dummy.next;
+    }  
+}
+
+
+4.
+public static ListNode deleteDuplicates(ListNode head) {
+        // write your code here
+        if (head == null){
+            return null;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        head = dummy;
+        while (head.next != null && head.next.next != null){
+            if (head.next.val == head.next.next.val){
+                int val = head.next.val;
+                //只要内部有指针移动，就要判定范围
+                while (head.next != null && head.next.val == val){
+                    head.next = head.next.next;
+                }
+            } else {
+                 head = head.next;
+            }
+        }
+        return dummy.next;
+    }
+
+
+5.
+public class Solution {
+    /**
+     * @param head: The head of linked list.
+     * @return: The new head of reversed linked list.
+     */
+    //核心，当前点指向前面点 
+    public ListNode reverse(ListNode head) {
+        // write your code here
+        if (head == null){
+            return null;
+        }
+        //返回头才用dummy
+        //和一些题partition list一样，为什么要new节点
+        //ListNode dummy = new ListNode(0);
+        //dummy.next = head;
+       ListNode pre = null; //第一个和null交换
+       //换到最后一个节点为止
+       //没有改值动作
+        while (head != null){
+            ListNode temp = head.next;//存住下一个方向
+            head.next = pre;
+            pre = head;//本质移动pre
+            head = temp;//一个环,类似于交换变量
+        }
+        //head一定会走到空
+        return pre;
+    }
+}
+
+
+
+
+6.
+public ListNode middleNode(ListNode head) { 
+        // Write your code here
+        if (head == null){
+            return null;
+        }
+        //不用存头,不需要返回头
+        //不错开， 1 2 3 4 5 6 返回4
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode slow = head;
+        ListNode fast = head.next;
+        //前一个控制结果，后一个防报错
+        // 1 2 3 4 5 6 7 
+        while (fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+
+
+7.
+public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @return: head node
+     */
+    public ListNode removeDuplicates(ListNode head) { 
+        // Write your code here
+        if (head == null){
+            return null;
+        }
+        HashSet<Integer> valSet = new HashSet<Integer>();
+        ListNode dummy = new ListNode(0);
+        //典型提前
+        dummy.next = head;
+        head = dummy;
+        //既然head.next做值判断， head.next != null
+        while (head.next != null){
+            if (valSet.contains(head.next.val)){
+                head.next = head.next.next;
+            } else {
+                valSet.add(head.next.val);
+                head = head.next;
+            }
+        }
+        return dummy.next;
+    } 
+
+
+8.
+public ListNode removeElements(ListNode head, int val) {
+        // Write your code here
+        if (head == null){
+            return null;
+        }
+        ListNode dummy = new ListNode(0);
+        //标准操作, 指向，挪前／挪后
+        dummy.next = head;
+        ListNode pre = dummy;
+        while (head != null){
+            if (head.val == val){
+                pre.next = pre.next.next;
+                head = head.next;
+            } else {
+                pre = pre.next;
+                head = head.next;
+            }
+        }
+        return dummy.next;
+    }
+
+
+9.
+//建表开新的节点，否则不用
+     //范围的检查条件
+    public ListNode reverseBetween(ListNode head, int m , int n) {
+        // write your code
+        if (head == null || m < 1 || m > n){
+            return null;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        head = dummy;
+        //挪到前一个
+        for (int i = 0; i < m - 1; i++) {
+            if (head == null) {
+                return null;
+            }
+            head = head.next;
+        }
+        ListNode preM = head;
+        ListNode mNode = head.next;
+        //让nNode postN去遍历
+        ListNode nNode = mNode;
+        ListNode postN = mNode.next;
+        //看条件
+        for (int i = m; i < n; i++){
+            if (postN == null){
+                return null;
+            }
+            ListNode temp = postN.next;
+            postN.next = nNode;
+            nNode = postN;
+            postN = temp;
+        }
+        mNode.next = postN;
+        preM.next = nNode;
+        return dummy.next;
+    }
+
+
+10.
+public class Solution {
+    /**
+     * @param lists: a list of ListNode
+     * @return: The head of one sorted list.
+     */
+     //comparator写法
+    private Comparator<ListNode> ListNodeComparator = new Comparator<ListNode>() {
+        public int compare(ListNode left, ListNode right) {
+            if (left == null) {
+                return 1;
+            } else if (right == null) {
+                return -1;
+            }
+            return left.val - right.val;
+        }
+    }; 
+
+     public ListNode mergeKLists(List<ListNode> lists) {
+         if (lists == null){
+             return null;
+         }
+        
+        int len = lists.size();
+        PriorityQueue<ListNode> heap = 
+        //?
+            new PriorityQueue<ListNode>(100, ListNodeComparator);
+         for (ListNode node : lists){
+             if (node != null){
+               heap.offer(node);  
+             }
+         }
+         ListNode dummy = new ListNode(0);
+         ListNode cur = dummy;
+         while (!heap.isEmpty()){
+             ListNode node = heap.poll();
+             cur.next = node;
+             cur = cur.next;
+             if (node.next != null){
+                 heap.offer(node.next);
+             }
+         }
+         return dummy.next;
+     }
+     
+}
+/*//尾调用，为改造参数做分治,二分再和起来(部分有序到全局有序)
+ public ListNode mergeKLists(List<ListNode> lists) {
+        if (lists.size() == 0) {
+            return null;
+        }
+        return mergeHelper(lists, 0, lists.size() - 1);
+    }
+    
+    private ListNode mergeHelper(List<ListNode> lists, int start, int end) {
+        if (start == end) {
+            return lists.get(start);
+        }
+        
+        int mid = start + (end - start) / 2;
+        ListNode left = mergeHelper(lists, start, mid);
+        ListNode right = mergeHelper(lists, mid + 1, end);
+        return mergeTwoLists(left, right);
+    }
+    
+    private ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(0);
+        ListNode tail = dummy;
+        while (list1 != null && list2 != null) {
+            if (list1.val < list2.val) {
+                tail.next = list1;
+                tail = list1;
+                list1 = list1.next;
+            } else {
+                tail.next = list2;
+                tail = list2;
+                list2 = list2.next;
+            }
+        }
+        if (list1 != null) {
+            tail.next = list1;
+        } else {
+            tail.next = list2;
+        }
+        
+        return dummy.next;
+    }
+
+
+
+
+
+*/
+
+/*
+ private Comparator<ListNode> ListNodeComparator = new Comparator<ListNode>() {
+        public int compare(ListNode left, ListNode right) {
+            if (left == null) {
+                return 1;
+            } else if (right == null) {
+                return -1;
+            }
+            return left.val - right.val;
+        }
+    };
+    //配priorityqueue写法
+    public ListNode mergeKLists(List<ListNode> lists) {
+        if (lists == null || lists.size() == 0) {
+            return null;
+        }
+        Queue<ListNode> heap = new PriorityQueue<ListNode>(lists.size(), ListNodeComparator);
+        //if检查
+        for (int i = 0; i < lists.size(); i++) {
+            if (lists.get(i) != null) {
+                heap.add(lists.get(i));
+            }
+        }
+        //标准建表初始化
+        ListNode dummy = new ListNode(0);
+        ListNode tail = dummy;
+        while (!heap.isEmpty()) {
+            ListNode head = heap.poll();
+            tail.next = head;
+            tail = head;
+            //poll一个不空再加进去
+            if (head.next != null) {
+                heap.add(head.next);
+            }
+        }
+        return dummy.next;
+    }
+
+*/
+
+
+11.
+public ListNode detectCycle(ListNode head) {
+        //判断条件 一个点肯定找不到
+        if (head == null || head.next==null) {
+            return null;
+        }
+        //fast 在 slow 后面
+        ListNode fast, slow;
+        fast = head.next;
+        slow = head;
+        while (fast != slow) {
+            //不走错
+            if(fast==null || fast.next==null)
+                return null;
+            fast = fast.next.next;
+            slow = slow.next;
+        } 
+        //核心
+        while (head != slow.next) {
+            head = head.next;
+            slow = slow.next;
+        }
+        return head;
+    }
+
+
+12.
+public RandomListNode copyRandomList(RandomListNode head) {
+        // write your code here
+        if (head == null){
+            return null;
+        }
+        HashMap<RandomListNode, RandomListNode> map =
+                            new HashMap<RandomListNode, RandomListNode>();
+        RandomListNode dummy = new RandomListNode(0);
+        RandomListNode pre = dummy;
+        RandomListNode newNode;
+        while (head != null){
+            if (map.containsKey(head)){
+                newNode = map.get(head);
+            } else {
+                 //为下面contains（head）和自己
+                newNode = new RandomListNode(head.label);
+                map.put(head, newNode);
+            }
+            if (head.random != null){
+                if (map.containsKey(head.random)){
+                    newNode.random = map.get(head.random);
+                } else {
+                    //为上面contains（head）或自己
+                    newNode.random = new RandomListNode(head.random.label);
+                    map.put(head.random, newNode.random);
+                }
+            }
+            pre.next = newNode;
+            pre = newNode;
+            head = head.next;
+        }
+        return dummy.next;
+    }
+}
+
+/*
+//第一步，遍历链表，newNode，交替插入原链表中, newNoderandom指向原noderandom
+//newNode.random = head.random;可写可不写（与下一个head.next.random != null)配合
+private void copyNext(RandomListNode head) {
+        while (head != null) {
+            RandomListNode newNode = new RandomListNode(head.label);
+            newNode.random = head.random;
+            newNode.next = head.next;
+            head.next = newNode;
+            head = head.next.next;
+        }
+    }
+// 第二步，之前newnode指的是原node的random，现在应该指向自己的random
+ private void copyRandom(RandomListNode head) {
+        while (head != null) {
+            // 判断说明有
+            if (head.next.random != null) {
+                // 指向新建的random节点
+                head.next.random = head.random.next;
+            }
+            head = head.next.next;
+        }
+    }
+// 第三步，还原原表，剥离新表    
+private RandomListNode splitList(RandomListNode head) {
+        //非句柄存链表头
+        RandomListNode newHead = head.next;
+        while (head != null) {
+            RandomListNode temp = head.next;
+            
+            //还原原表
+            head.next = temp.next;
+            head = head.next;
+            
+            //构建目标表
+            if (temp.next != null) {
+                temp.next = temp.next.next;
+            }
+        }
+        return newHead;
+    }
+*/
+
+
+13.
+public class Solution {
+    /**
+     * @param head: The first node of linked list.
+     * @return: a tree node
+     */
+        private ListNode current;
+        private int getListLength(ListNode head){
+             int size = 0;
+             while (head != null) {
+               size++;
+               head = head.next;
+             }
+             return size;
+        }
+        //尾调用
+        public TreeNode sortedListToBST(ListNode head) {
+             if (head == null){
+                 return null;
+             }
+             current = head;
+             int size = getListLength(head);
+             return sortedListToBSTHelper(size);
+        }
+        //建树左根右，假设左右已经建好
+        //通过全局变量控制共享进程
+        //分治
+        private TreeNode sortedListToBSTHelper(int size){
+            if (size <= 0){
+                return null;
+            }
+            TreeNode left = sortedListToBSTHelper(size / 2);
+            TreeNode root = new TreeNode(current.val);
+            current = current.next;
+            TreeNode right = sortedListToBSTHelper(size - 1 - size / 2);
+            root.left = left;
+            root.right = right;
+            return root;
+        }
+}
+
+14.
+public class Solution {
+    /**
+     * @param head: The head of linked list.
+     * @return: You should return the head of the sorted linked list,
+                    using constant space complexity.
+     */
+    private ListNode findMiddle(ListNode head) {
+        ListNode slow = head, fast = head.next;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }    
+
+    private ListNode merge(ListNode head1, ListNode head2) {
+        ListNode dummy = new ListNode(0);
+        ListNode tail = dummy;
+        while (head1 != null && head2 != null) {
+            if (head1.val < head2.val) {
+                tail.next = head1;
+                head1 = head1.next;
+            } else {
+                tail.next = head2;
+                head2 = head2.next;
+            }
+            tail = tail.next;
+        }
+        if (head1 != null) {
+            tail.next = head1;
+        } else {
+            tail.next = head2;
+        }
+
+        return dummy.next;
+    }
+
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode mid = findMiddle(head);
+
+        ListNode right = sortList(mid.next);
+        mid.next = null;
+        ListNode left = sortList(head);
+
+        return merge(left, right);
+    }
+    
+}
+
+
+15.
+private ListNode reverse(ListNode head) {
+        ListNode newHead = null;
+        while (head != null) {
+            ListNode temp = head.next;
+            head.next = newHead;
+            newHead = head;
+            head = temp;
+        }
+        return newHead;
+    }
+
+    //交替合并,本质与merge sorted一样, 按顺序 不按值
+    //设计一个计数器分奇偶
+    private void merge(ListNode head1, ListNode head2) {
+        int index = 0;
+        ListNode dummy = new ListNode(0);
+        //判断条件 与 后面if
+        while (head1 != null && head2 != null) {
+            if (index % 2 == 0) {
+                dummy.next = head1;
+                head1 = head1.next;
+            } else {
+                dummy.next = head2;
+                head2 = head2.next;
+            }
+            dummy = dummy.next;
+            index++;
+        }
+        if (head1 != null) {
+            dummy.next = head1;
+        } else {
+            dummy.next = head2;
+        }
+    }
+
+    private ListNode findMiddle(ListNode head) {
+        //错开一格
+        ListNode slow = head, fast = head.next;
+        //第一个保证走对，第二个保证不报错
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
+    public void reorderList(ListNode head) {
+        if (head == null || head.next == null) {
+            return;
+        }
+        ListNode mid = findMiddle(head);
+        ListNode tail = reverse(mid.next);
+        mid.next = null;
+        merge(head, tail);
+    }
+
+
+16.
+public class Solution {
+
+public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    if(l1 == null) return l2;
+    if(l2 == null) return l1;
+
+    if(l1.val < l2.val){
+        l1.next = mergeTwoLists(l1.next, l2);
+        return l1;
+    }else{
+        l2.next = mergeTwoLists(l1, l2.next);
+        return l2;
+    }
+
+}
+}
+
+
+17.
+// 倒着表示（阅读习惯）会好一些
+public class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        //建新表
+        ListNode prev = new ListNode(0);
+        ListNode head = prev;
+        
+        // carry
+        int carry = 0;
+        //前面都空了， carry不为0，超过0说明进位，结束（5 + 5）
+        while (l1 != null || l2 != null || carry != 0) {
+            
+            // 1.先建立节点
+            ListNode cur = new ListNode(0);
+            
+            // 2.求和，空的时候是0 ＋ carry
+            int sum = ((l2 == null) ? 0 : l2.val) + ((l1 == null) ? 0 : l1.val) + carry;
+            
+            //3. 现在值加进位，carry不用清0，每一次相加都重新算了一次
+            cur.val = sum % 10;//现在的值
+            carry = sum / 10;//是否进位
+            
+            // 4.往后
+            prev.next = cur;
+            prev = cur;
+            // 5. 双指针后走，防止null
+            l1 = (l1 == null) ? l1 : l1.next;
+            l2 = (l2 == null) ? l2 : l2.next;//往下翻
+        }
+        return head.next;
+    }
+}
+
+
+18.
+public class Solution {
+    private int getLength(ListNode head) {
+        int length = 0;
+        while (head != null) {
+            length ++;
+            head = head.next;
+        }
+        return length;
+    }
+    public ListNode rotateRight(ListNode head, int n) {
+        if (head == null) {
+            return null;
+        }
+        
+        // 防止n超过
+        int length = getLength(head);
+        n = n % length;
+        
+        // head 提前
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        head = dummy;
+        // tail存起来，head先走n个
+        ListNode tail = dummy;
+        for (int i = 0; i < n; i++) {
+            head = head.next;
+        }
+        // head和tail一起走到头
+        while (head.next != null) {
+            tail = tail.next;
+            head = head.next;
+        }
+        
+        head.next = dummy.next;
+        dummy.next = tail.next;
+        tail.next = null;
+        return dummy.next;
+    }
+}
+
+
+19.
+public class Solution {
+public ListNode oddEvenList(ListNode head) {
+    if (head != null) {
+
+        ListNode odd = head, even = head.next, evenHead = even; 
+//1-2-3-4-5  13524
+        while (even != null && even.next != null) {
+            odd.next = odd.next.next; 
+            even.next = even.next.next; 
+            
+            odd = odd.next;
+            even = even.next;
+        }
+        odd.next = evenHead; 
+    }
+    return head;
+}}
+
+
+20.
+public boolean isPalindrome(ListNode head) {
+        if (head == null) {
+            return true;
+        }
+        
+        ListNode middle = findMiddle(head);
+        middle.next = reverse(middle.next);
+        
+        ListNode p1 = head, p2 = middle.next;
+        while (p1 != null && p2 != null && p1.val == p2.val) {
+            p1 = p1.next;
+            p2 = p2.next;
+        }
+        
+        return p2 == null;
+    }
+    
+    private ListNode findMiddle(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode slow = head, fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }//快慢指针保证后一个不为空
+        
+        return slow;
+    }
+    private ListNode reverse(ListNode head) {
+        ListNode prev = null;
+        
+        while (head != null) {
+            ListNode temp = head.next;
+            head.next = prev;
+            prev = head;
+            head = temp;
+        }
+        
+        return prev;
+    }
+
+
+21.
+ public class Solution {
+    /**
+     * @param headA: the first list
+     * @param headB: the second list
+     * @return: a ListNode 
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    if((headA==null) || (headB==null))
+		    return null;
+		
+	ListNode temp1,temp2;
+	int count1,count2,dif;
+	
+	count1=1;count2=1;dif=0;
+	
+	temp1=headA;
+	temp2=headB;
+	
+	// count1长度
+	while(temp1.next!=null){
+		temp1=temp1.next;
+		count1++;
+	}
+	// count2长度
+	while(temp2.next!=null){
+		temp2=temp2.next;
+		count2++;
+	}
+	// 一直找相同的
+	if(temp1.val != temp2.val)
+	    return null;
+	else{
+		temp1=headA;
+	    temp2=headB;
+	    // 相差多少单位
+		dif=Math.abs(count1-count2);
+		// 保证到同一位置
+		
+		// 1.
+		if(count1 > count2){
+			while(dif>0){
+				temp1=temp1.next;
+			    dif--;
+		}
+		while(count2>0){
+				if((temp1.val==temp2.val)&&(temp1.next==temp2.next))
+					return temp1;
+					temp1=temp1.next;
+				    temp2=temp2.next;
+		}
+    	}
+    	// 2.
+		else{
+			while(dif!=0){
+				temp2=temp2.next;
+			    dif--;
+			}
+			while(count1>0){
+			    
+				if((temp1.val==temp2.val) && (temp1.next==temp2.next))
+					return temp1;
+					temp1=temp1.next;
+				    temp2=temp2.next;
+			}
+		}
+		return null;	
+	}
+
+    }
+    
+    }
+
+
+public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        
+        ListNode pA = headA;
+        ListNode pB = headB;
+        
+        ListNode tailA = null;
+        ListNode tailB = null;
+        
+        while (true) {
+            if (pA == null) {
+                pA = headB;
+            }
+            
+            if (pB == null) {
+                pB = headA;
+            }
+            
+            if (pA.next == null) {
+                tailA = pA;
+            }
+            
+            if (pB.next == null) {
+                tailB = pB;
+            }
+            
+            //The two links have different tails. So just return null;
+            if (tailA != null && tailB != null && tailA != tailB) {
+                return null;
+            }
+            
+            if (pA == pB) {
+                return pA;
+            }
+            
+            pA = pA.next;
+            pB = pB.next;
+        }
+    }
+    
+
+22. 
+public void deleteNode(ListNode node) {
+        // write your code here
+        if (node == null || node.next == null)
+            return;
+        ListNode next = node.next;
+        node.val = next.val;
+        node.next = next.next;
+        return;
+    }
+
+
+
+23.
+public ListNode swapNodes(ListNode head, int v1, int v2) {
+        // Write your code here
+        if (head == null || head.next == null) {
+            return head;
+        }
+        
+        //prev 和 cur
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+
+        ListNode prev1 = dummy;
+        ListNode curr1 = head;
+        // 找到v1或v2
+        while (curr1 != null) {
+            if ( curr1.val == v1 || curr1.val == v2 ) {
+                break;
+            } else {
+                prev1 = prev1.next;
+                curr1 = curr1.next;
+            }
+        }
+        //  空了则返回
+        if (curr1 == null) {
+            return head;
+        }
+        
+        //  接过上一个， 找下一个
+        ListNode prev2 = prev1.next;
+        ListNode curr2 = curr1.next;
+        while (curr2 != null) {
+            if ( curr2.val == v1 || curr2.val == v2 ) {
+                break;
+            } else {
+                prev2 = prev2.next;
+                curr2 = curr2.next;
+            }
+        }
+        // 没找到
+        if (curr2 == null) {
+            return head;
+        }
+        // 相邻，存好cur2的next
+        if (curr1.next == curr2) {
+            ListNode next2 = curr2.next;
+            prev1.next = curr2;
+            curr2.next = curr1;
+            curr1.next = next2;
+        } else {
+            // 同时存好curr1 curr2的next
+            // 一般都是prev1.next 开始，按逻辑顺序刷题
+            ListNode next1 = curr1.next;
+            ListNode next2 = curr2.next;
+            prev1.next = curr2;
+            curr2.next = next1;
+            prev2.next = curr1;
+            curr1.next = next2;
+        }
+        return dummy.next;
+    }
+
+
+24.
+public DoublyListNode bstToDoublyList(TreeNode root) {  
+        if (root == null) {
+            return null;
+        }
+        //Init stack
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        TreeNode node = root;    
+        stack.push(node);
+        
+        //Create DoublyListNode header
+        DoublyListNode dummy = new DoublyListNode(0);
+        DoublyListNode dNode = dummy;
+        
+            
+        while (!stack.isEmpty()) {
+            while (node != null && node.left != null) {
+                stack.push(node.left);
+                node = node.left;
+            }
+            //add node
+            node = stack.pop();
+            /*-------------------------------------------------*/
+            DoublyListNode curr = new DoublyListNode(node.val);
+            // dNode 相当于prev
+            dNode.next = curr;
+            curr.prev = dNode;
+            //下一个
+            dNode = dNode.next;
+             /*-------------------------------------------------*/
+            //check right node and add to stack
+            node = node.right;
+            if (node != null) {
+                stack.push(node);
+            }  
+        }
+        
+        return dummy.next;
+        
+    }
+
+
+Node bintree2listUtil(Node node) 
+    {
+        // Base case
+        if (node == null)
+            return node;
+  
+        // Convert the left subtree and link to root
+        if (node.left != null) 
+        {
+            // Convert the left subtree
+            Node left = bintree2listUtil(node.left);
+  
+            // Find inorder predecessor. After this loop, left
+            // will point to the inorder predecessor
+            for (; left.right != null; left = left.right);
+  
+            // Make root as next of the predecessor
+            left.right = node;
+  
+            // Make predecssor as previous of root
+            node.left = left;
+        }
+  
+        // Convert the right subtree and link to root
+        if (node.right != null) 
+        {
+            // Convert the right subtree
+            Node right = bintree2listUtil(node.right);
+  
+            // Find inorder successor. After this loop, right
+            // will point to the inorder successor
+            for (; right.left != null; right = right.left);
+  
+            // Make root as previous of successor
+            right.left = node;
+  
+            // Make successor as next of root
+            node.right = right;
+        }
+  
+        return node;
+    }
+  
+    // The main function that first calls bintree2listUtil(), then follows
+    // step 3 of the above algorithm
+      
+    Node bintree2list(Node node) 
+    {
+        // Base case
+        if (node == null)
+            return node;
+  
+        // Convert to DLL using bintree2listUtil()
+        node = bintree2listUtil(node);
+  
+        // bintree2listUtil() returns root node of the converted
+        // DLL.  We need pointer to the leftmost node which is
+        // head of the constructed DLL, so move to the leftmost node
+        while (node.left != null)
+            node = node.left;
+  
+        return node;
+
+
+25. 
+public ListNode insertionSortList(ListNode head) {  
+    if(head == null)  
+        return null;  
+    ListNode helper = new ListNode(0);  
+    ListNode pre = helper;  
+    ListNode cur = head;  
+    while(cur!=null) {
+        // 存curnext
+        ListNode next = cur.next;
+        // pre 每次回到helper头
+        pre = helper;  
+        while(pre.next!=null && pre.next.val<=cur.val){  
+            pre = pre.next;  
+        } 
+        //把cur插入进来，永远插在链表头
+        //先接后再接前
+        cur.next = pre.next;
+        pre.next = cur;
+        // 把存的curnext
+        cur = next;  
+    }  
+    return helper.next;  
+}  
+
+
+
+26.public class Solution {
+    public ListNode swapPairs(ListNode head) {
+    if(head == null || head.next == null)   
+        return head;
+    // h dummy node,  p是prev
+    ListNode h = new ListNode(0);
+    h.next = head;
+    ListNode p = h;
+    // 交换两个节点实际上是4个点的事 t1 p p.next t2
+    while(p.next != null && p.next.next != null){
+        // t1 first node 
+        ListNode t1 = p;// t1是pre
+        p = p.next;
+        // 接第一条
+        t1.next = p.next;
+ 
+        // t2是post 
+        ListNode t2 = p.next.next;
+        // 回环两条
+        p.next.next = p;
+        p.next = t2;
+    }
+ 
+    return h.next;
+}
+  
+}
+
+27.
+public class Solution {
+    public ListNode plusOne(ListNode head) {
+    boolean carry = addOne(head);
+    // 有进位先加一个1节点
+    if(carry) {
+        ListNode first = new ListNode(1);
+        first.next = head;
+        head = first;
+    }
+    return head;
+}
+// 自己再判断有无进位，分9+1 为 0，return true， 以及直接＋1
+public boolean addOne(ListNode head) { 
+    if(head == null) return true; 
+    boolean carry = addOne(head.next);
+    if(head.val == 9 && carry) {
+        head.val = 0;
+        return true;
+    } else if(carry) {
+        head.val += 1;
+    }
+    return false;
+}
+
+
+
+28.
+public  ListNode reverseKGroup(ListNode head, int k) {
+        if(head == null || k == 1) return head;
+        // pre 和 head
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        int i = 0;
+        // head 遍历，走k次，％k＝＝0就reverse一次，建立新的pre head
+        while(head != null){
+            i++;
+            if(i % k ==0){
+                pre = reverse(pre, head.next);
+                head = pre.next;
+            }else {
+                head = head.next;
+            }
+        }
+        return dummy.next;
+    }
+    private  ListNode reverse(ListNode pre, ListNode next){
+        ListNode last = pre.next;
+        // cur 应该是第二个节点， last是第一个节点
+        ListNode cur = last.next;
+        while(cur != next){
+            last.next = cur.next;
+            cur.next = pre.next;
+            pre.next = cur;
+            cur = last.next;
+        }
+        // 返回pre.next
+        return last;
+    }
+
+
+29. smallest free number
+public class PhoneDirectory {
+   // http://www.52ij.com/jishu/java/99004.html
+    BitSet bitset;
+    int max; 
+    int smallestFreeIndex; 
+
+    public PhoneDirectory(int maxNumbers) {
+        this.bitset = new BitSet(maxNumbers);
+        this.max = maxNumbers;
+    }
+
+    public int get() {
+        // 最大了，没有了
+        if(smallestFreeIndex == max) {
+            return -1;
+        }
+        // 返回并标注已经使用
+        int num = smallestFreeIndex;
+        bitset.set(smallestFreeIndex);
+        // 下一个可以用的num
+        smallestFreeIndex = bitset.nextClearBit(smallestFreeIndex);
+        return num;
+    }
+
+    // 某个号码能不能用， false说明能用
+    public boolean check(int number) {
+        return bitset.get(number) == false;
+    }
+
+    public void release(int number) {
+        // 都没使用过肯定能用
+        if(bitset.get(number) == false)
+            return;
+        // 清楚
+        bitset.clear(number);
+        // 关键步骤，如果释放的比smallestFree还小那么就更改到smallestFree
+        if(number < smallestFreeIndex) {
+            smallestFreeIndex = number;
+        }
+    }
+}
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+Google Tag1
+5. LinkedList
+	1. 实现java的garbage collector。你需要不断的跟面试官交流以缩小问题范围。最后实质上是实现一个双链表结构，当你删除链表上一个node的时候，这个node要保存到另外一个deleted链表里面。如果你访问的node在deleted链表里面，你要把它捞回原来的链表
+	2. flatter a linked list （有下有左，先递归假设右边搞定了，分别有序求merge）
+	3. plus one， 先子函数，递归假设后面add了，有carry 自己9和有carry＋1，主函数
+	    头节点有进位，新建一个1节点

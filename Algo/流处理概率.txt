@@ -1,0 +1,136 @@
+http://www.cppblog.com/hardtry/archive/2011/10/08/157556.html
+
+
+0. shuffle一个数组数据结构
+import java.util.Random;
+
+public class Solution {
+    // nums一直保持原来，shuffle完成的是深度拷贝后随机的数组
+    private int[] nums;
+    private Random random;
+    // 加一个random
+    public Solution(int[] nums) {
+        this.nums = nums;
+        random = new Random();
+    }
+    
+    /** Resets the array to its original configuration and return it. */
+    public int[] reset() {
+        return nums;
+    }
+    
+    /** Returns a random shuffling of the array. */
+    public int[] shuffle() {
+        if(nums == null) return null;
+        // 深度拷贝
+        int[] a = nums.clone();
+        // 做n - 1 次交换，j生成i
+        for(int j = 1; j < a.length; j++) {
+            int i = random.nextInt(j + 1);
+            swap(a, i, j);
+        }
+        return a;
+    }
+    // 交换函数
+    private void swap(int[] a, int i, int j) {
+        int t = a[i];
+        a[i] = a[j];
+        a[j] = t;
+    }
+}
+
+1.  流处理算法－ 
+https://rosona.github.io/post/20151223/
+
+	▪	数据规模大
+	▪	存储空间有限。保存完整的数据集合并不现实。
+	▪	分发速度快。如果处理不及时，没有足够资源保存数据。
+	▪	允许数据遍历极少次数，一般仅支持遍历一次。
+	▪	空间复杂度sub-linear
+	▪	时间复杂度linear
+	▪	可以接受近似解
+
+
+
+言归正传，针对上述数据流问题特点，流处理算法的一般模式有：
+	▪	采样/过滤 – 减少规模
+	▪	如：蓄水池采样 Reservoir Sampling
+	▪	随机映射(Random Projection) – 降维
+	▪	Hash/SimHash
+	▪	概要 (Sketch)
+	▪	统计直方图(Histogram)
+	▪	滑动窗口
+
+
+1. http://novoland.github.io/%E7%AE%97%E6%B3%95/2014/08/05/%E5%87%A0%E4%B8%AA%E5%B8%B8%E8%A7%81%E7%9A%84%E6%A6%82%E7%8E%87%E9%97%AE%E9%A2%98.html
+常见概率问题
+	1.1. 洗牌
+问题很简单，有 n 个元素，设计一个能保证随机性的洗牌算法。
+因此整个洗牌过程可以就地完成。我们可以从前向后遍历，对元素 i，前 i-1 个位置构成新牌堆，i 及其后续元素属于旧牌堆。从旧牌堆中随机抽一个元素，与 i 处元素交换，即完成了一次抽牌动作：
+
+
+function shuffle(array) {
+  var m = array.length, i;
+
+  // While there remain elements to shuffle…
+  // 为了方便这里是从后往前遍历的
+  while (m) {
+
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * m--);
+
+    // And swap it with the current element.
+    var t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+
+}
+
+2. 随机数生成器的转换
+用Rand5()不停地产生随机数，直到某个数字落在了  内。最终只会生成 0/1/2 三个数字，看起来似乎每个数字都是等概率的
+
+给一个Rand(3)，怎么生成一个Rand(5)呢？由于  可以构造出Rand(9)，对它再应用上述算法即可。
+解释下  为什么可以得到Rand(9)。 得到一个随机数集合0,3,6， 得到0,1,2，二者相加的结果刚好均匀地分布在  区间内。推广这个结论可得， 可以得到  区间内的随机数生成器。
+3. 蓄水池抽样
+Init : a reservoir with the size： k  
+for i= k+1 to n  
+   M=random(1, i);  
+   if( M < k)  
+        SWAP the Mth value and ith value  
+end for  
+
+
+
+3.
+蓄水池又一次
+
+数组里有若干重复数， 找到的话随机返回其中一个，每一次1／当前count就行，不匹配直接continue
+
+public class Solution {
+    int[] nums;
+    Random rnd;
+
+    public Solution(int[] nums) {
+        this.nums = nums;
+        this.rnd = new Random();
+    }
+    
+    public int pick(int target) {
+        int result = -1;
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != target)
+                continue;
+            if (rnd.nextInt(++count) == 0)
+                result = i;
+        }
+        
+        return result;
+    }
+}
+
+
+	Googletag2
+	GTwo26. 给定一个链表，要求以相等的概率返回链表上的结点。
+	https://www.hrwhisper.me/leetcode-linked-list-random-node/

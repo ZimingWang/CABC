@@ -1,0 +1,1123 @@
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+［A］基本型
+	9.搜索插入位置  画图比较start end 的关系（三种情况，start end end＋1）
+	10.搜索区间 查左查右 两次二分， 开一个new int［］｛－1，－1｝ 注意出来的判断，都需要start end判断而且没找到直接return －1 －1， 但是找start的话start先判断， end的话end先判断
+	17.目标出现总和， 两个bound，都有 相减＋1， 有一个1，都没有0
+	11.基础二分， 三叉， 找到return 其余。。。
+	19. 目标最后位置, end判断优先
+	18. 大数组查找 index = 1 while(index - 1 < target) index *= 2
+	20. 最接近位置，如果等于直接return， 否则，三种情况，<start <end >end
+	21. 找最接近的k个数(2+1指针) 使用Binary Search找到最接近的数字的位置双指针从该位置左右移动，每次比较找到最接近的数字，加入到答案中，相应的指针++    start index end index - 1   for 0 -> k, 双指针分别向左向右扩张，两个if打头不要扩出界，一个扩出去则另一个扩，否则比较差值 相同差的话小的在前面
+	27.H-Index II cita[mid]引用因子与len－mid 篇数的比较，注意跳脱出来，首先有一个相等就返回，end先判断，其次分start == end 和 start ＋ 1 ＝ end情况考虑
+	   H-Index I 排完序之后倒着找	
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+［B］二维型 
+	12.基本的搜索 0 m*n - 1,   每次求出row col /mat[0].len %/mat[0].len, 出来之后分别求start end
+	25.Search a 2D Matrix II 并不是折叠递增，类似Kth Smallest Element in a Sorted Matrix
+	   从第一行最右边开始，找到返回，小于col－－，大于row＋＋
+	26.Kth Smallest Element in a Sorted Matrix 两个二分， 值二分，拿到之后，for二分每一行统计大于的个数，与k做比较，注意跳出来之后的条件
+	29. 求像素面积，四个二分，滑动，确定边界然后求面积，注意的是 左右确定后，上下界可以缩小至左右
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
+［C］一维数组型
+	14. 统计比给定整数小的数的个数 是一个list的query，线段树可以做，二分也可以，
+	    排序一遍，for（）每一个二分去找, 关键是退出来的start end 五种情况， <s =s s<t<e =e >e 
+	15. 两数组交，3种方法， 共同点，之前只需要开任一个数组大小的结果数组（交），之后要处理一下
+		1. 两个sort，双指针同向移动， 第三个指针index在结果数组同向
+		2. 两个hashset，一个cun A， 一个存B（自身去重）的时候判断在不在A里,最后数组包装
+		3. 一个sort，一个hashset，然后for另一个，自己存hash，不重复就做二分法
+	16. 两数组交，一个hashmap存次数， for另一个取完之后－1，注意同时存在key，且次数要>0, 取完就没有
+	28. 两个数组中位数 O(log (m+n)) len ＝ a.len ＋ b.len 奇偶， mid/2 + 1 与 mid／2
+	    a搜完直接返回b，b搜完返回a  k == 1 返回小的那个，mid是左边一半结尾不包含中位数 K／2 －1，
+	    两个start＋mid 首先不要越界，比大小，输的切一半，还可以切的切一半
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+［D］偏实际运用型
+	1.Pow(x, n) 递归条件 ＝＝0，＝＝1，return x， n < 0 时处理， 补码范围，更类似于分治
+	6. Sqrt   1 - x 二分 mid＊mid 与 x，找到最后一个符合要求的，end优先判断 
+		  1 － Integer.MAX_VALUE
+	30.两个数相除
+	24. perfect square 1 - num 二分，找到return true
+	7. First bad version 00000111111(找第一个)
+	8. peak element A［mid］和 A［mid － 1］ 和A［mid＋1］比较，如果 Amid -1 < Amid < Amid+1
+	   则是波谷，此时结合初始条件，左右都有波峰，mid赋给谁都行。 注意点， start ＝ 1， end ＝ len －2
+           防止数组A［mid］比较时越界
+	13. 现在想把这些木头切割成一些长度相同的小段木头，需要得到的小段的数目至少为 k。当然，我们希望得到的小段越长越好  先扫一遍求个max，然后1-max二分，以是否>=k为标准， woodcount函数 for一遍  
+	22，23 Geohash  坐标转成Geohash， toBin（二分法30次），交错，每五位对照32进制，（Integer.parseInt(bin, 2)），取精度  注意 double ／2.0 不是2
+	      恢复， 每位数，indexOf， 每位数mask（16，8，4，2）取－－－》even，ineven，refine
+ interval 给0 还是给1     /2.0不是 ／2，－90 －90 一部部， 最后取中值返回］
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+［E］一维数组变种型 Rotated 
+	2.3. Rotated Array Min(默认是增序的，降序另做)
+	分析： 增序rotatetd  降序rotated ＝＝＝》 最小 在 1.左边，2.右边，3.中间
+	      发现： mid 《 end， 最小都在左边 end = mid, mid > end 最小在右边
+	      并且，算法在不rotated（特殊）也能成立
+ 
+	重复元素：nums[mid]=nums[last] 时 last—-
+	solution: 因为数组中存在相同的元素及有可能存在nums[mid] = nums[last]的情况，这时上面三种情况就	不管用了。因为当nums[mid]=nums[last]时，最小值在mid的左边还是右边没有办法进行判断。此时唯一可以确	定的是last一定不是最小值(当最小值唯一时),因此我们可以通过把last向前移动一步来减少搜索区间 
+
+	4. 本质，要让target落在有序的一部分中，这样后续就可以用二分法了，而且也适用于没有实际旋转的情况，
+否则继续找旋转排序数组切分， 
+	   直接比较两种情况， A[start] 和 A[mid] 然后确定其在不在有序的那一段
+	5. 有重复 －－－直接for，或者参考递归版本，本质在于赋值mid ＋ 1 mid －1 的滑动	
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+1.Pow(x, n)
+public double myPow(double x, int n) {
+        if (x == 0){
+            return 0;
+        }
+        if (x == 1 || n == 0){
+            return 1;
+        }
+        if (n == 1){
+            return x;
+        }
+        if (n < 0){
+          double ret = x * myPow(x, -(n + 1));
+          return (double)1/ret;
+        }
+        //减少递归层数
+        double result = (n % 2 == 0) ? myPow(x * x, n / 2) : x * myPow(x * x, n / 2);
+        //写完后判断上面哪些if可以撤掉
+        return result;
+    }
+
+
+2.Rotated Array Min(2) no duplicate
+public int findMin(int[] num) {
+        // write your code here
+        if (num == null || num.length == 0){
+            return -1;
+        }
+        int start = 0;
+        int end = num.length - 1;
+        while (start + 1 < end){
+            int mid = (end - start) / 2 + start;
+            //这里不存在重复元素，因此不可能是等于
+            if (num[mid] < num[end]){
+                end = mid;
+            } else {
+                start = mid;
+            }
+        }
+        if (num[start] > num[end]){
+            return num[end];
+        } else {
+            return num[start];//看要求返回是什么
+        }
+    }
+
+
+3.  Rotated Array Min(2) duplicate
+public int findMin(int[] num) {
+        // write your code here
+        // 标准未定
+        if (num == null || num.length == 0){
+            return Integer.MIN_VALUE; //知识点
+        }
+        int start = 0;
+        int end = num.length - 1;
+        while (start + 1 < end){
+            int mid = (end - start) / 2 + start;
+            if (num[mid] > num[end]){//
+                start = mid;
+            } else if(num[mid] < num[end]){//
+                end = mid;
+            } else {//相等的另算去重复  
+                end--;//  // if mid equals to end, that means it's fine to remove //end
+                // the smallest element won't be removed
+            }
+        }
+        if (num[end] > num[start]){
+            return num[start];
+        }
+        return num[end];
+        // return num[first] < num[last] ? num[first] : num[last];
+    }
+
+4.搜索旋转排序数组
+public int search(int[] A, int target){
+        // write your code here
+         //本质rotated,二分，保证在有序数组里判断才行
+         if (A == null || A.length == 0){
+             return -1;
+         }
+         int start = 0;
+         int end = A.length - 1;
+         while (start + 1 < end){
+             int mid = (end - start) / 2 + start;
+             if (A[start] < A[mid]){//没有重复所以不存在相不相等
+                 if (A[start] <= target && target <= A[mid]){
+                     end = mid;
+                 } else {
+                     start = mid;
+                 }
+             } else {
+                 if (A[mid] <= target && target <= A[end]){
+                     start = mid;//加等于是为了mid start 等于target
+                 } else {
+                     end = mid;
+                 }
+             }
+         }
+         if (A[start] == target){
+             return start;
+         }
+         if (A[end] == target){
+             return end;
+         }
+         return -1;
+    }
+
+
+5. 递归的旋转排序数组 II 有重复 （）
+public:  
+    int search(vector<int> &A, int target) {  
+        // write your code here  
+        return search(A,target,0,A.size()-1);  
+    }  
+    int search(vector<int>&A,int target,int l,int r)  
+    {  
+          
+        if(l>r)  
+            return 0;  
+        while(l<r&&A[l]==A[r])  
+            l++;  
+        int mid = (l+r)/2;  
+        if(A[mid]==target)  
+            return true;  
+        if(A[l]<A[r])  
+        {  
+            if(A[mid]>target)  
+                return search(A,target,l,mid-1);  
+            else  
+                return search(A,target,mid+1,r);  
+        }  
+        else if(A[mid]>=A[l])  
+        {  
+            if(A[mid]>=target&&target>=A[l])  
+                return search(A,target,l,mid-1);  
+            else  
+                return search(A,target,mid+1,r);  
+        }  
+        else  
+        {  
+            if(A[mid]<=target&&target<=A[r])  
+                return search(A,target,mid+1,r);  
+            else  
+                return search(A,target,l,mid-1);  
+        }  
+          
+    }  
+}; 
+
+
+6.
+public int sqrt(int x) {
+        // write your code here
+        if (x == 0){
+            return 0;
+        }
+        if (x == 1){
+            return 1;
+        }
+        // 涉及平方操作的注意不要用int
+        long start = 1;
+        long end = x;
+        // 这里用start + 1会不会太小
+        while (start + 1 < end){
+            long mid = (end - start) / 2 + start;
+            if (mid * mid <= x){
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        //找最后一个符合要求的
+        if (end * end <= x){
+            return (int)end;
+        }
+        return (int)start;
+    }
+
+
+public int mySqrt(int x) {
+    if (x == 0)
+        return 0;
+    int left = 1, right = Integer.MAX_VALUE;
+    while (true) {
+        int mid = left + (right - left)/2;
+        if (mid > x/mid) {
+            right = mid - 1;
+        } else {
+            if (mid + 1 > x/(mid + 1))
+                return mid;
+            left = mid + 1;
+        }
+    } 
+
+
+7.
+ public int findFirstBadVersion(int n) {
+        // write your code here
+        int start = 1;
+        int end = n;
+        while (start + 1 < end){
+            int mid = (end - start) / 2 + start;
+            if (SVNRepo.isBadVersion(mid)){
+                //Java不支持数值布尔
+                end = mid;
+            } else {
+                start = mid;
+            }
+        }
+        if (SVNRepo.isBadVersion(start)){
+            return start;
+        }
+        return end;//一定有
+    }
+
+8.
+public int findPeak(int[] A) {
+        // write your code here
+        /*if (A == null || A.length == 0){
+            return;
+        }*/ //条件一定有//极端情况，一个峰
+        int start = 1;
+        int end = A.length - 2; //mid mid - 1 mid + 1的操作
+        while (start + 1 < end){
+            int mid = (end - start) / 2 + start;
+            if (A[mid] > A[mid + 1]){ //配合初始条件画图
+                end = mid;
+            } else if (A[mid] > A[mid - 1]){
+                start = mid;
+            } else {
+                start = mid; //波谷,结合图，至少两个峰，故而赋给start，end都可以
+            }
+        }
+        if (A[start] < A[end]){
+            return end;
+        } else {
+            return start;//一定有
+        }
+    }
+9.
+public int searchInsert(int[] A, int target) {
+       if (A == null ) {
+            return -1;
+        }
+        if (A.length == 0){
+            return 0;
+        }
+        int start = 0, end = A.length - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (A[mid] == target) {
+                return mid;//找到返回索引
+            } else if (A[mid] < target) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        //正常均是start end， end ＋ 1情况是为了增添新的元素
+        if (A[start] >= target) {
+            return start;
+        } else if (A[end] >= target) {
+            return end;
+        } else {
+            return end + 1;// target > A[end]   
+        }
+    }
+
+
+10.
+public int[] searchRange(int[] A, int target) {
+        // write your code here
+        if (A == null || A.length == 0){
+            return new int[]{-1, -1}; //{{1,2},{3,4}}
+        }
+        int[] bound = new int[]{-1, -1};
+        int startl = 0;
+        int endl = A.length - 1;
+        while (startl + 1 < endl){
+            int midl = (endl - startl) / 2 + startl;
+            if (A[midl] == target){
+                endl = midl;
+            } else if (A[midl] > target){
+                endl = midl; //可合并
+            } else {
+                startl = midl;
+            }
+        }
+        if (A[startl] == target){
+            bound[0] = startl;
+        } else if (A[endl] == target){
+            bound[0] = endl;
+        } else {
+            return new int[]{-1, -1};
+        }
+        
+        
+        
+        int startr = 0;
+        int endr = A.length - 1;
+        while (startr + 1 < endr){
+            int midr = (endr - startr) / 2 + startr;
+            if (A[midr] == target) {
+                startr = midr;
+            } else if (A[midr] < target) {
+                startr = midr;
+            } else {
+                endr = midr;
+            }
+        }//endr先//相邻俩个都相同，左边界自然startl先判断，右边界自然endr先判断
+        if (A[endr] == target){
+            bound[1] = endr;
+        } else if (A[startr] == target){
+            bound[1] = startr;
+        } else {
+            return new int[]{-1, -1};
+        }
+        return bound;
+    }
+
+11.
+ public int binarySearch(int[] nums, int target) {
+        //write your code here
+        if (nums == null || nums.length == 0){
+            return -1;
+        }
+        int start = 0;
+        int end = nums.length - 1;
+        while (start + 1 < end){
+            int mid = (end - start) / 2 + start;
+            if (nums[mid] == target){
+                return mid;
+            } else if (nums[mid] > target){
+                end = mid;
+            } else {
+                start = mid;
+            }
+        }
+        if (nums[start] == target){
+            return start;
+        }
+        if (nums[end] == target){
+            return end;
+        }
+        return -1;
+    }
+
+
+12.
+public boolean searchMatrix(int[][] matrix, int target) {
+        // write your code here
+        if (matrix == null || matrix.length == 0){
+            return false;//数组封装，length
+        }
+        int start = 0;
+        int end = (matrix.length * matrix[0].length) - 1;
+        while (start + 1 < end){
+            int mid = (end - start) / 2 + start;
+            int row = mid / matrix[0].length;
+            int col = mid % matrix[0].length;
+            if (matrix[row][col] == target){
+                return true;
+            } else if (matrix[row][col] < target){
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        int row0 = start / matrix[0].length;
+        int col0 = start % matrix[0].length;
+        int row1 = end / matrix[0].length;
+        int col1 = end % matrix[0].length;
+        if (matrix[row0][col0] == target){
+                return true;
+        }
+        if (matrix[row1][col1] == target){
+                return true;
+        }
+        return false;
+    }
+13.
+if (L == null || L.length == 0){
+            return 0;
+        }
+        int max = Integer.MIN_VALUE;
+        //定界// 有标准也可以考虑二分，并不一定单纯要有序
+        //求的是index最大
+        for (int i = 0; i < L.length; i++){
+            max = Math.max(L[i], max);
+        }
+        int start = 1;//至少是1 不然除法出问题
+        int end = max;
+        while (start + 1 < end){
+            int mid = (end - start) / 2 + start;
+            if (woodCount(L, mid) >= k){
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        if (woodCount(L, end) >= k){ //求的是index最大,所以end先
+            return end; //返回的是数值
+        }
+        if (woodCount(L, start) >= k){
+            return start;
+        }
+        return 0;
+    }
+    public int woodCount(int[] L, int length){
+        if (L == null || L.length == 0){
+            return 0;
+        }
+        int number = 0;
+        for (int i = 0; i < L.length; i++){
+            number += L[i] / length;
+        }
+        return number;
+    }
+
+
+14.
+public ArrayList<Integer> countOfSmallerNumber(int[] A, int[] queries) {
+        // write your code here
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        if (A == null || A.length == 0){
+            // 好坑爹
+            for (int ele : queries){
+                result.add(0);
+            }
+            return result;
+        }
+        Arrays.sort(A);
+        for (int ele : queries){
+           result.add(biSearch(A, ele));
+        }
+        return result;
+    }
+    public int biSearch(int[] A, int ele){
+       int start = 0;
+       int end = A.length - 1;
+       while (start + 1 < end){
+           int mid = (end - start) / 2 + start;
+           if (A[mid] >= ele){
+               end = mid; 
+           } else {
+               start = mid;
+           }
+       }
+       // 对二分出来的结果判断深入的理解
+       if (A[start] = ele){
+           return start;
+       }
+       if (A[end] == ele){
+           return end;
+       }
+       if (ele < A[start]){
+           return start;
+       } else if (ele > A[start] && ele < A[end]){
+           return start + 1;
+       } else {
+           return end + 1;
+       }
+    }
+
+
+15.
+public int[] intersection(int[] nums1, int[] nums2) {
+         if (nums1 == null || nums2 == null){
+             return null;
+         }
+         Arrays.sort(nums1);
+         Arrays.sort(nums2);
+         //最多不超过nums1长度
+         int[] temp = new int[nums1.length];
+         int i = 0;
+         int j = 0;
+         int index = 0;
+         //当指针需要根据需要移动时，while更好
+         //当多个指针移动时，while更好，for则成i＊j，非i ＋ j
+         while (i < nums1.length && j < nums2.length){
+             //变种二分法
+             if (nums1[i] == nums2[j]){
+                 //前面一个防止后面一个越界，参见permutation
+                 if (index == 0 || nums1[i] != temp[index - 1]){
+                      temp[index] = nums1[i];
+                      index++;
+                 }
+                 //不能忘记 
+                 i++;
+                 j++;
+             } else {
+                 if (nums1[i] < nums2[j]){
+                     i++;
+                 } else {
+                     j++;
+                 }
+             }
+         }
+         int[] result = new int[index];
+         for (int x = 0; x < index; x++){
+             result[x] = temp[x];
+         }
+         return result;
+     }
+}
+/*两个hashset，一个cun A， 一个存B的时候判断在不在A里,最后数组包装*/
+/*
+ public int[] intersection(int[] nums1, int[] nums2) {
+        if (nums1 == null || nums2 == null) {
+            return null;
+        }
+        HashSet<Integer> set = new HashSet<>();
+        //不排序，怎么去做二分
+        Arrays.sort(nums1);
+        for (int i = 0; i < nums2.length; i++) {
+            //加不加都可以，主要为了减少第二步计算量
+            if (set.contains(nums2[i])) {
+                continue;
+            }
+            if (binarySearch(nums1, nums2[i])) {
+                set.add(nums2[i]);
+            }
+        }
+        int[] result = new int[set.size()];
+        int index = 0;
+        for (Integer num : set) {
+            result[index++] = num;
+        }
+        
+        return result;
+    }
+    
+    private boolean binarySearch(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return false;
+        }
+        
+        int start = 0, end = nums.length - 1;
+        while (start + 1 < end) {
+            int mid = (end - start) / 2 + start;
+            if (nums[mid] == target) {
+                return true;
+            }
+            if (nums[mid] < target) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        
+        if (nums[start] == target) {
+            return true;
+        }
+        if (nums[end] == target) {
+            return true;
+        }
+        
+        return false;
+    }
+*/
+
+
+16.
+public int[] intersection(int[] nums1, int[] nums2) {
+        // Write your code here
+        int[] resultss = new int[nums1.length];
+        if (nums1 == null || nums2 == null){
+            return resultss;// ?? 默认初始化全踏码为0
+        }
+        HashMap<Integer, Integer> times = new HashMap<Integer, Integer>();
+        for (int ele : nums1){
+            if (times.containsKey(ele)){
+                times.put(ele, times.get(ele) + 1);
+            } else {
+                times.put(ele, 1);
+            }
+        }
+        ArrayList<Integer> resultList = new ArrayList<Integer>();
+        for (int ele : nums2){
+            //优化条件，两个要放&&, 大量减少后一个执行次数
+            if (times.containsKey(ele) && times.get(ele) > 0){
+                //取次数也要不能使其小于0
+                     resultList.add(ele);
+                times.put(ele, times.get(ele) - 1);
+            } 
+        }
+        int[] result = new int[resultList.size()];
+        for(int i = 0; i < resultList.size(); ++i){
+            result[i] = resultList.get(i);
+        }
+        return result;
+    }
+
+18.
+   public int searchBigSortedArray(ArrayReader reader, int target) {
+        // write your code here
+        int index = 1;
+        while (reader.get(index - 1) < target){
+            index = index * 2;
+        }
+        int start = 0;
+        int end = index - 1;
+        while (start + 1 < end){
+            int mid = (end - start) / 2 + start;
+            if (reader.get(mid) == target){
+                end = mid;
+            } else if (reader.get(mid) < target){//第一次出现位置
+                start = mid;//
+            } else {
+                end = mid;//注意判断重复 
+            }
+        }
+        if (reader.get(start) == target){
+            return start;
+        }
+        if (reader.get(end) == target){
+            return end;
+        }
+        return -1;
+    }
+20. 排序数组中最接近元素
+public int closestNumber(int[] A, int target) {
+        // Write your code here
+        //(l + r) >> 1; 2移位
+        // 综上，可以认为：   位移操作在现代jvm面前，
+        //是几乎没有时间优势的。
+        //不过位移操作还是很方便的。
+        //＊二分可以实际理解为找一个区间
+        if (A == null || A.length == 0){
+            return -1;
+        }
+        int start = 0;
+        int end = A.length - 1;
+        while (start + 1 < end){
+            int mid = (end - start) / 2 + start;
+            if (A[mid] == target){
+                return mid;
+            }
+            if (A[mid] < target){
+                start = mid;
+            } else if (A[mid] > target){
+                end = mid;
+            }
+        }
+        //是看插入位置
+        if (target < A[start]){
+            return start;
+        }
+        if (target < A[end]){
+            return end;
+        }
+        return end + 1;
+    }
+
+21. 最接近target的k个数，相同差的话小的在前面
+public int[] kClosestNumbers(int[] A, int target, int k) {
+        int[] result = new int[k];
+        
+        if (A == null || A.length == 0) {
+            return A;
+        }
+        if (k > A.length) {
+            return A;
+        }
+        int index = firstIndex(A, target);
+        int start = index - 1;
+        int end = index;
+        //two pointer 窗口, 扩张，不能挤出去
+        for (int i = 0; i < k; i++) {
+            //
+            if (start < 0) {
+                result[i] = A[end++];
+            } else if (end >= A.length) {
+                result[i] = A[start--];
+            } else {
+                if (target - A[start] <= A[end] - target) {
+                    result[i] = A[start--];
+                } else {
+                    result[i] = A[end++];
+                }
+            }
+        }
+        return result;
+    }
+    private int firstIndex(int[] A, int target) {
+        int start = 0;
+        int end = A.length - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (A[mid] < target) {
+                start = mid;
+            } else if (A[mid] > target) {
+                end = mid;
+            } else {
+                end = mid;
+            }
+        }
+        //插入位置
+        if (A[start] >= target) {
+            return start;
+        }
+        if (A[end] >= target) {
+            return end;
+        }
+        return end + 1;
+    }
+
+22.
+public String encode(double latitude, double longitude, int precision) {
+        // Write your code here
+        String base32 = "0123456789bcdefghjkmnpqrstuvwxyz";
+        String lat = toBin(latitude, -90, 90);
+        String lon = toBin(longitude, -180, 180);
+        StringBuffer temp = new StringBuffer();
+        StringBuffer hash_code = new StringBuffer();
+         for (int i = 0; i < 30; ++i) {
+            temp.append(lon.charAt(i));
+            temp.append(lat.charAt(i));
+        }
+        for (int i = 0; i < 60; i += 5) {
+            int index = toRes(temp.substring(i, i + 5));
+            hash_code.append(base32.charAt(index));
+        }
+        return hash_code.substring(0, precision);
+    }
+   public String toBin(double value, double left, double right) {
+        StringBuffer b = new StringBuffer();
+        for (int i = 0; i < 30; ++i) {
+            double mid = (left + right) / 2.0;
+            if (value > mid) {
+                left = mid;
+                b.append("1");
+            } else {
+                right = mid;
+                b.append("0");
+            }
+        }
+        return b.toString();
+    }
+   public int toRes(String bin) {
+        return Integer.parseInt(bin, 2);
+    }
+
+
+23
+public double[] decode(String geohash) {
+        // Write your code here
+        double[] result = new double[2];
+        if (geohash == null || geohash.length() == 0){
+            return result;
+        }
+        String base32 = "0123456789bcdefghjkmnpqrstuvwxyz";
+        StringBuffer biRes = new StringBuffer();
+        double[] latInterval = {-90, 90};
+        double[] lonInterval = {-180, 180};
+        int[] mask = {16, 8, 4, 2, 1};
+        boolean isEven = true;
+        for (int i = 0; i < geohash.length(); i++){
+             int val = base32.indexOf(geohash.charAt(i));
+             for (int j = 0; j < 5; j++){
+                 if (isEven){
+                   findInterval(mask[j], val, lonInterval);  
+                 } else {
+                   findInterval(mask[j], val, latInterval);  
+                 }
+                 isEven = !isEven;
+            }
+        }
+        double[] locations = {(latInterval[0] + latInterval[1]) / 2.0, (lonInterval[0] + lonInterval[1]) / 2.0};
+        double[] location = {latInterval[0], lonInterval[0]};
+        return locations;
+    }
+    public void findInterval(int mask, int val, double[] interval){
+        if ((mask & val) > 0){
+            interval[0] = (interval[0] + interval[1]) / 2.0;
+        } else {
+            interval[1] = (interval[0] + interval[1]) / 2.0;
+        }
+    }	
+
+24.
+public class Solution {
+    public boolean isPerfectSquare(int num) {
+        if (num == 0){
+            return true;
+        }
+        if (num == 1){
+            return true;
+        }
+        long start = 1;
+        long end = num;
+        while (start + 1 < end){
+            long mid = (end - start) / 2 + start;
+            if (mid * mid == num){
+                return true;
+            } else if (mid * mid > num){
+                end = mid;
+            } else {
+                start = mid;
+            }
+        }
+        return false;
+    }
+}
+
+25.
+public class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix == null || matrix.length < 1 || matrix[0].length <1) {
+            return false;
+        }
+        int col = matrix[0].length-1;
+        int row = 0;
+        while(col >= 0 && row <= matrix.length-1) {
+            if(target == matrix[row][col]) {
+                return true;
+            } else if(target < matrix[row][col]) {
+                col--;
+            } else if(target > matrix[row][col]) {
+                row++;
+            }
+        }
+        return false;
+    }
+}
+
+
+26.
+public int kthSmallest(int[][] matrix, int k) {
+	    int n = matrix.length;
+		int L = matrix[0][0], R = matrix[n - 1][n - 1];
+		while (L + 1 < R) {
+			int mid = L + ((R - L) >> 1);
+			int temp = 0;
+			for (int i = 0; i < n; i++) temp += binary_search(matrix[i], n - 1, mid);
+			System.out.println(mid+"dddd"+temp);
+			if (temp < k){
+			    L = mid;
+			} else {
+			    R = mid;
+			}
+		}
+		int start = 0;
+		for (int i = 0; i < n; i++) start += binary_search(matrix[i], n - 1, L);
+		int end = 0;
+		for (int i = 0; i < n; i++) end += binary_search(matrix[i], n - 1, R);
+		if (start >= k){
+		    return L;
+		}
+		return R;
+	}
+	
+	private int binary_search(int[] row,int R,int x){
+	    int L = 0;
+	    while (L + 1 < R){
+	        int mid = (L + R) >> 1;
+	        if(row[mid] <= x){
+	            L = mid;
+	        } else {
+	            R = mid;
+	        }
+	    }
+	    // 合并条件
+	    if (row[L] == x){
+	        return L + 1;
+	    }
+	    if (row[R] == x){
+	        return R + 1;
+	    }
+	    if (row[L] > x){
+	        return 0;
+	    }
+	    if (row[R] < x){
+	        return R + 1;
+	    }
+	    return L + 1;
+    } 
+
+
+27.(len - mid 篇数，)
+public int hIndex(int[] citations) {
+    if (citations == null || citations.length == 0){
+        return 0;
+    }    
+    int len = citations.length;
+    int lo = 0, hi = len - 1;
+    while (lo + 1 < hi) {
+        int mid = (hi + lo) / 2;
+        // 
+        System.out.println(citations[mid]+" "+(len - mid));
+        if (citations[mid] == len - mid) {
+            return  len - mid;
+        } else if (citations[mid] < len - mid) {
+            lo = mid;
+        } else { 
+            //(citations[mid] > len - mid), med qualified as a hIndex,
+            // but we have to continue to search for a higher one.
+            hi = mid;
+        }
+    }
+    if (citations[hi] == len - hi) return len - hi;
+    if (citations[lo] == len - lo) return len - lo;
+    if (lo == hi){
+        return citations[lo] > len - lo ? len - lo : citations[lo];
+    } else {
+         if (citations[lo] < len - lo && citations[hi] > len - hi) return len - hi;
+         return citations[lo] > len - lo ? len - lo : citations[lo];
+    }
+28.
+public double findMedianSortedArrays(int A[], int B[]) {
+        if (A == null || B == null){
+            return 0;//?
+        }
+        int len = A.length + B.length;
+        if (len % 2 == 1){
+            return findKth(A, 0, B, 0, len / 2 + 1);
+        } else {
+            return (
+                    findKth(A, 0, B, 0, len / 2) + 
+                    findKth(A, 0, B, 0, len / 2 + 1)
+                    ) / 2.0; //否则会被按int处理
+        }
+    }
+    public int findKth(int[] A, int aStart, int[] B, int bStart, int K){
+        //其中一个搜索完了，直接看有没有
+        if (aStart >= A.length){
+            return B[bStart + K - 1];
+        }
+        if (bStart >= B.length){
+            return A[aStart + K - 1];
+        }
+        //不用再去找了
+        if (K == 1){
+            return Math.min(A[aStart], B[bStart]);
+        }
+        //基于这个K的mid，是左边一半的结尾 （不包含中位数）
+        //例如 1 2 3 4 5 的 1，2 ｜ 2，3 4 5 的 2 3
+        int mid = K / 2 - 1;    
+        //index有没有越界
+        int aVal = (aStart + mid <= A.length) ? 
+                    A[aStart + mid] : Integer.MAX_VALUE;
+        int bVal = (bStart + mid <= B.length) ? 
+                    B[bStart + mid] : Integer.MAX_VALUE;
+        if (aVal < bVal){
+            return findKth(A, aStart + K / 2, B, bStart, K - K / 2);
+        } else {
+            return findKth(A, aStart, B, bStart + K / 2, K - K / 2);
+        }           
+    }
+
+29.
+public class Solution {
+   private char[][] image;
+public int minArea(char[][] iImage, int x, int y) {
+    image = iImage;
+    int m = image.length, n = image[0].length;
+    int left = searchColumns(0, y, 0, m, true);
+    int right = searchColumns(y + 1, n, 0, m, false);
+    
+    
+    int top = searchRows(0, x, left, right, true);
+    int bottom = searchRows(x + 1, m, left, right, false);
+    return (right - left) * (bottom - top);
+}
+// 两个函数可以合并
+//right的y+1是为了left - right值为边长
+private int searchColumns(int i, int j, int top, int bottom, boolean opt) {
+    while (i != j) {
+        int k = top, mid = (i + j) / 2;
+        //找到1，从top到bot
+        while (k < bottom && image[k][mid] == '0') ++k;
+        //两个作用，一个是区别左右，一个是当这一列没有1时，让i ＝ mid + 1
+        if (k < bottom == opt)
+            //
+            j = mid;
+        else
+            i = mid + 1;
+    }
+    return i;
+}
+private int searchRows(int i, int j, int left, int right, boolean opt) {
+    while (i != j) {
+        int k = left, mid = (i + j) / 2;
+        while (k < right && image[mid][k] == '0') ++k;
+        if (k < right == opt)
+            j = mid;
+        else
+            i = mid + 1;
+    }
+    return i;
+}
+//  Runtime: 1 m
+}
+
+
+
+30. 
+public class Solution {
+   public int divide(int dividend, int divisor) {
+    // 统一取绝对值处理，记录下符号
+    int sign = 1;
+    if ((dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0))
+        sign = -1;
+    long ldividend = Math.abs((long) dividend);
+    long ldivisor = Math.abs((long) divisor);
+
+    //分子分母为0，分子小于分母 0 -> 因为要返回int型结果
+    if (ldivisor == 0) return Integer.MAX_VALUE;
+    if ((ldividend == 0) || (ldividend < ldivisor)) return 0;
+    
+    // long避免溢出导致程序错误
+    long lans = ldivide(ldividend, ldivisor);
+
+    int ans;
+    //如果真溢出了，根据符号确定返回
+    if (lans > Integer.MAX_VALUE){ //Handle overflow.
+        ans = (sign == 1)? Integer.MAX_VALUE : Integer.MIN_VALUE;
+    } else {
+        ans = (int) (sign * lans);
+    }
+    return ans;
+}
+
+private long ldivide(long ldividend, long ldivisor) {
+    // 递归出口
+    if (ldividend < ldivisor) return 0;
+
+    //  Find the largest multiple so that (divisor * multiple <= dividend), 
+    //  whereas we are moving with stride 1, 2, 4, 8, 16...2^n for performance reason.
+    //  Think this as a binary search.
+    long sum = ldivisor;// sum成两倍增长
+    long multiple = 1;// multiple 成2倍增长（记录）
+    while ((sum+sum) <= ldividend) {
+        sum += sum;
+        multiple += multiple;
+    }
+   //没超过，分母剩下的部分再来一遍 //二分法
+    return multiple + ldivide(ldividend - sum, ldivisor);
+}
+}
+========================================================================================
+	GeoHash I II
+		扩展： 怎么知道两用户近不近  －－－－ cellid （无GPS）
+					        AGPS。AGPS 的全名是「Assisted Global 							Positioning System」，算是 GPS 的一種延伸；
+						他是透過手機基地台的訊號，來加快 GPS 的定位速度
+		Cell-ID 是全球使用的識別碼，每個基地台都有一個唯一的 ID
+
+		GPS两点之间有弧线，不能直接直线计算， 
+		空间数据库 spatial data
+
+		
+		两个点好算，多个点 －－－ geohash
+		其实它就是对一个二维平面进行了一个索引，首先对这个平面竖着切一刀，刀的左边标记为 0 ，刀的右边标记为 1 ，然后再横着切一刀，并且继续标记，然后再竖着切 …. 有很多 spatial data indexing 的方法都是这样的思路，它的作用就是把平面的这种二维数据改造成一维的数据。而一维数据有个好处，就是可以做 sorting 。
+========================================================================================
+Guess Number High or Low
+Google Tag1
+6. Binary Search
+	1. 找到出现次数大于N/4的元素
+	难道是找到N/4，N/2，3N/4上的数字，然后分别对每个数字做binary search？
+	对，分别找到他们初始和结束位置［二分左右边界］，然后计算是否大于N/4

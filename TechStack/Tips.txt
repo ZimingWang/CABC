@@ -1,0 +1,173 @@
+Intellij
+
+log 搜 caused by， exception， error
+
+code generator
+add library in intellij
+http://stackoverflow.com/questions/20432017/adding-akka-library-to-intellij-project
+http://stackoverflow.com/questions/29339005/run-main-0-java-lang-nosuchmethoderror-scala-collection-immutable-hashset-emp
+http://stackoverflow.com/questions/1051640/correct-way-to-add-external-jars-lib-jar-to-an-intellij-idea-project
+
+mac键位图标
+option + enter 引包
+https://support.apple.com/zh-cn/HT201236
+
+Intellij
+快捷键
+https://www.jetbrains.com/help/idea/2016.1/finding-and-replacing-text-in-file.html
+
+
+alt + enter 导入包
+
+一般本地运行版里头都有jar包
+一个产品的jar， 从它本身找
+sbt 导入 范围
+大范围包
+di-in-scala.github.io
+zooKeeper start in the docker file
+The download is in the  center repository
+its fine to use select to create table
+aether
+
+===================================================================================
+Shell
+
+export PATH=${PATH}:/usr/local/mysql/bin/
+ls -d $PWD/* 显示绝对路径
+vi ~/.profile
+GRADLE_HOME=/Users/wangziming/gradle-2.10;
+export GRADLE_HOME
+export PATH=$PATH:$GRADLE_HOME/bin
+cat file | grep 'warn' | grep '2013' | wc :
+PS
+kill -9 "pid"
+iterm
+cmd T //新开一个终端
+ctrl c d z(退出)
+先commit
+pwd
+
+vi   shift + 方向键 加速
+
+mv a.txt b.txt //rename
+command + L ----> edittext 行数
+
+解压命令: tar xvf InFile.tar
+压缩命令: tar cvf OutFile.tar InFiles
+tar -czf handin.tar get_started.ipynb xml_parser.ipynb scraper.ipynb
+sh a.sh
+
+sudo vim
+ls *.jar
+
+:/word 查找 vi
+调高jmeter heap
+按u撤销操作 vi
+threadgroup内部顺序执行sampler
+try with random， or thread group
+or plugin
+
+
+1.dataframe — lazy load functions can execute the queries
+
+druid query examination
+ps -ef | grep zoo
+ifconfig
+
+
+4 : 1 ratio
+
+打断点执行
+
+
+Jmeter太快可能是错误
+太慢可能是性能问题
+
+
+YXML
+http://www.ibm.com/developerworks/cn/xml/x-cn-yamlintro/
+===================================================================================
+Git
+git查哪几个来源 git remote
+git remote add origin .git//双resource origin / origin2
+git remote add origin <remote_repo_url>
+git push --all origin
+If you want to set all of your branches to automatically use this remote repo when you use git pull, add --set-upstream to the push:
+
+git revert
+
+git push --all --set-upstream origin
+git rm -r
+gitignore
+ex:
+.class
+out/*
+
+git diff > tmp/p.patch
+
+git fork
+http://hongliya.github.io/2015/05/04/git-fork-update/
+
+git fetch upstream
+git merge upstream/master
+pull = fetch + merge
+
+
+
+git stash
+git stash pop
+===================================================================================
+Others
+===================================================================================
+ brew install gradle
+
+ source forge 的jar包
+ eclipse market help 里
+ jar包引用后删除
+ 右键单击你的web工程，找到 Build Path > Configure Build Paht...
+ > 然后上面有几个选项卡找到 Libraries。  这里看到的就是你工程里面引用的
+ 所有的 jar ， 看看是不是在某个jar图标上有个很小的黄色的感叹号？
+ 如果有的话就没错了， 先选中这个jar， 点击右边的 Remove  > 点击OK
+ Latex教程
+ shareLatex
+
+ ctrl+shift+z (重做)
+ ctrl+z
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

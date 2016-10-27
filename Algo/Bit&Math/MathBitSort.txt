@@ -1,0 +1,263 @@
+1. wiggle sort
+通过wiggle sort， range sum，逆序数来理解 merge sort和quick sort（本质都是分治）
+
+2.位运算加减乘除
+1. [X+Y]补= [X]补 + [Y]补 ，[X-Y]补= [X]补 - [Y]补 = [X]补 + [-Y]补
+2.  位运算加减法
+加减乘除
+http://www.cnblogs.com/kiven-code/archive/2012/09/15/2686922.html
+// Iterative
+public int getSum(int a, int b) {
+	if (a == 0) return b;
+	if (b == 0) return a;
+
+	while (b != 0) {
+		int carry = a & b;
+		a = a ^ b;
+		b = carry << 1;
+	}
+	
+	return a;
+}
+
+// Iterative
+public int getSubtract(int a, int b) {
+	while (b != 0) {
+		int borrow = (~a) & b;
+		a = a ^ b;
+		b = borrow << 1;
+	}
+	
+	return a;
+}
+
+// Recursive
+public int getSum(int a, int b) {
+	return (b == 0) ? a : getSum(a ^ b, (a & b) << 1);
+}
+
+// Recursive
+public int getSubtract(int a, int b) {
+	return (b == 0) ? a : getSubtract(a ^ b, (~a & b) << 1);
+}
+
+// Get negative number
+public int negate(int x) {
+	return ~x + 1;
+}
+
+
+
+3. 倒水问题
+如何搜索
+http://blog.csdn.net/yzfuture2010/article/details/7877696
+用小桶容量的倍数对大桶的容量进行取余
+不断用小桶装水倒入大桶，大桶满了立即清空，每次判断下二个桶中水的容量是否等于指定容量
+http://blog.csdn.net/morewindows/article/details/7481851
+
+z = m * x + n * y
+其中m，n为舀水和倒水的次数，正数表示往里舀水，负数表示往外倒水，那么题目中的例子可以写成: 4 = (-2) * 3 + 2 * 5，即3升的水罐往外倒了两次水，5升水罐往里舀了两次水。那么问题就变成了对于任意给定的x,y,z，存不存在m和n使得上面的等式成立。根据裴蜀定理，ax + by = d的解为 d = gcd(x, y)，那么我们只要只要z % d == 0，上面的等式就有解，所以问题就迎刃而解了，我们只要看z是不是x和y的最大公约数的倍数就行了，别忘了还有个限制条件x + y >= z，因为x和y不可能称出比它们之和还多的水，参见代码如下
+http://www.cnblogs.com/grandyang/p/5628836.html
+
+
+如果互质，则生成1 x+y
+否则是他们最大公约数的倍数 到 x＋y
+public class Solution {
+    public boolean canMeasureWater(int x, int y, int z) {
+    //limit brought by the statement that water is finallly in one or both buckets
+    if(x + y < z) return false;
+    //case x or y is zero
+    if( x == z || y == z || x + y == z ) return true;
+    //互质肯定可以
+    //get GCD, then we can use the property of Bézout's identity
+    return z % GCD(x, y) == 0;
+}
+
+public int GCD(int a, int b){
+    while(b != 0){// b = a % b, a = temp
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+}
+4. 快速幂取模
+Super Pow
+http://www.cnblogs.com/wuyudong/p/3637479.html
+public class Solution {
+    private int mod = 1337;
+    public int superPow(int a, int[] b) {
+        int n = b.length;
+		int ans = 1;
+		for (int i = n - 1; i >= 0; i--) {
+			ans = ans * quick_pow(a, b[i]) % mod;
+			//先乘本位，再进位乘10
+			a = quick_pow(a, 10);
+		}
+		return ans;
+	}
+	
+	int quick_pow(int a, int b) {
+		int ans = 1;
+		a %= mod;
+		// b每次取一半
+		while (b > 0) {
+		    // 分奇数偶数
+			if ((b & 1) !=0) ans = ans * a % mod;//奇数多乘一个a
+			a = a * a % mod;
+			// b每次除2
+			b >>= 1;
+		}
+		return ans;
+    }
+}
+
+
+5. Power of N
+2, 
+public boolean isPowerOfTwo(int n) {
+        if(n<=0){
+            return false; 
+        }else{
+            return (n&n-1)==0;
+        }
+    }
+
+3.如果能被3整除就递归，直到1（通用公式）
+public class Solution {
+   public boolean isPowerOfThree(int n) {
+    return n>0 && (n==1 || (n%3==0 && isPowerOfThree(n/3)));
+}
+}
+
+4.  // 能被2整除， n -1  能被3整除
+public class Solution {
+    public boolean isPowerOfFour(int num) {
+    if (num <= 0) return false;
+    return (num & (num-1)) == 0 &&  num > 0 && (num - 1) %3==0;
+    }
+}
+
+
+
+
+6. self crossing
+小于三个方向，不可能相交
+http://www.cnblogs.com/grandyang/p/5216856.html
+
+三种相交情况：第4条与第1条， 第五条与第1条， 第6条与第1条，画图
+for从3开始， 3的情况， i>=4的情况， i>=5的情况
+
+// Categorize the self-crossing scenarios, there are 3 of them: 
+// 1. Fourth line crosses first line and works for fifth line crosses second line and so on...
+// 2. Fifth line meets first line and works for the lines after
+// 3. Sixth line crosses first line and works for the lines after
+public class Solution {
+    public boolean isSelfCrossing(int[] x) {
+        int l = x.length;
+        if(l <= 3) return false;
+        // 从3开始
+        for(int i = 3; i < l; i++){
+	    // 两对平行线，螺旋上升，不交
+            if(x[i] >= x[i-2] && x[i-1] <= x[i-3]) return true;  //Fourth line crosses first line and onward
+            if(i >=4)
+            {
+                if(x[i-1] == x[i-3] && x[i] + x[i-4] >= x[i-2]) return true; // Fifth line meets first line and onward
+            }
+            if(i >=5)
+            {
+                if(x[i-2] - x[i-4] >= 0 && x[i] >= x[i-2] - x[i-4] && x[i-1] >= x[i-3] - x[i-5] && x[i-1] <= x[i-3]) return true;  // Sixth line crosses first line and onward
+            }
+        }
+        return false;
+    }
+}
+
+7.矩阵相乘（稀疏）
+// 三重循环， i k（纽带）判是否为0 j（一个元素＋＝）
+public class Solution {
+    public int[][] multiply(int[][] A, int[][] B) {
+        int m = A.length, n = A[0].length, nB = B[0].length;
+        // Aab * bc = Cac
+        int[][] C = new int[m][nB];
+        
+        // i k j
+        for(int i = 0; i < m; i++) {
+            for(int k = 0; k < n; k++) {
+                if (A[i][k] != 0) {
+                    for (int j = 0; j < nB; j++) {
+                        if (B[k][j] != 0) C[i][j] += A[i][k] * B[k][j];
+                    }
+                }
+            }
+        }
+        return C;   
+    }
+}
+
+8. 一串数字第n位是什么数
+public class Solution {
+    public int findNthDigit(int n) {
+// find the length of the number where the nth digit is from
+// find the actual number where the nth digit is from
+// find the nth digit and return
+		int len = 1;
+		long count = 9;
+		int start = 1;
+		// 第n位数
+		while (n > len * count) {
+		
+			n -= len * count;
+			len += 1;
+			count *= 10;
+			start *= 10;//
+		}
+
+		start += (n - 1) / len;
+		String s = Integer.toString(start);
+		return Character.getNumericValue(s.charAt((n - 1) % len));
+	}
+}
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+GoogleTag1
+7. Bit, Math, Other Theme(流式读写，概率)
+	https://segmentfault.com/a/1190000003794420
+	1. 读写N个字符入数组，一次四个
+		指针步长为4从0-n，读一次得len，System.arraycopy一下，if len<4 说明读完，return
+	2. 可能被调用多次，故而不一定每次都要调用read4
+		while (ptr < n) i为总指针，ptr为进行指针（为0则读read4，读出之后ptr＋＋赋值），		如果读完清0
+	3. 高效生成随机数 ［不重复的随机数，用hash，越到后期越难］或者洗牌
+	http://blog.csdn.net/kangroger/article/details/39524825
+		 索引取值即为随机数，排序完之后即是洗牌，［用另外一个数组时间复杂度为n2］
+	for(int i = n; i>=1; --i)
+	{
+	int j=rand(i);//生成1-i之间的随机数
+	exchange(A[i],A[j]);//交换A[i]，A[j]
+	}
+	4. 打印质数
+		直接点： 对每一个数n， i ＝ 2； i＊i <= n; i ++  n%i == 0?
+		筛选法 i ＝2   i＊i <= n,    j   j*i < n      j*i的都不是质数
+	5. 一个数是不是powof2 return (n&n-1)==0;（除了小于0）
+	6. pow(x, n)
+		奇偶， 注意负数的时候单独计算（x * myPow(x, -(n + 1)); 防补码越界）
+	7. number of 1 bits	
+		n !=0  n >>>= 1(只会添0) n&1
+	8. 进制转换 一套符号表，然后 while ％7 取余 ？
+	9. 蓄水沟法的流式数据随机数
+	10. 蓄水沟法，有blacklist
+	11. 国家概率
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+Math GoogleTag2
+	1. 所有点有没有关于一条线对称
+		p［0］最大最小得中点，坐标做成存hashset里（省空间），
+		再看存不存在sum - p[0]) + "a" + p[1]， 全在则返回
+	14. 一个二维的range， 先求列和／或者行和，维护一个列和组，更新时原矩阵和列和组都更新
+
+	Bit
+	16. find difference
+		找两个字符串不同的地方－－以长的那一端末尾为起点c，亦或两个字符串每个点
+	17. 验证UTF－8
+	http://www.fgdsb.com/2015/01/10/valid-utf8/
+	https://leetcode.com/problems/utf-8-validation/	

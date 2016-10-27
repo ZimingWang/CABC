@@ -1,0 +1,731 @@
+ASCII码 128个
+字符串操作比字符数组操作慢？
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+单纯操作
+	1.reverse words in a string, [也可以全倒转，再把每一个倒转]
+	2.reverse String
+		不改动input，char[] str=s.toCharArray();
+		双指针， i < j (char 换)，new 一个String（str）返回
+	3.只reverse元音［重点考察双指针的掌握度］元音有10个
+		for(i<j)[if(){i++;continue;}if(j)j— continue]， switch(a){case ‘’:return;default:}
+	4. reverse string II
+		单写一个reverse函数，1.reverse整个，2.for每当遇到一个空格，reverse（start，i－ 1），置start ＝ i+1，3.reverse reverse(s, start, s.length - 1); 最后一个
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+转换应用
+	5. 给一个read4的接口，要求一次实现readN到数组里
+		一个buffer［4］，一个指针到N，一个endOfFile判断
+		while（<n && !end）— 先判断endFile
+	6. 可以多次读
+		buff［4］， ptr总指针，count＋ curpoint（读4清0）
+		1.	第一次调用时，如果read4读出的多余字符我们要先将其暂存起来，这		样第二次调用时先读取这些暂存的字符 		第二次调用时，如果连暂存字符都没读完，那么这些暂存字符还得留给第三		次调用时使用 	19. 数字从小到大转成字符序
+		 // 以不超过n为限制
+		 // 下一个数优先＊10 ， 10，100，1000等
+		 // 9结尾要注意，例如下一个不是20而是2
+		// 19 除到1，再加1跳到下一个
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+数字数学结合
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+聚组性质
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+substring[6道]
+	substring题模版
+	https://discuss.leetcode.com/topic/30941/here-is-a-10-line-template-that-can-solve-most-substring-problems
+	8.  在S all substring 找出最小包含T所有char的字符串［模版］
+	9. hashmapcode 模板 map.put(w, map.containsKey(w) ? map.get(w) + 1 : 1);
+		每一次copy一个新的，一直往后面比， remove和－1的区别
+	
+	10. 从左往右扫描，当遇到重复字母时，以上一个重复字母的index +1，作为新的搜索起始位置。without repeat
+	11，12 at mostK
+	 // 1. 总是先put
+       	 char c = s.charAt(i);
+       	 map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+      	  // 2. 达到要求了，更新全局（i － left）
+      	  if(map.size()>k){
+            maxLen=Math.max(maxLen, i - left);
+      	  // 3. 通过移动left打破平衡或者创造新的解  
+
+	16. longest substring at least k character
+	 频率集，每个字符试一遍，把小于k的做分割点，再在左右找，否则直接返回end-start+1
+needle
+KMP 专题
+	原始 O(mn)
+	
+	KMP O(m+n) 
+	建立一个前后公共前后缀数组 O（n）time O（n） Space
+	匹配O（m）
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+palindrome专题
+	7. 验证，除字母数字外都不算
+		同样方法，在正式判断前先来个if else挪动指针然后else 判断，一个不等直接返回false
+
+	13. 最长的回文子串
+		在外用low 和 max维护，每个点奇偶都扩一遍，low high更新
+	14. 最短的回文串，可以添加https://segmentfault.com/a/1190000003059361
+		即是找到原字符串中最长的回文串，
+	15. palindrome pairs
+		找出所有说substring看剩余的是不是字符串，http://www.cnblogs.com/grandyang/p/5272039.html
+		解法： 如果直接把原字符串倒过来粘一块，肯定可以，但是公共？
+	1. s + rev_s
+	2. find suffix and prefix longest
+		remove the longest suffixfromrevs
+	3. revers－suffx ＋ s
+	https://www.youtube.com/watch?v=c4akpqTwE5g
+	https://github.com/IDeserve/learn/blob/master/ShortestPalindrome.java
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+subsequence 专题
+	17. s是否是t的子序列
+	双指针，用t去比较s
+
+	20. 能否从一个字符串取元素，组成另外一个
+		开一个26的频率表
+		让另外一个去取
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+Other
+	18.第一个不重复的字符［重复的可以用hashset］
+	先用频率表扫一遍，
+	再看第一个频率为1的
+		s.charAt(i) - 'a'
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+20.
+public boolean canConstruct(String ransomNote, String magazine) {
+        int[] arr = new int[26];
+        for (int i = 0; i < magazine.length(); i++) {
+            arr[magazine.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < ransomNote.length(); i++) {
+            if(--arr[ransomNote.charAt(i)-'a'] < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+19.
+public class Solution {
+    public List<Integer> lexicalOrder(int n) {
+        List<Integer> list = new ArrayList<>(n);
+        int curr = 1;
+        for (int i = 1; i <= n; i++) {
+            list.add(curr);
+            // 以不超过n为限制
+            if (curr * 10 <= n) {
+                // 下一个数优先＊10 ， 10，100，1000等
+                curr *= 10;
+            } else if (curr % 10 != 9 && curr + 1 <= n) {
+                // 9结尾要注意，例如下一个不是20而是2
+                curr++;
+            } else {
+                // 19 除到1，再加1跳到下一个
+                while ((curr / 10) % 10 == 9) {
+                    curr /= 10;
+                }
+                curr = curr / 10 + 1;
+            }
+        }
+        return list;
+    }
+}
+
+public class Solution {
+    public List<Integer> lexicalOrder(int n) {
+        List<Integer> res = new ArrayList<>();
+        for(int i = 1;i < 10;++i){
+          dfs(i, n, res); 
+        }
+        return res;
+    }
+    
+    public void dfs(int cur, int n, List<Integer> res){
+    // 数字大于n就返回
+        if(cur>n)
+            return;
+        else{
+            // 先加上去
+            res.add(cur);
+            // 一个数1 － 10循环 // 10*cur + i 
+            for(int i = 0; i < 10; ++i){
+                if(10*cur+i>n)
+                    return;
+                dfs(10*cur+i, n, res);
+            }
+        }
+    }
+}
+18.
+public class Solution {
+    public int firstUniqChar(String s) {
+        int freq [] = new int[26];
+        for(int i = 0; i < s.length(); i ++)
+            freq [s.charAt(i) - 'a'] ++;
+        for(int i = 0; i < s.length(); i ++)
+            if(freq [s.charAt(i) - 'a'] == 1)
+                return i;
+        return -1;
+    }
+}
+17.
+public class Solution {
+    public boolean isSubsequence(String s, String t) {
+        if (s.length() == 0) return true;
+        int indexS = 0, indexT = 0;
+        while (indexT < t.length()) {
+            if (t.charAt(indexT) == s.charAt(indexS)) {
+                indexS++;
+                if (indexS == s.length()) return true;
+            }
+            indexT++;
+        }
+        return false;
+    }
+}
+
+1.
+public class Solution {
+    public String reverseWords(String s) {
+        String[] parts = s.trim().split("\\s+");//标准字符处理先trim再按空格分
+        String out = "";
+        if (parts.length > 0) {
+             for (int i = parts.length - 1; i > 0; i--) {
+             out += parts[i] + " ";
+            }//前n-1个每加一个加 " "
+             out += parts[0];//最后单独补上，concate或者append会不会好点
+        }
+            return out;
+
+    }
+}
+
+2.
+public class Solution {
+    public String reverseString(String s) {
+        int i=0,j=s.length()-1;
+        char[] str=s.toCharArray();
+        while(i<j){
+           char temp=str[i];
+           str[i]=str[j];
+           str[j]=temp;
+            i++;
+            j--;
+        }
+        String ss=new String(str);
+        return ss;
+    }
+}
+
+3.
+public class Solution {
+    public String reverseVowels(String s) {
+        char[] list=s.toCharArray();
+        for(int i=0,j=list.length-1;i<j;){
+            if(!isVowel(list[i])){
+                i++;
+                continue;
+            }
+            if(!isVowel(list[j])){
+                j--;
+                continue;
+            }
+            char temp=list[i];
+            list[i]=list[j];
+            list[j]=temp;
+            i++;
+            j--;
+        }
+        return String.valueOf(list);
+    }
+    public static boolean isVowel(char a){
+	    switch(a){
+	         case ('a') : return true;
+	         case ('e') : return true;
+	         case ('i') : return true;
+	         case ('o') : return true;
+	         case ('u') : return true;
+	         case ('A') : return true;
+	         case ('E') : return true;
+	         case ('I') : return true;
+	         case ('O') : return true;
+	         case ('U') : return true;
+	         default : return false;
+	    }
+    }
+}
+4.
+public class Solution {
+    public void reverseWords(char[] s) {
+    // Three step to reverse
+    // 1, reverse the whole sentence
+    reverse(s, 0, s.length - 1);
+    // 2, reverse each word
+    int start = 0;
+    for (int i = 0; i < s.length; i++) {
+        if (s[i] == ' ') {//找到一个空之后从start到n-1,双指针
+            reverse(s, start, i - 1);
+            start = i + 1;
+        }
+    }
+    // 3, reverse the last word, if there is only one word this will solve the corner case
+    reverse(s, start, s.length - 1);//corner case
+}
+
+public void reverse(char[] s, int start, int end) {
+    while (start < end) {
+        char temp = s[start];
+        s[start] = s[end];
+        s[end] = temp;
+        start++;
+        end--;
+    }
+}//reverse 单独写一个函数，双指针，三步交换
+}
+
+
+5.
+public int read(char[] buf, int n) {
+
+        char[] buffer = new char[4];
+        boolean endOfFile = false;
+        int readBytes = 0;
+
+        while (readBytes < n && !endOfFile) {//未到达n以及未到终点
+            int currReadBytes = read4(buffer);
+            if (currReadBytes != 4) {
+                endOfFile = true;
+            }//用read4读入到buffer read 4 不等于4 则endOffile 
+            int length = Math.min(n - readBytes, currReadBytes);//前一个为了防止溢出
+            for (int i=0; i < length; i++) {
+                buf[readBytes + i] = buffer[i];
+            }//把读到的从readed＋1赋到length长
+            readBytes += length;//readed bytes
+        }
+        return readBytes;
+    }
+6.
+private int buffPtr = 0;
+    private int buffCnt = 0;
+    private char[] buff = new char[4];
+    public int read(char[] buf, int n) {
+        int ptr = 0;
+        while (ptr < n) {
+            if (buffPtr == 0) {
+                buffCount = read4(buff);
+            }
+            if (buffCnt == 0) break; //读不出来就break
+            while (ptr < n && buffPtr < buffCount) {
+                buf[ptr++] = buff[buffPtr++]; //一个一个读出来，buffPtr相当于指针
+            }
+            // 读完就清0
+            if (buffPtr == buffCount) buffPtr = 0; //buffPtr相当于指针，每一次清0
+        }
+        return ptr; //返回一共读了多少
+    }
+
+7. 
+public boolean isPalindrome(String s) {
+        if (s.isEmpty()) {
+            return true;
+        }
+        int head = 0, tail = s.length() - 1;
+        char cHead, cTail;
+        while(head < tail) {
+            cHead = s.charAt(head);
+            cTail = s.charAt(tail);
+            if (!Character.isLetterOrDigit(cHead)) {
+                head++;
+            } else if(!Character.isLetterOrDigit(cTail)) {
+                tail--;
+            }//只判断字母和数字
+            
+            else {
+                if (Character.toLowerCase(cHead) != Character.toLowerCase(cTail)) {
+                    return false;
+                }
+                head++;
+                tail--;
+            }
+        }
+
+        return true;
+    }
+8.
+public class Solution {
+   public String minWindow(String s, String t) {
+    if(s == null || s.length() < t.length() || s.length() == 0){
+        return "";
+    }
+    HashMap<Character,Integer> map = new HashMap<Character,Integer>();
+    //  把t的char先存起来 
+    for(char c : t.toCharArray()){
+        if (map.containsKey(c)){
+            map.put(c,map.get(c)+1);
+        } else {
+            map.put(c,1);
+        }
+    }
+    int left = 0;
+    
+    // 记录边界
+    int minLeft = 0;
+    int minLen = s.length() +1;
+    
+    int count = 0;
+    for(int right = 0; right < s.length(); right++){
+        if(map.containsKey(s.charAt(right))){
+            map.put(s.charAt(right),map.get(s.charAt(right))-1);
+            if(map.get(s.charAt(right)) >= 0){
+                count ++;
+            }
+            //找到一组解，更新全局, left++
+            while(count == t.length()){
+                if(right-left+1 < minLen){
+                    minLeft = left;
+                    minLen = right-left+1;
+                }
+                // 去掉left之后得补缺，所以逆操作一次
+                if(map.containsKey(s.charAt(left))){
+                    map.put(s.charAt(left),map.get(s.charAt(left))+1);
+                    if(map.get(s.charAt(left)) > 0){
+                        count--;
+                    }
+                }
+                left ++ ;
+            }
+        }
+    }
+    // 没有存在的（看初始化的值）返回空
+    return (minLen == s.length() + 1) ? "" :  s.substring(minLeft,minLeft+minLen);
+}
+}
+
+9.
+public class Solution {
+    public static List<Integer> findSubstring(String S, String[] L) {
+    List<Integer> res = new ArrayList<Integer>();
+    if (S == null || L == null || L.length == 0) return res;
+    
+    int len = L[0].length(); // length of each word
+    
+    Map<String, Integer> map = new HashMap<String, Integer>(); // map for L
+    for (String w : L) {
+        map.put(w, map.containsKey(w) ? map.get(w) + 1 : 1);
+    }    
+    // 最多找到S.length() - len * L.length为止，类似查字符串
+    for (int i = 0; i <= S.length() - len * L.length; i++) {
+        // 每一次copy一遍目标数组
+        Map<String, Integer> copy = new HashMap<String, Integer>(map);
+        for (int j = 0; j < L.length; j++) { 
+            // 以i为start，遍历后面substring
+            String str = S.substring(i + j*len, i + j*len + len); // next word
+            if (copy.containsKey(str)) { // is in remaining words
+                int count = copy.get(str);
+                // 注意只剩一个和为0的情况，剩一个就remove掉key
+                if (count == 1) copy.remove(str);
+                else copy.put(str, count - 1);
+                if (copy.isEmpty()) { //找空了也不用比了
+                    res.add(i);
+                    break;
+                }// 一个不对，之后都不用比了
+            } else break; // not in L
+        }
+    }
+    return res;
+}
+}
+
+10.
+public class Solution {
+    // "pwwkew" "wke"
+    public int lengthOfLongestSubstring(String s) {
+        if (s.length() == 0) return 0;
+        // 双指针 加 hashmap －－ 标准解法
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        int max = 0;
+        int j = 0;
+        for (int i = 0; i < s.length(); i++){
+            // 有的更新位置 
+            if (map.containsKey(s.charAt(i))){
+                j = Math.max(j, map.get(s.charAt(i)) + 1);
+            }
+            // 每个char存它的位置
+            map.put(s.charAt(i), i);
+            // 更新长度，要是返回结果也用这个
+            max = Math.max(max, i - j + 1);
+        }
+        return max;
+    }
+}
+
+
+11.12
+public class Solution {
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+    if(k==0 || s==null || s.length()==0)
+        return 0;
+ 
+    if(s.length() < k)
+        return s.length();
+ 
+    HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+    
+    int maxLen = k;
+    int left = 0;
+    for(int i = 0; i < s.length(); i++){
+        // 1. 总是先put
+        char c = s.charAt(i);
+        map.put(c, map.containsKey(c) ? map.get(c) + 1 : 1);
+        // 2. 达到要求了，更新全局（i － left）
+        if(map.size()>k){
+            maxLen=Math.max(maxLen, i - left);
+        // 3. 通过移动left打破平衡或者创造新的解    
+            while(map.size()>k){
+                char fc = s.charAt(left);
+                if(map.get(fc)==1){
+                    map.remove(fc);
+                }else{
+                    map.put(fc, map.get(fc)-1);
+                }
+                left++;
+            }
+        }
+ 
+    }
+    // 遍历完之后看最后一个可能的解符不符合
+    maxLen = Math.max(maxLen, s.length()-left);
+    return maxLen;
+}
+}
+
+13.
+public class Solution {
+private int lo, maxLen;//全局变量,维护确定substring位置
+
+public String longestPalindrome(String s) {
+    int len = s.length();
+    if (len < 2)
+        return s;
+
+    for (int i = 0; i < len - 1; i++) { // 每一个位置都扩一次
+        extendPalindrome(s, i, i);  // assume odd length, try to extend Palindrome as possible
+        extendPalindrome(s, i, i + 1); // assume even length
+    }
+    return s.substring(lo, lo + maxLen);
+}
+// j, k 是两边的boundary s.charAt(j) == s.charAt(k)就扩张
+private void extendPalindrome(String s, int j, int k) {
+    while (j >= 0 && k < s.length() && s.charAt(j) == s.charAt(k)) {
+        j--;
+        k++;
+    }//在边界内扩张
+    // 如果超过最大就更新
+    if (maxLen < k - j - 1) {
+        lo = j + 1;
+        maxLen = k - j - 1;//把值赋给全局变量//打擂台，随时更新
+    }
+}
+}
+
+14.
+public class Solution {
+    public String shortestPalindrome(String s) {
+        StringBuilder builder = new StringBuilder(s);
+        return builder.reverse().substring(0, s.length() - getCommonLength(s)) + s;
+    }
+
+    private int getCommonLength(String str) {
+        StringBuilder builder = new StringBuilder(str);
+        String rev = new StringBuilder(str).reverse().toString();
+        //use special character to avoid overlap
+        builder.append("#").append(rev);
+        // 建kmp same prefix suffix数组
+        int[] p = new int[builder.length()];
+        
+        for (int i = 1; i < p.length; i++) {
+            int j = p[i - 1];
+            //j是指针，每当遇到不等了，则倒退到前一个元素值所指的位置
+            while (j > 0 && builder.charAt(i) != builder.charAt(j)) j = p[j - 1];
+            //退回原点了，开始比较，否则为j＋1
+            p[i] = (j == 0) ? (builder.charAt(i) == builder.charAt(0) ? 1 : 0) : j + 1;
+        }
+        return p[p.length - 1];
+    }
+}
+
+15.
+public class Solution {
+    public List<List<Integer>> palindromePairs(String[] words) {
+    List<List<Integer>> pairs = new LinkedList<>();// 多次插删用linkedlist比较好
+    if (words == null) return pairs;
+    HashMap<String, Integer> map = new HashMap<>();
+    
+    // 存好word的出现位置
+    for (int i = 0; i < words.length; ++ i) map.put(words[i], i);
+    
+    // 遍历word
+    for (int i = 0; i < words.length; ++ i) {
+        // 遍历双指针,取出所有的substring，基本操作 
+        int l = 0, r = 0;
+        while (l <= r) {
+            String s = words[i].substring(l, r);
+            Integer j = map.get(new StringBuilder(s).reverse().toString());
+            // reverse能够找到，而且不是一个组 例如aba和aba
+            // l == 0 那么是从 r到 words[i].length() 即是abcdd翻转后为与bca   dcb和aabcd［看粘在前面还是后面］ 
+            if (j != null && i != j && isPalindrome(words[i].substring(l == 0 ? r : 0, l == 0 ? words[i].length() : l)))
+                // 就加上去［看粘在前面还是后面］ 顺序不能乱
+                pairs.add(Arrays.asList(l == 0 ? new Integer[]{i, j} : new Integer[]{j, i}));
+            // 取出所有的substring，基本操作 
+            if (r < words[i].length()) ++r;
+            else ++l;
+        }
+    }
+    return pairs;
+}
+//  空的也是true
+private boolean isPalindrome(String s) {
+    for (int i = 0; i < s.length()/2; ++ i)
+        if (s.charAt(i) != s.charAt(s.length()-1-i))
+            return false;
+    return true;
+}
+}
+
+
+	1.	public class KMP {  
+	2.	  
+	3.	    void getNext(String pattern, int next[]) {  
+	4.	        int j = 0;  
+	5.	        int k = -1;  
+	6.	        int len = pattern.length();  
+	7.	        next[0] = -1;  
+	8.	  
+	9.	        while (j < len - 1) {  
+	10.	            if (k == -1 || pattern.charAt(k) == pattern.charAt(j)) {  
+	11.	  
+	12.	                j++;  
+	13.	                k++;  
+	14.	                next[j] = k;  
+	15.	            } else {  
+	16.	  
+	17.	                // 比较到第K个字符，说明p[0——k-1]字符串和p[j-k——j-1]字符串相等，而next[k]表示  
+	18.	                // p[0——k-1]的前缀和后缀的最长共有长度，所接下来可以直接比较p[next[k]]和p[j]  
+	19.	                k = next[k];  
+	20.	            }  
+	21.	        }  
+	22.	  
+	23.	    }  
+	24.	  
+	25.	    int kmp(String s, String pattern) {  
+	26.	        int i = 0;  
+	27.	        int j = 0;  
+	28.	        int slen = s.length();  
+	29.	        int plen = pattern.length();  
+	30.	  
+	31.	        int[] next = new int[plen];  
+	32.	  
+	33.	        getNext(pattern, next);  
+	34.	  
+	35.	        while (i < slen && j < plen) {  
+	36.	  
+	37.	            if (s.charAt(i) == pattern.charAt(j)) {  
+	38.	                i++;  
+	39.	                j++;  
+	40.	            } else {  
+	41.	                if (next[j] == -1) {  
+	42.	                    i++;  
+	43.	                    j = 0;  
+	44.	                } else {  
+	45.	                    j = next[j];  
+	46.	                }  
+	47.	  
+	48.	            }  
+	49.	  
+	50.	            if (j == plen) {  
+	51.	                return i - j;  
+	52.	            }  
+	53.	        }  
+	54.	        return -1;  
+	55.	    }  
+	56.	  
+	57.	    /** 
+	58.	     * @param args 
+	59.	     */  
+	60.	    public static void main(String[] args) {  
+	61.	        // TODO Auto-generated method stub  
+	62.	        KMP kmp = new KMP();  
+	63.	        String str = "abababdafdasabcfdfeaba";  
+	64.	        String pattern = "abc";  
+	65.	        System.out.println(kmp.kmp(str, pattern));  
+	66.	    }  
+	67.	  
+	68.	}  
+
+16.
+public class Solution {
+public int longestSubstring(String s, int k) {
+    char[] str = s.toCharArray();
+    return helper(str,0,s.length() - 1,k);
+}
+private int helper(char[] str, int start, int end,  int k){
+    if(end < start) return 0;
+    if(end - start + 1< k) return 0;//substring length shorter than k.
+    // 字符串如果能用count数组最好用
+    int[] count = new int[26];
+    // 纪录频率
+    for(int i = start;i <= end;i++){
+        int idx = str[i] - 'a';
+        count[idx]++;
+    }
+    // 每个字符检查一次
+    for(int i = 0; i < 26; i++){
+        // 字母不存在
+        if(count[i] == 0) continue;
+        //  不合法的字符，切开
+        if(count[i] < k){
+            // 在start到end范围内
+            for(int j = start; j <= end; j++){
+                // 找到这个不合法字符出现的位置
+                if(str[j] == i + 'a'){
+                    // 左右递归找子结果
+                    int left = helper(str, start, j - 1, k);
+                    int right = helper(str, j + 1, end, k);
+                    return Math.max(left, right);
+                }
+            }
+        }
+    }
+    return end - start + 1;
+    }
+}
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+GoogleTag1
+9. String
+	1. encode decode strings
+		  长度＋／＋字符串
+		i指针，s.indexOf('/', i);  i～slash（数字）取出来长度字符
+		i＝ slash + size + 1更新到下一个
+	2. group shift strings（RotK）
+		hash map，用位移做Key
+		key += String.format("%d", (s.charAt(i) - s.charAt(i-1) + 26) % 		26);//offset，the way
+	3. String decode 3[a]10[b]
+	4. text justification
+	http://www.cnblogs.com/springfor/p/3896168.html
+	5. word warp 
+	https://zh.wikipedia.org/wiki/%E8%87%AA%E5%8A%A8%E6%8D%A2%E8%A1%8C
+	最小长度（直接贪心加）
+	最小破损度（行尾空格数的平方和最小）
+	 lc[i][j] indicates the cost to put words from i to j in a single line where i and j are indexes of words in the input sequences.
+	C[j] is the optimized total cost for arranging words from 1 to j.
+	// extras[i][j] will have number of extra spaces if words from i 
+    // to j are put in a single line
+	6. simplify path
+	7. 一个字符串的permu是否能组成palin
+	一个set，contains就remove，否则就add，看最后size0还是1
+	8.palindrom permutation
+	9. Longest Palindromic Substring
+		每个点奇偶扩一次
+	10. palindrome pair
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+GoogleTag2
+ String（典型题）
+	33.  把字符至少隔开K个位置
+		map存频数，heap存map（大到小） queue定距离K
+	34.  Decode String
+		（全局指针while）次数栈，结果栈， 遇到数字，遇到［ 遇到］，遇到字符

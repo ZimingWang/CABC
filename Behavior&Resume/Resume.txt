@@ -1,0 +1,29 @@
+0.先问面试官做什么，再说自己简历或者兴趣经历
+
+	
+	1.聊projects—要与zillow现有技术做对应
+		Individual－spark streaming（still batch） kafka cassandra（一直以为最强，但）
+			    Mesos， 
+		CC － 1.db schema trick， 2.ETL hard， 
+		      3.deadline cost method［fancy never works］ 
+			4.读写方案trick［hashmap，as cache db］
+		SSNoC： P2P，B/S   ［理念enough］	javascript［能用写的都］，团队模式＋paperwork
+		Guuber： 怎么收费的trick，模型  socket通信
+		Ad Search Scrapy ScrapyJs［内置引擎生成网页］Meteor
+		
+		Internship： Design Accelerator for Tableau
+			     1.理念［join plan］
+			     2.Scala－jvm－sparksql－－》correctness
+			     3.Hive－SourceCode－Jmeter
+			     4.UI， SparkUI －－ redesign
+	2.Projects: Describe a time when you had a conflict with your teammates? 
+	        Team Project, own interests in project direction. 
+        3.What’s your biggest achievement in life?.
+		Make the right decision — attending the information revolution.
+	4.What is one thing you don't like about this workplace/office?  	
+		Quite－－no communication－－－of course too much is not good
+	5.Explain a situation where you had to manage accuracy vs urgency?
+		CC，
+	6.How do you keep up to date with recent technological developments?  
+		InfoQ， Quora，Linkedin，BigCompany TechBlog，Github， Tech meeting， 		Academic paper［the most important is be interested and with passion about it］
+	7.Describe your Master’s thesis[另一篇论文] 

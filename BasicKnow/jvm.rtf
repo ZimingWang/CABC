@@ -1,0 +1,178 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1347\cocoasubrtf570
+{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\fnil\fcharset134 STHeitiSC-Light;\f2\fnil\fcharset0 Menlo-Regular;
+}
+{\colortbl;\red255\green255\blue255;\red67\green67\blue67;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://www.codeceo.com/article/jvm-stack-heap.html"}}{\fldrslt 
+\f0\fs28 \cf2 \expnd0\expndtw0\kerning0
+http://www.codeceo.com/article/jvm-stack-heap.html}}
+\f0\fs28 \cf2 \expnd0\expndtw0\kerning0
+ \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
+
+\f1\fs24 \cf0 \kerning1\expnd0\expndtw0 \'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd
+\f2 \uc0\u8232 1.JVM\u8232 an abstract computing machine\u8232 \u8232 2.Implementation: \u8232 2.1 GC 
+\f1 \'cb\'e3\'b7\'a8\'ca\'b5\'cf\'d6
+\f2  (Implementation of JVM
+\f1 \'d2\'b2\'b1\'bb\'b3\'c6\'ce\'aa
+\f2 JRE, java runtime environment)\uc0\u8232 2.2 Instance: 
+\f1 \'d6\'b4\'d0\'d0
+\f2 JAVA
+\f1 \'b3\'cc\'d0\'f2\'b5\'c4
+\f2  JVM
+\f1 \'ca\'b5\'c0\'fd
+\f2 , 
+\f1 \'c6\'e4\'c9\'fa\'c3\'fc\'d6\'dc\'c6\'da\'cb\'e6\'d7\'c5
+\f2 JAVA
+\f1 \'b3\'cc\'d0\'f2\'b5\'c4\'bf\'aa\'ca\'bc\'b6\'f8\'bf\'aa\'ca\'bc\'a3\'ac\'d2\'b2\'cb\'e6\'d7\'c5
+\f2 JAVA
+\f1 \'b3\'cc\'d0\'f2\'b5\'c4\'bd\'e1\'ca\'f8\'b6\'f8\'bd\'e1\'ca\'f8\'a3\'ac\'c3\'bf\'b8\'f6
+\f2 JAVA
+\f1 \'b3\'cc\'d0\'f2\'b6\'bc\'b8\'f7\'d7\'d4\'d4\'da\'d2\'bb\'b8\'f6
+\f2 JVM instance
+\f1 \'c0\'ef\'c3\'e6\'d4\'cb\'d0\'d0
+\f2 , 
+\f1 \'b5\'ab\'ca\'c7\'d2\'bb\'b8\'f6
+\f2 JAVA
+\f1 \'b3\'cc\'d0\'f2\'c8\'e7\'b9\'fb\'d3\'d0
+\f2 multithread, 
+\f1 \'d6\'bb\'bb\'e1\'d4\'da\'d2\'bb\'b8\'f6
+\f2 Instance
+\f1 \'c0\'ef\'c3\'e6\'d4\'cb\'d0\'d0\'a1\'a3
+\f2 \uc0\u8232 \u8232 \u8232 2.3\u8232 Loads code\u8232 Verifies code\u8232 Executes code\u8232 Provides runtime environment\u8232 \u8232 \u8232 \u8232 2.4\u8232 Memory area\u8232 Class file format\u8232 Register set\u8232 Garbage-collected heap\u8232 Fatal error reporting etc.\u8232 \u8232 \u8232 \u8232 2.5 
+\f1 \'d6\'b4\'d0\'d0\'b9\'fd\'b3\'cc
+\f2 \uc0\u8232 
+\f1 \'b1\'e0\'d2\'eb\'b3\'c9
+\f2 class
+\f1 \'ce\'c4\'bc\'fe
+\f2 \uc0\u8232 class loader 
+\f1 \'b0\'d1\'cb\'f9\'d3\'d0
+\f2  
+\f1 \'d2\'fd\'d3\'c3\'b5\'c8
+\f2  class 
+\f1 \'ce\'c4\'bc\'fe
+\f2 load
+\f1 \'b5\'bd
+\f2 RAM
+\f1 \'c0\'ef
+\f2 \uc0\u8232 \u8232 byte code instruction 
+\f1 \'a3\'ad\'a3\'ad\'a3\'ad\'a3\'ad
+\f2  execution engine\uc0\u8232 \u8232 execution engine
+\f1 \'b5\'f7
+\f2 native method call 
+\f1 \'d6\'b4\'d0\'d0\'a3\'a8\'b4\'d3
+\f2 OS
+\f1 \'c0\'ef\'a3\'a9
+\f2 \uc0\u8232 \u8232 \u8232 \u8232 1.Loader subsystem \u8232  loader subsystem:\u8232 load:\u8232 Application class loader: 
+\f1 \'d6\'f7\'d2\'aa\'ca\'c7
+\f2 load
+\f1 \'bf\'aa\'b7\'a2\'d5\'df\'b5\'c4
+\f2 .class
+\f1 \'ce\'c4\'bc\'fe
+\f2 \uc0\u8232 Bootstrap class loader: load JAVA API 
+\f1 \'b5\'c4
+\f2  .class
+\f1 \'ce\'c4\'bc\'fe
+\f2 \uc0\u8232 link
+\f1 \'a3\'ba
+\f2 \uc0\u8232 Verify, 
+\f1 \'d6\'f7\'d2\'aa\'bc\'ec\'b2\'e9
+\f2 class
+\f1 \'ba\'cd
+\f2 interface
+\f1 \'bd\'e1\'b9\'b9\'b5\'c4\'d5\'fd\'c8\'b7\'d0\'d4
+\f2 \uc0\u8232 Prepare, 
+\f1 \'d3\'c3\'d3\'da
+\f2 allocate memory
+\f1 \'b8\'f8
+\f2 .class file
+\f1 \'c0\'ef\'c3\'e6\'b5\'c4
+\f2 static variables\uc0\u8232 Resolve, 
+\f1 \'d6\'f7\'d2\'aa\'ca\'c7\'bd\'ab
+\f2 symbolic reference
+\f1 \'b8\'c4\'b3\'c9\'be\'df\'cc\'e5\'b5\'c4\'d2\'bb\'b8\'f6\'d6\'b5
+\f2 \uc0\u8232 initialize:\u8232 
+\f1 \'d6\'f7\'d2\'aa\'bd\'f8\'d0\'d0
+\f2 class
+\f1 \'ba\'cd
+\f2 interface
+\f1 \'b5\'c4\'b3\'f5\'ca\'bc\'bb\'af
+\f2 \uc0\u8232 \u8232 \u8232 \u8232 2.Run time data area:\u8232 Method(class) data: 
+\f1 \'d6\'f7\'d2\'aa\'d3\'c3\'d3\'da\'b4\'a2\'b4\'e6
+\f2 class
+\f1 \'b5\'c4\'b6\'a8\'d2\'e5\'a3\'ac\'c1\'ed\'cd\'e2\'bb\'b9\'d3\'d0
+\f2 method data, field, 
+\f1 \'ba\'cd
+\f2 method
+\f1 \'b5\'c4
+\f2 code\uc0\u8232 Heap: 
+\f1 \'d6\'f7\'d2\'aa\'d3\'c3\'d3\'da\'b4\'a2\'b4\'e6\'b3\'cc\'d0\'f2\'d4\'cb\'d0\'d0\'ca\'b1\'cb\'f9\'b2\'fa\'c9\'fa\'b5\'c4
+\f2 Object \uc0\u8232 PC Register: 
+\f1 \'c8\'ab\'b3\'c6\'ca\'c7
+\f2 program counter register, 
+\f1 \'d6\'f7\'d2\'aa\'d3\'c3\'d3\'da\'b4\'e6\'b7\'c5\'cf\'c2\'d2\'bb\'b8\'f6
+\f2 JVM instruction
+\f1 \'b5\'c4
+\f2 reference\uc0\u8232 JAVA Stack
+\f1 \'a3\'ba\'d6\'f7\'d2\'aa\'d3\'c3\'d3\'da\'b4\'a2\'b4\'e6
+\f2 method
+\f1 \'d4\'cb\'d0\'d0\'ca\'b1\'b5\'c4\'ca\'fd\'be\'dd\'a3\'ac
+\f2 \uc0\u8232 Native method stack: 
+\f1 \'d5\'e2\'ca\'c7
+\f2 native method
+\f1 \'b1\'bb\'d6\'b4\'d0\'d0\'b5\'c4\'b5\'d8\'b7\'bd
+\f2 . Native method
+\f1 \'be\'cd\'ca\'c7\'d3\'c3\'b1\'f0\'b5\'c4\'d3\'ef\'d1\'d4\'d0\'b4\'b3\'f6\'c0\'b4\'b5\'c4\'b1\'e0\'b3\'cc\'d3\'ef\'d1\'d4
+\f2  \uc0\u8232 \u8232 \u8232 \u8232 3.Execution Engine:\u8232 Interpreter
+\f1 \'a3\'ba\'d6\'f7\'d2\'aa\'b9\'a6\'c4\'dc\'ca\'c7\'b6\'c1
+\f2 bytecode
+\f1 \'a3\'ac\'c8\'bb\'ba\'f3\'d6\'b4\'d0\'d0\'cf\'e0\'b6\'d4\'d3\'a6\'b5\'c4
+\f2 instructions.\uc0\u8232 JIT(Just-in-time) Compiler
+\f1 \'a3\'ba\'d5\'e2\'b8\'f6\'b2\'bf\'b7\'d6\'d6\'f7\'d2\'aa\'ca\'c7\'d3\'c3\'d2\'d4\'d3\'c5\'bb\'af
+\f2 execution engine
+\f1 \'b5\'c4\'d0\'d4\'c4\'dc\'a3\'ac\'d2\'bb\'b0\'e3
+\f2 execution engine
+\f1 \'bb\'e1\'cf\'c8\'d3\'c3
+\f2 interpreter
+\f1 \'c8\'a5\'bd\'e2\'ca\'cd
+\f2 bytecode, 
+\f1 \'c8\'bb\'ba\'f3\'d6\'b4\'d0\'d0\'b6\'d4\'d3\'a6\'b5\'c4\'c3\'fc\'c1\'ee\'a1\'a3\'d4\'da\'ba\'dc\'b6\'e0\'ca\'b1\'ba\'f2\'a3\'ac
+\f2 JIT compliler
+\f1 \'bf\'c9\'d2\'d4\'bd\'ab\'cf\'e0\'c0\'e0\'cb\'c6\'b5\'c4
+\f2 bytecode
+\f1 \'b6\'bc\'b7\'ad\'d2\'eb\'b3\'c9
+\f2 native code
+\f1 \'a3\'ac\'c8\'bb\'ba\'f3\'d6\'b1\'bd\'d3\'d4\'cb\'d0\'d0\'a1\'a3\'d6\'b1\'bd\'d3\'d6\'b4\'d0\'d0
+\f2 native code
+\f1 \'bb\'e1\'b1\'c8
+\f2 bytecode
+\f1 \'bf\'ec\'a1\'a3
+\f2 \uc0\u8232 Hotspot profiler: 
+\f1 \'d5\'e2\'b8\'f6\'b2\'bf\'b7\'d6\'d2\'b2\'ca\'c7\'d3\'c3\'c0\'b4\'d3\'c5\'bb\'af\'d0\'d4\'c4\'dc\'b5\'c4\'a3\'ac\'b5\'b1\'c4\'b3\'d0\'a9
+\f2 method
+\f1 \'b1\'bb\'b6\'e0\'b4\'ce\'ca\'b9\'d3\'c3\'ca\'b1\'a3\'ac
+\f2 Hotspot
+\f1 \'d5\'e2\'b8\'f6\'b2\'bf\'b7\'d6\'be\'cd\'bb\'e1\'d3\'c3
+\f2 profiler
+\f1 \'c8\'a5\'bc\'c7\'c2\'bc\'c4\'c7\'d0\'a9
+\f2 method
+\f1 \'cb\'f9\'b6\'d4\'d3\'a6\'b5\'c4
+\f2 native code
+\f1 \'a3\'ac
+\f2  
+\f1 \'d5\'e2\'d1\'f9\'be\'cd\'bf\'c9\'d2\'d4\'d6\'b1\'bd\'d3\'d3\'c3
+\f2 native code
+\f1 \'b6\'f8\'b2\'bb\'ca\'c7
+\f2 byte code
+\f1 \'c1\'cb\'a1\'a3
+\f2 \uc0\u8232 Garbage collector: 
+\f1 \'d5\'e2\'b8\'f6\'b2\'bf\'b7\'d6\'d6\'f7\'d2\'aa\'b8\'ba\'d4\'f0\'c4\'da\'b4\'e6\'b5\'c4\'b9\'dc\'c0\'ed\'a3\'ac\'b5\'b1\'b3\'cc\'d0\'f2\'d6\'d0\'b5\'c4
+\f2 object
+\f1 \'b2\'bb\'d4\'d9\'b1\'bb\'d3\'c3\'b5\'c4\'ca\'b1\'ba\'f2\'a3\'ac
+\f2 garbage collector
+\f1 \'bb\'e1\'bd\'ab\'c6\'e4\'c9\'be\'b3\'fd\'a1\'a3
+\f2 \uc0\u8232 
+\f1 \'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd
+\f2 \uc0\u8232 \u8232 \u8232 \u8232 \u8232 \u8232 }

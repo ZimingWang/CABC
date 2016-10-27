@@ -1,0 +1,10 @@
+1.明天Array［Sort&流处理］& String［补充一些］ Math［原笔记剩下的＋leetcode挑选不含其它tag＋高频］
+http://flyingcat2013.blog.51cto.com/7061638/1281026
+http://blog.csdn.net/monkeyduck/article/details/44560109
+2.余下整理顺序
+3.Trie的题＋Bit的题
+
+
+把Oct的面经补充上去
+多线程
+欠java db design pattern

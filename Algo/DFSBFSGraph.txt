@@ -1,0 +1,1727 @@
+for是多叉几次，一般回溯多有for    树的遍历不需要回溯，数色块不需要回溯
+==========================================================================================
+二维矩阵，图形化
+	图的深搜，类似于四叉树，A.一般dfs需要防止重复遍历开一个同样大小的矩阵	
+	1.数色块（非backtracking）
+	做法是两个for把每个点都扩展一次（invisited），关键如何在一个dfs结束后计数->在主函数中dfs结束后＋1
+	dfs函数不需要check boundary -> 如果访问过直接返回，否则设置成访问过，然后在四个方向上不出边界的情况下，如果色素相同则往下上左右走
+	这道题不算backtracking，因为没有回溯，visited了就visited了
+	8.android pattern
+	A.二维数组，建立，中间键
+	B.global count 大于m次开始加，大于n次return；
+	C.九个点为起点，类似数色块，传一个boolean数组进去
+	D.visited自然返回，  两个关键参数， 一个last，传参时不改，一个cur，传参时加1，看有没有crosssum，crosssum访问过没有	E. for重复，都是1-9不是last（pos）
+
+	9.10. NQueenI II［本质，从第一行往下走，走到最后一行就行］［变形回溯，数组可以改动］
+	方案数: 1.全局变量 2.一维数组表示棋盘位置 3.valid函数，同一列，以及 (row - i) == Math.abs(col-usedColumns[i])［合并两种情况］ 4. 每一行，for一列，符合之前情况就赋值往下行走
+有多少种方案
+	画出结果， 画结果单独一个函数， 回溯，用list，不能在对应位置重新赋值（想数组那样）
+	17. word search A.类似于数色块，每个点做起点，有一个对就返回，    B.子函数：到了word length就对，不符合false 越界false， C.board[y][x] ^= 512 用来做false，省去了boolean数组的空间，D.四叉树，四个方向，有一个对就返回，这个pdfs有返回boolean
+	18. word search II，找出所有在字典有的，用过一次不能再用，
+	    A.所以此时boolean[][]不在for里（用过一次不能再用）， B子函数还是搜一遍，“”开始存单词，C.Trie
+	19. Add and Search word 就是 Trie(适合流式数据)
+	25. word ladderII 两个map，A.一个建邻接表，一个建距离（一个bfs） 一个pdfs，B.深搜，到了就加上否则for dfs，C.回溯的特殊写法 D.expand函数
+	26.这道题的方法就是用在N-Queens中介绍的常见套路。简单地说思路就是循环处理子问题，对于每个格子，带入不同的9个数，然后判合法，如果成立就递归继续，结束后把数字设回空。大家可以看出代码结构和N-Queens是完全一样的。判合法可以用Valid Sudoku做为subroutine，但是其实在这里因为每次进入时已经保证之前的board不会冲突，所以不需要判断整个盘，只需要看当前加入的数字和之前是否冲突就可以，这样可以大大提高运行效率，毕竟判合法在程序中被多次调用。实现的代码如下      A.在每一行扫列 有点就for一下代入9个数，否则直接扫下一列，一行扫完return下一行
+	
+
+
+
+
+一维数组（一般是i+1 不是pos加1）
+	permutation I II（2，3）
+	从0开始，
+	A.dfs中每一次递归都要从头扫一遍，所以注意ArrayList的contains判断，不要重复加（相当于visited）
+	B.size到了就add，注意要new一个ArrayList传
+	
+
+	重复元素的存在导致在抽取元素的时候，我们不能按之前那样，依次抽取了，比如1, 2, 2三个元素，如果依次抽取	的话，会出现这样的情况：
+	抽取2，剩下的元素构成全排列：[[1, 2], [2, 1]]，再将2插入，得到[[2, 1, 2], [2, 2, 1]]
+	但是有两个2啊，所以，正常情况下，再抽取一个2，一样的道理，得到[[2, 1, 2], [2, 2, 1]]，这就重复了
+	C.带重复元素的话在dfs前要Collections.sort Arrays.sort一遍，这样相同元素会挤在一起
+	D.加visited数组，大判断条件 1.访问过了 或者  2. i!=0,防止后面i与i－1比较时越界，num［i］等于		num[i - 1]且visited[i - 1]==0没访问过  ＋ 两层锁，谁里谁外没有影响
+	Note 
+	1. 先抽取一个元素出来，对剩下的元素做全排列
+	2. 将抽取出的元素依次插入剩下元素所生成的全排列的首位
+	3. 再抽取一个元素出来，重复1~2步，直到所有的元素都被抽取过
+
+	subset I II（2，3）
+	A.sort不sort感觉并不是大问题，
+	B.每一层递归就加入，不需要判断size
+	C.每一层的确是扫描，但是是从pos开始找（上一个取或者不取已经决定，不会重复访问，故而不会需要visited）
+	D.i!=0,防止后面i与i－1比较时越界，num［i］等于	num[i - 1].
+	
+	2.组合的非递归揭法 两个for，一个 i = 0 -> 1<<n, 组合的个数，j 0->n, 判断此时，i & 1<<j
+	3.排列非递归解法，while list，从123一路往上增长，逢换第二位有一个next=－1，逢换第三位连续两个next=－1
+
+
+	4.组合（特殊的subsets）仍是pos而不是每次从头扫一遍,理论上sub result和result都可以做全局变量
+	
+	http://www.cnblogs.com/TenosDoIt/p/3802647.html
+	5.Combination Sum
+		A. < target return; B. prev == -1 -> 两个数相同不能取两次，导致重复结果[用permutation那样也行]
+		C.  一个元素能不能取多次，看i还是i+1 不是pos + 1
+		D. sort的数据，如果元素本身大于targtet就不用取了，break
+	6.Combination Sum II 只能用一次，i + 1,    permutation做法防止出现多种结果
+	7.Combination Sum III 只能1-9，不能超过k次， 写一个计数进去
+	27.Palindrome Permutation II 思路，奇偶分开，奇的话，mid单独放入参数备用，统计各字母次数 只生成一半，这一半就是permutation的生成法
+	
+	28. Palindrome Permutation  返回第k个
+ http://bangbingsyb.blogspot.com/2014/11/leetcode-permutation-sequence.html
+
+第一位重复6次 第二位重复周期2 第三位重复
+for (int i = 0; i < n; i++) {
+		    // 24个，n个数字第i轮循环是多少
+			mod = mod / (n - i);
+			// 找到循环中对应的次序
+			int curIndex = k / mod;
+			// k更新多少
+			k = k % mod;
+
+
+
+一维应用
+	11.生成括号，两个if组成（类似for）二叉树，没有回溯，第一叉是先左括号，后右括号，所以两个if，if l>0 if l < r 两个n，n一直消耗 if顺序无关
+	12.电话盘 －－ 建立map<1,char[]> if 结果 ＝＝ digits.size()就返回，for（一个按键的所有可能）叉树 map.get(digits.charAt(sb.length())，
+	13.IP地址，字符串解决 A.子函数（为0时字符串只能为0，否则在1－255之间）
+	   B.达到条件，size() ==4了， String tmp = s.substring(start, i+1)(start到i) i＋1
+	   C.建字符串，加. 最后一个点之后再去掉
+	   D. && i <= start + 3 在for里
+	14. 分割回文串 A.判断回文串函数，B. for往前贪，贪到的可以，path加入，再dfs i+1  C.pos等于length时成功
+	16. 生成缩写 http://www.phperz.com/article/15/1227/177330.html（正常写法和分析）
+	20. 单词缩写  //要么省掉，count＋1  //达到长度pos，有count就加，无则减 wo1d，w1rd //要么不省，兑现，count清空, 注意要有字母被省掉才兑现
+	21. word break II http://www.cnblogs.com/yuzhangcmu/p/4037299.html
+	DFS集大成者
+	22. word pattern 1.HashSet，Map，双指针   2. pattern为导向，双指针位置判断出口，有pattern存在dfs，没pattern存在dfs(for不断取字符串)
+
+
+
+
+
+
+
+其他应用（math）	
+	15. 因子组成 A. 因子从2到n（包括n） B.能整除就整除， 如果为1就成功（结果集要大于1，防止n自己做除		数）// 12 [2,2,3]出不来
+	23. flip game 一次只能两个连续的比如＋＋或－－翻过来 翻不动了就赢
+	//将canWin(self, s)看为当start string为s的时候第一个行动的人是否能确保赢，那么能够确保赢的条件就	是，当有一个"++"被替换后 的s1, 当start string为s1的时候先行动的人确保会输（这时候先行动的是第二个	人了）。对于s中的所有++都尝试一下，递归就能够 找到结果。
+	for（）找到某个＋＋开头的，i，替换＋＋为－－，新字符串如果递归为false，则true，否则false
+	24.格雷码	 这样的话，规律就出来了，n=k时的Gray Code，相当于n=k-1时的Gray Code的逆序 加上 1<<k
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ 
+1.
+public int solution(int[][] A) {
+        // write your code in Java SE 8
+        if (A == null){
+            return 0;
+        }
+        int m = A.length;
+        int n = A[0].length;
+        if (m * n == 0){
+            return 0;
+        }
+        int result = 0;
+        int[][] visited = new int[m][n];
+        for (int i = 0; i < m; i++){
+            for (int j = 0; j < n; j++){
+                if (visited[i][j] == 0){
+		    //关键在于check完之后加
+                    checkBoundery(i, j, visited, A);
+                    result++;
+                } 
+            }    
+        }
+        return result;
+    }
+    public void checkBoundery(int i, int j, int[][] visited, int[][] A){
+        if (visited[i][j] == -1){
+            return;
+        }    
+        visited[i][j] = -1;
+        if (i - 1 >= 0){
+            if (A[i - 1][j] == A[i][j]){
+                checkBoundery(i - 1, j, visited, A);
+            }    
+        }
+        if (i + 1 < A.length){
+            if (A[i + 1][j] == A[i][j]){
+                checkBoundery(i + 1, j, visited, A);
+            } 
+        }
+        if (j - 1 >= 0){
+            if (A[i][j - 1] == A[i][j]){
+                checkBoundery(i, j - 1, visited, A);
+            }  
+        }
+        if (j + 1 < A[0].length){
+            if (A[i][j + 1] == A[i][j]){
+                checkBoundery(i, j + 1, visited, A);
+            } 
+        }
+    } 
+
+2.
+public ArrayList<ArrayList<Integer>> permute(ArrayList<Integer> nums) {
+        // write your code here
+        ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> subResult = new ArrayList<Integer>();
+        if (nums == null){
+            return result;
+        }
+        permuteHelper(0, subResult, result, nums);
+        return result;
+    }
+    public void permuteHelper(int pos,
+    ArrayList<Integer> subResult,
+    ArrayList<ArrayList<Integer>> result,
+    ArrayList<Integer> nums){
+        if (subResult.size() == nums.size()){
+            result.add(new ArrayList<Integer>(subResult));
+            return;//避免之后for循环做整个if判断
+        }
+        for (int i = 0; i < nums.size(); i++){
+            //本身不能再含有，或者加过的就不能再加
+            //因为每一次都要从头到尾全部扫一遍
+            if (subResult.contains(nums.get(i))){
+                continue;
+            }
+            subResult.add(nums.get(i));
+            permuteHelper(i + 1, subResult, result, nums);
+            subResult.remove(subResult.size() - 1);
+        }
+    }
+
+3.
+public ArrayList<ArrayList<Integer>> permute(ArrayList<Integer> nums) {
+        ArrayList<ArrayList<Integer>> permutations
+             = new ArrayList<ArrayList<Integer>>();
+        if (nums == null || nums.size() == 0) {
+            return permutations;
+        }
+        
+        int n = nums.size();
+        ArrayList<Integer> stack = new ArrayList<Integer>();
+        
+        stack.add(-1);
+        while (stack.size() != 0) {
+            Integer last = stack.get(stack.size() - 1);
+            stack.remove(stack.size() - 1);
+            
+            // increase the last number
+	    // for循环，如果没有的话，则升数
+            int next = -1;
+            for (int i = last + 1; i < n; i++) {
+                if (!stack.contains(i)) {
+                    next = i;
+                    break;
+                }
+            }
+	    // 取不到的话，跳过，配合前面remove stack.size()-1 清空栈，变相把数放高一位
+            if (next == -1) {
+                continue;
+            }
+            
+            // 把余下的加进来，前面在的仍在，例如 1 2 3， 1在 3加入，2加入（这是第二位调整）
+            stack.add(next);
+            for (int i = 0; i < n; i++) {
+                if (!stack.contains(i)) {
+                    stack.add(i);
+                }
+            }
+            
+            // copy to permutations set
+            ArrayList<Integer> permutation = new ArrayList<Integer>();
+            for (int i = 0; i < n; i++) {
+                permutation.add(nums.get(stack.get(i)));
+            }
+            permutations.add(permutation);
+        }
+        
+        return permutations;
+    }
+4.
+ List<List<Integer>> result;
+    List<Integer> subResult;
+    public List<List<Integer>> combine(int n, int k) {
+		// write your code here
+		result = new ArrayList<>();
+		if (n == 0 || k == 0){
+		    return result;
+		}
+		subResult = new ArrayList<Integer>();
+		//List<Integer> subResult = new ArrayList<Integer>();
+		//什么时候需要在这里for搞事？各个起点？
+		// 这里取完之后就不需要了 并不是各个点开一遍 允许重复
+		traverse(n, k, 1);
+		return result;
+    }
+    private void traverse(int n, int k, int pos){
+        if (subResult.size() == k){
+            result.add(new ArrayList(subResult));
+            return;
+        }
+        for (int i = pos; i <= n; i++){
+            // 一个for，循环执行，怎么可能加pos，多画图
+            subResult.add(i);
+            traverse( n, k, i + 1);
+            subResult.remove(subResult.size() - 1);
+        }
+    }
+5.
+public ArrayList<ArrayList<Integer>> combinationSum(int[] candidates, int target) {
+        // write your code here
+        ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+        if (candidates == null){
+            return result;
+        }
+        ArrayList<Integer> subR = new ArrayList<Integer>();
+        Arrays.sort(candidates);
+        dfs(0, candidates, target, subR, result);
+        return result;
+    }
+    public void dfs(int pos,
+                    int[] candidates,
+                    int target,
+                    ArrayList<Integer> subR,
+                    ArrayList<ArrayList<Integer>> result
+                    ){
+     if(target < 0) {
+        return;
+     }
+     if (target == 0){
+        //总忘记
+        result.add(new ArrayList<Integer>(subR));
+        return;
+     }
+     int prev = -1;//防止数组里有重复元素。。。。//排序了
+     for (int i = pos; i < candidates.length; i++){
+         //之后可以不用找了//排序了，这个超过，后面一定超过//防止总是i，死循环
+         if (candidates[i] > target){
+             break;
+         }
+         //
+         if (prev != -1 && prev == candidates[i]){
+             continue;
+         }
+         
+         //一个元素能不能取多次，看i还是i+1 不是pos + 1
+         subR.add(candidates[i]);
+         dfs(i, candidates, target - candidates[i], subR, result);
+         subR.remove(subR.size() - 1);
+         
+         prev = candidates[i];
+     }
+    }
+
+6.
+public ArrayList<ArrayList<Integer>> combinationSum(int[] candidates, int target) {
+        // write your code here
+        ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+        if (candidates == null){
+            return result;
+        }
+        ArrayList<Integer> subR = new ArrayList<Integer>();
+        Arrays.sort(candidates);
+        dfs(0, candidates, target, subR, result);
+        return result;
+    }
+    public void dfs(int pos,
+                    int[] candidates,
+                    int target,
+                    ArrayList<Integer> subR,
+                    ArrayList<ArrayList<Integer>> result
+                    ){
+     if(target < 0) {
+        return;
+     }
+     if (target == 0){
+        //总忘记
+        result.add(new ArrayList<Integer>(subR));
+        return;
+     }
+     int prev = -1;//防止数组里有重复元素。。。。//排序了
+     for (int i = pos; i < candidates.length; i++){
+         //之后可以不用找了//排序了，这个超过，后面一定超过//防止总是i，死循环
+         if (candidates[i] > target){
+             break;
+         }
+         //
+         if (prev != -1 && prev == candidates[i]){
+             continue;
+         }
+         
+         //一个元素能不能取多次，看i还是i+1 不是pos + 1
+         subR.add(candidates[i]);
+         dfs(i, candidates, target - candidates[i], subR, result);
+         subR.remove(subR.size() - 1);
+         
+         prev = candidates[i];
+     }
+    }
+
+
+
+7.
+public class Solution {
+    //k=2  n=3
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(k<1 || n<1) {
+            return res;
+        } // 非primitive返回时的制式   
+        List<Integer> cur = new ArrayList<Integer>();
+        rec(res, cur, 0, k, n, 1);
+        return res;
+    }
+    
+    private void rec(List<List<Integer>> res, List<Integer> cur, int sum, int k, int n, int pos) {
+        if(sum==n && k==0) {
+            res.add(new ArrayList(cur));
+            return;
+        } 
+        if(sum>n || k<=0) {
+            return;
+        }
+        
+        for(int i = pos; i <= 9; i++) {
+            cur.add(i);
+            rec(res, cur, sum+i, k-1, n, i+1);
+            cur.remove(cur.size() - 1);
+        }
+    }
+}
+
+8.
+public int numberOfPatterns2(int m, int n) {
+        int[][] matrix = new int[10][10];
+    
+        matrix[1][3] = matrix[3][1] = 2;
+        matrix[4][6] = matrix[6][4] = 5;
+        matrix[7][9] = matrix[9][7] = 8;
+        
+        matrix[1][7] = matrix[7][1] = 4;
+        matrix[2][8] = matrix[8][2] = 5;
+        matrix[3][9] = matrix[9][3] = 6;
+        
+        matrix[1][9] = matrix[9][1] = 5;
+        matrix[3][7] = matrix[7][3] = 5;
+        // 理论上说，八个方向也可以做
+	    // 而且矩阵如果过大，如何能够枚举完全，枚举本身复杂度足够大
+        // 9个点轮流当起点，理论上之后九个点每个点都可以去
+        // for (1 -> 9) --- for (1 -> 9)  
+        // 限制1: 自己不能去
+        // 限制2: crossnum
+        for (int i = 1; i <= 9; i++) {
+        	boolean[] visited = new boolean[10];
+        	//不能重复到某一个点
+        	visited[i] = true;
+        	numberOfPatterns2(i, 1, m, n, visited, matrix);        	
+        }
+        return count;
+    }
+	
+	private void numberOfPatterns2(int last, int cur, int m, int n, boolean[] visited, int[][] matrix) {
+		if (cur >= m) {
+			count++;
+		}
+		if (cur >= n) {
+			return;
+		}
+		 for (int i = 1; i <= 9; i++) {
+			if (visited[i]) continue;
+			int crossNum = matrix[last][i];
+			//赋值的时候没有标记0，
+			//两者存在crossnum并且crossnum没有被访问过
+			if (crossNum != 0 && !visited[crossNum]) continue;
+			visited[i] = true;
+			numberOfPatterns2(i, cur + 1, m, n, visited, matrix);
+			visited[i] = false;
+		} 		
+	}
+9.
+public static int sum;
+    public int totalNQueens(int n) {
+        sum = 0;
+        int[] usedColumns = new int[n];
+        placeQueen(usedColumns, 0);
+        return sum;
+    }
+    public void placeQueen(int[] usedColumns, int row) {
+        int n = usedColumns.length;
+        
+        if (row == n) {
+            sum ++;
+            return;
+        }
+        
+        for (int i = 0; i < n; i++) {
+            if (isValid(usedColumns, row, i)) {
+                usedColumns[row] = i;//可改变，变形回溯
+                placeQueen(usedColumns, row + 1);
+            }
+        }
+    }
+    
+    public boolean isValid(int[] usedColumns, int row, int col) {
+        for (int i = 0; i < row; i++) {
+            if (usedColumns[i] == col) {
+                return false;
+            }
+            //合二为一
+            if ((row - i) == Math.abs(col-usedColumns[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
+
+10
+class Solution {
+    /**
+     * Get all distinct N-Queen solutions
+     * @param n: The number of queens
+     * @return: All distinct solutions
+     * For example, A string '...Q' shows a queen on forth position
+     */
+     //如何用一维数组表示二维结果
+     // dfs一层栈便是一行，递归能深到n层即是可行解决
+     // 游标是列
+     // n可以用全局静态变量表示 
+     // 总是忘记写remove去backtracking
+     // String 初始化null, null是不会消失的。。。 最好String a = ""
+    ArrayList<ArrayList<String>> solveNQueens(int n) {
+        // write your code here
+        ArrayList<ArrayList<String>> result = new
+                                            ArrayList<ArrayList<String>>();
+        if (n < 1){
+            return result;
+        }
+        ArrayList<Integer> subR = new ArrayList<Integer>();
+        dfs(result, subR, n);
+        return result;
+    }
+    public void dfs(ArrayList<ArrayList<String>> result,
+        ArrayList<Integer> subR,
+        int nums){
+        if (subR.size() == nums){
+            drawSolution(result, subR);
+            return;
+        }
+        for (int i = 0; i < nums; i++){
+            if (isValid(subR, i)){
+                subR.add(i);
+                dfs(result, subR, nums);
+                subR.remove(subR.size() - 1);
+            }
+        }
+    }
+    
+    public boolean isValid(ArrayList<Integer> subR, int col){
+         int row = subR.size();
+        for (int i = 0; i < row; i++){
+            if (subR.get(i) == col){
+                return false;//同列
+            }
+            //合二为一
+            if ((row - i) == Math.abs(col - subR.get(i))) {
+                return false;
+            }
+            /*if ((subR.get(i) - i) == (col - row)){
+                return false;
+            }
+            if ((subR.get(i) + i) == (col + row)){
+                return false;
+            }*/
+        }
+        return true;
+    }
+    public void drawSolution(ArrayList<ArrayList<String>> result,
+        ArrayList<Integer> subR){
+        ArrayList<String> sub = new ArrayList<String>();
+        for (int i = 0; i < subR.size(); i++){
+            String temp = "";
+            for (int j = 0; j < subR.size(); j++){
+                if (j == subR.get(i)){
+                    temp += "Q";
+                } else {
+                    temp += ".";
+                }
+            }
+            sub.add(temp);
+        }
+        result.add(sub);
+    }
+};
+
+
+11.
+public ArrayList<String> generateParenthesis(int n) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        ArrayList<String> res = new ArrayList<String>();
+        if (n <= 0) return res;
+        // 左边括号n个，右边括号n个
+        
+        dfs(res,"",n,n);
+        return res;
+    }
+    public void dfs(ArrayList<String> res, String tmp, int left, int right){
+        if (left == 0 && right == 0){
+            res.add(tmp);
+            return;
+        }
+        // 注意if, n为控制递归层数
+        if (left > 0) {
+            dfs(res,tmp+'(',left-1,right);
+        }
+        if (left<right) {
+            dfs(res,tmp+')',left,right-1);
+        }//不带循环，怎么画递归树，不需要回溯
+    }
+
+
+12.
+ public ArrayList<String> letterCombinations(String digits) {
+        ArrayList<String> result = new ArrayList<String>();
+        if (digits == null || digits.equals("")) {
+            return result;
+        }
+        //重构表盘
+        Map<Character, char[]> map = new HashMap<Character, char[]>();
+        map.put('0', new char[] {});
+        map.put('1', new char[] {});
+        map.put('2', new char[] { 'a', 'b', 'c' });
+        map.put('3', new char[] { 'd', 'e', 'f' });
+        map.put('4', new char[] { 'g', 'h', 'i' });
+        map.put('5', new char[] { 'j', 'k', 'l' });
+        map.put('6', new char[] { 'm', 'n', 'o' });
+        map.put('7', new char[] { 'p', 'q', 'r', 's' });
+        map.put('8', new char[] { 't', 'u', 'v'});
+        map.put('9', new char[] { 'w', 'x', 'y', 'z' });
+
+        StringBuilder sb = new StringBuilder();
+        helper(map, digits, sb, result);
+
+        return result;
+    }
+
+    private void helper(Map<Character, char[]> map, String digits, 
+        StringBuilder sb, ArrayList<String> result) {
+        if (sb.length() == digits.length()) {
+            result.add(sb.toString());
+            return;
+        }
+
+        for (char c : map.get(digits.charAt(sb.length()))) {
+            sb.append(c);
+            helper(map, digits, sb, result);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+}
+13.
+public ArrayList<String> restoreIpAddresses(String s) {
+        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<String>();
+        
+        if(s.length() < 4 || s.length() > 12)
+            return result;
+        
+        helper(result, list, s , 0);
+        return result;
+    }
+    
+    public void helper(ArrayList<String> result, ArrayList<String> list, String s, int start){
+        if(list.size() == 4){
+            if(start != s.length())
+                return;
+            // 建好字符串
+            StringBuffer sb = new StringBuffer();
+            for(String tmp: list){
+                sb.append(tmp);
+                sb.append(".");
+            }
+            // 最后一个点扔掉
+            sb.deleteCharAt(sb.length() - 1);
+            result.add(sb.toString());
+            return;
+        }
+        
+        for(int i = start; i < s.length() && i <= start + 3; i++){
+            String tmp = s.substring(start, i+1);
+            if(isValid(tmp)){
+                list.add(tmp);
+                helper(result, list, s, i+1);
+                list.remove(list.size()-1);
+            }
+        }
+    }
+    
+    public boolean isValid(String s){
+        // 0开头特殊，只能为0
+        if (s.charAt(0) == '0') {
+            return s.equals("0");
+        }
+        // 否则在0 － 255 之间
+        int num = Integer.parseInt(s);
+        return num <= 255 && num > 0;
+    }
+}
+
+14.
+public ArrayList<ArrayList<String>> partition(String s) {
+        // write your code here
+        ArrayList<ArrayList<String>> result = 
+                            new ArrayList<ArrayList<String>>();
+        if (s == null){
+            return result;
+        }
+        ArrayList<String> path = new ArrayList<String>(); 
+        dfs(s, 0, result, path);
+        return result;
+    }
+    public void dfs(String s, int pos,  
+                    ArrayList<ArrayList<String>> result,
+                    ArrayList<String> path){
+        if (pos == s.length()){
+            //对于一个path要new一个新的放入，否则之后处理会被清楚
+            result.add(new ArrayList<String>(path));
+            return;
+        }
+        for (int i = pos; i < s.length(); i++){
+            String temp = s.substring(pos, i + 1);
+            if (!isPanlindrome(temp)){
+                continue;
+            }
+            path.add(temp);
+            // 应该是i ＋ 1 而不是pos＋1
+            dfs(s, i + 1, result, path);
+            path.remove(path.size() - 1);
+        }
+    }
+    public boolean isPanlindrome(String s){
+        int start = 0;
+        int end = s.length() - 1;
+        while (start < end){
+            if (s.charAt(start) != s.charAt(end)){
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+}
+
+
+15.
+public List<List<Integer>> getFactors(int n) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (n <= 2){
+            return result;
+        }
+        List<Integer> subResult = new ArrayList<>();
+        traverse(result, subResult, 2, n);
+        return result;
+    }
+    private void traverse(List<List<Integer>> result, 
+                            List<Integer> subResult, int startFac, int n){
+        if (n == 1){
+            //自己不算，至少两个
+            if (subResult.size() > 1){
+                result.add(new ArrayList<Integer>(subResult));
+            }
+        }
+        // 小于等于n才行 4  [2,2]
+        for (int i = startFac; i <= n; i++){
+            if (n % i == 0){
+                subResult.add(i);
+                // 从小到大试，每一次包括自己
+                traverse(result, subResult, i, n / i);
+                subResult.remove(subResult.size() - 1);
+            }
+        }
+    }
+16.
+public class Solution {
+   public List<String> generateAbbreviations(String word){
+        List<String> ret = new ArrayList<String>();
+        backtrack(ret, word, 0, "", 0);
+        return ret;
+    }
+
+    private void backtrack(List<String> ret, String word, int pos, String cur, int count){
+        if(pos==word.length()){
+            if(count > 0){
+                cur += count;
+            }
+            ret.add(cur);
+        }
+        else{
+            backtrack(ret, word, pos + 1, cur, count + 1);
+            backtrack(ret, word, pos + 1, cur + (count > 0 ? count : "") + word.charAt(pos), 0);//归零后再回溯不能再递归
+        }
+    }
+}
+
+
+17.
+public boolean exist(char[][] board, String word) {
+    char[] w = word.toCharArray();
+    for (int y=0; y<board.length; y++) {
+        for (int x=0; x<board[y].length; x++) {
+            if (exist(board, y, x, w, 0)) return true;//任意一点，出来即可
+        }
+    }
+    return false;
+}
+
+private boolean exist(char[][] board, int y, int x, char[] word, int i) {
+    // 达到了
+    if (i == word.length) return true;
+    // 出界了
+    if (y<0 || x<0 || y == board.length || x == board[y].length) return false;
+    // 这个字母不符合要求
+    if (board[y][x] != word[i]) return false;
+    
+    
+    // 不能重复使用，异或用两次回原来的值
+    board[y][x] ^= 512;
+    // 存在一个就可以
+    boolean exist = exist(board, y, x+1, word, i+1)
+        || exist(board, y, x-1, word, i+1)
+        || exist(board, y+1, x, word, i+1)
+        || exist(board, y-1, x, word, i+1);
+    board[y][x] ^= 512;//bit mask  异或
+    // 找到 注意这个函数是有返回的，不然设一个全局boolean变量也行
+    return exist;
+}
+
+18.
+public class Solution {
+    Set<String> res = new HashSet<String>();
+
+    public List<String> findWords(char[][] board, String[] words) {
+        // 直接利用trie类
+        Trie trie = new Trie();//类
+        for (String word : words) {
+            trie.insert(word);
+        }
+
+        int m = board.length;
+        int n = board[0].length;
+        boolean[][] visited = new boolean[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dfs(board, visited, "", i, j, trie);
+            }
+        }
+
+        return new ArrayList<String>(res);
+    }
+
+    public void dfs(char[][] board, boolean[][] visited, String str, int x, int y, Trie trie) {
+        if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) return;
+        if (visited[x][y]) return;
+
+        str += board[x][y];
+        if (!trie.startsWith(str)) return;
+
+        if (trie.search(str)) {
+            res.add(str);
+        }
+
+        visited[x][y] = true;
+        dfs(board, visited, str, x - 1, y, trie);
+        dfs(board, visited, str, x + 1, y, trie);
+        dfs(board, visited, str, x, y - 1, trie);
+        dfs(board, visited, str, x, y + 1, trie);
+        visited[x][y] = false;
+    }
+}
+
+
+class TrieNode {
+    public char val;
+    public boolean isWord; 
+    public TrieNode[] children = new TrieNode[26];
+    public TrieNode() {}
+    TrieNode(char c){
+        TrieNode node = new TrieNode();
+        node.val = c;
+    }
+}
+
+ class Trie {
+    private TrieNode root;
+    public Trie() {
+        root = new TrieNode();
+        root.val = ' ';
+    }
+
+    public void insert(String word) {
+        TrieNode ws = root;
+        for(int i = 0; i < word.length(); i++){
+            char c = word.charAt(i);
+            if(ws.children[c - 'a'] == null){
+                ws.children[c - 'a'] = new TrieNode(c);
+            }
+            ws = ws.children[c - 'a'];
+        }
+        ws.isWord = true;
+    }
+
+    public boolean search(String word) {
+        TrieNode ws = root; 
+        for(int i = 0; i < word.length(); i++){
+            char c = word.charAt(i);
+            if(ws.children[c - 'a'] == null) return false;
+            ws = ws.children[c - 'a']; // 下一个字符集
+        }
+        return ws.isWord;
+    }
+
+    public boolean startsWith(String prefix) {
+        TrieNode ws = root; 
+        for(int i = 0; i < prefix.length(); i++){
+            char c = prefix.charAt(i);
+            if(ws.children[c - 'a'] == null) return false;
+            ws = ws.children[c - 'a'];
+        }
+        return true;
+    }
+}
+
+19.
+public class WordDictionary {
+    public class TrieNode {
+        public TrieNode[] children = new TrieNode[26];
+        public String item = "";
+    }
+
+    private TrieNode root = new TrieNode();
+
+    public void addWord(String word) {
+        TrieNode node = root;
+        for (char c : word.toCharArray()) {
+            if (node.children[c - 'a'] == null) {
+                node.children[c - 'a'] = new TrieNode();
+            }
+            node = node.children[c - 'a'];
+        }
+        node.item = word;
+    }
+
+    public boolean search(String word) {
+        return match(word.toCharArray(), 0, root);
+    }
+
+    private boolean match(char[] chs, int k, TrieNode node) {
+        if (k == chs.length) return !node.item.equals("");   
+        if (chs[k] != '.') {
+            return node.children[chs[k] - 'a'] != null && match(chs, k + 1, node.children[chs[k] - 'a']);
+        } else {
+            for (int i = 0; i < node.children.length; i++) {
+                if (node.children[i] != null) {
+                    if (match(chs, k + 1, node.children[i])) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+}
+
+20.
+public class Solution {
+   public List<String> generateAbbreviations(String word){
+        List<String> ret = new ArrayList<String>();
+        backtrack(ret, word, 0, "", 0);
+        return ret;
+    }
+
+    private void backtrack(List<String> ret, String word, int pos, String cur, int count){
+        //达到长度pos，有count就加，无则减 wo1d，w1rd
+        if(pos==word.length()){
+            if(count > 0){
+                cur += count;
+            }
+            ret.add(cur);
+        }
+        else{
+            //要么省掉，count＋1
+            backtrack(ret, word, pos + 1, cur, count + 1);
+            //要么不省，兑现，count清空
+            backtrack(ret, word, pos + 1, cur + (count > 0 ? count : "") + word.charAt(pos), 0);//归零后再回溯不能再递归
+        }
+    }
+}
+
+
+
+21.
+public class Solution {
+/*  // http://www.cnblogs.com/yuzhangcmu/p/4037299.html
+    // 解法3：重新剪枝。
+    */
+    // 我们用DFS来解决这个问题吧 
+    public  List<String> wordBreak(String s, Set<String> dict) {
+        if (s == null || s.length() == 0 || dict == null) {
+            return null;
+        }
+        
+        List<String> ret = new ArrayList<String>();
+        
+        // 记录切割过程中生成的字母
+        List<String> path = new ArrayList<String>();
+        
+        int len = s.length();
+        
+        // 注意：一定要分配 Len+1 否则会爆哦.
+        boolean canBreak[] = new boolean[len + 1];
+        for (int i = 0; i < len + 1; i++) {
+            canBreak[i] = true;
+        }
+            
+        dfs3(s, dict, path, ret, 0, canBreak);
+        
+        return ret;
+    }
+
+    // 我们用DFS模板来解决这个问题吧 
+    public static void dfs3(String s, Set<String> dict, 
+            List<String> path, List<String> ret, int index,
+            boolean canBreak[]) {
+        int len = s.length();
+        if (index == len) {
+            // 结束了。index到了末尾
+            StringBuilder sb = new StringBuilder();
+            for (String str: path) {
+                sb.append(str);
+                sb.append(" ");
+            }
+            // remove the last " "
+            sb.deleteCharAt(sb.length() - 1);
+            ret.add(sb.toString());
+            return;
+        }
+        
+        // if can't break, we exit directly.
+        if (!canBreak[index]) {
+            return;
+        }
+
+        for (int i =  index; i < len; i++) {
+            // 注意这些索引的取值。左字符串的长度从0到len
+            String left = s.substring(index, i + 1);
+            if (!dict.contains(left) || !canBreak[i + 1]) {
+                // 如果左字符串不在字典中，不需要继续递归
+                continue;
+            }
+            
+            // if can't find any solution, return false, other set it 
+            // to be true;
+            path.add(left);
+            
+            int beforeChange = ret.size();
+            dfs3(s, dict, path, ret, i + 1, canBreak);
+            // 注意这些剪枝的代码. 关键在于此以减少复杂度
+            if (ret.size() == beforeChange) {
+                canBreak[i + 1] = false;    
+            }
+            path.remove(path.size() - 1);
+        }
+    }
+
+}
+
+
+22.
+public class Solution {
+
+  public boolean wordPatternMatch(String pattern, String str) {
+    Map<Character, String> map = new HashMap<>();
+    Set<String> set = new HashSet<>();
+    
+    return isMatch(str, 0, pattern, 0, map, set);
+  }
+
+  boolean isMatch(String str, int i, String pat, int j, Map<Character, String> map, Set<String> set) {
+    // 双指针都到底
+    if (i == str.length() && j == pat.length()) return true;
+    // 单方面到底
+    if (i == str.length() || j == pat.length()) return false; //扫描
+
+    // 取pattern
+    char c = pat.charAt(j);
+
+    // 1.有pattern
+    if (map.containsKey(c)) {
+      String s = map.get(c);
+      // 如果startWith(string, i)从i开始，匹配string
+      if (!str.startsWith(s, i)) {
+        return false;
+      }
+      // match上了，继续下一个，双指针挪动 注意是return
+      return isMatch(str, i + s.length(), pat, j + 1, map, set);
+    }
+
+    // 2. 没有这个pattern
+    for (int k = i; k < str.length(); k++) {
+      String p = str.substring(i, k + 1);
+      //之前有pattern对应了这个串，这个显然是新pattern，故而需要不同的字符串，所以继续取
+      if (set.contains(p)) {
+        continue;
+      }//有这个p，取到没有为止
+      
+      
+      // 创建这个匹配对，串加入set
+      map.put(c, p);
+      set.add(p);
+
+      // 余下的可以就返回，否则回溯
+      if (isMatch(str, k + 1, pat, j + 1, map, set)) {
+        return true;
+      }
+      
+      // 回溯开始
+      map.remove(c);
+      set.remove(p);
+    }
+
+    // 最后再判断
+    return false;
+  }
+
+}
+
+23
+public class Solution {
+    public boolean canWin(String s) {
+        if (s == null || s.length() < 2) {
+        return false;
+        }
+
+        for (int i = 0; i < s.length() - 1; i++) {
+            if (s.startsWith("++", i)) {
+                String t = s.substring(0, i) + "--" + s.substring(i + 2);
+            if (!canWin(t)) {
+                return true;
+           }
+        }
+    }
+  return false;
+  }
+}
+
+24.
+public class Solution {
+    public ArrayList<Integer> grayCode(int n) {
+        if(n==0) {
+            ArrayList<Integer> result = new ArrayList<Integer>();
+            result.add(0);
+            return result;
+        }
+        
+        // grayCode n-1位
+        ArrayList<Integer> tmp = grayCode(n-1);
+        // add Number
+        int addNumber = 1 << (n-1);
+        //新的结果集
+        ArrayList<Integer> result = new ArrayList<Integer>(tmp);
+        //反着加
+        for(int i=tmp.size()-1;i>=0;i--) {
+            result.add(addNumber + tmp.get(i));
+        }
+        return result;
+    }
+}
+
+
+25.
+public class Solution {
+    // 搜索集大成题之一 dfs + bfs
+    public List<List<String>> findLadders(String start, String end,
+            Set<String> dict) {
+        //结果
+        List<List<String>> ladders = new ArrayList<List<String>>();
+        //哪些路径到，记录all方案
+        Map<String, List<String>> map = new HashMap<String, List<String>>();
+        //距离
+        Map<String, Integer> distance = new HashMap<String, Integer>();
+        
+        // 把起终加入 
+        dict.add(start);
+        dict.add(end);
+        
+        // 得出图
+        bfs(map, distance, start, end, dict);
+        // 求出距离
+        List<String> path = new ArrayList<String>();
+        dfs(ladders, path, end, start, distance, map);
+        
+        return ladders;
+    }
+
+//BFS构出一个图， 最短
+    public void bfs(Map<String, List<String>> map, 
+                    Map<String, Integer> distance,
+            String start, String end, Set<String> dict) {
+                
+        Queue<String> q = new LinkedList<String>();
+        //初始化
+        //
+        q.offer(start);
+        distance.put(start, 0);
+        // 把点都加进去
+        for (String s : dict) {
+            map.put(s, new ArrayList<String>());
+        }
+        // 把每个点的邻接表建起来，同时算上距离（两个map）
+        while (!q.isEmpty()) {
+            String crt = q.poll();
+            List<String> nextList = expand(crt, dict);
+            for (String next : nextList) {
+                map.get(next).add(crt);
+                if (!distance.containsKey(next)) {
+                    //不用层数，从crt（poll出来的这个点得出距离再加1）
+                    distance.put(next, distance.get(crt) + 1);
+                    q.offer(next);
+                }
+            }
+        }
+    }
+    //等于 word ladder 里 getNextWords + replace
+    List<String> expand(String crt, Set<String> dict) {
+        List<String> expansion = new ArrayList<String>();
+        //设一个结果集，for单词，每一个char都替换26遍，字典有就加入
+        for (int i = 0; i < crt.length(); i++) {
+            for (char ch = 'a'; ch <= 'z'; ch++) {
+                if (ch != crt.charAt(i)) {
+                    String expanded = crt.substring(0, i) + ch
+                            + crt.substring(i + 1);
+                    if (dict.contains(expanded)) {
+                        expansion.add(expanded);
+                    }
+                }
+            }
+        }
+        return expansion;
+    }
+    
+//在bfs基础的图上，从终点开始做深搜， 从起点也可以 这个点
+    void dfs(List<List<String>> ladders, List<String> path, String crt,
+            String start, Map<String, Integer> distance,
+            Map<String, List<String>> map) {
+        path.add(crt);
+        if (crt.equals(start)) {
+            // 到起点了，加结果再返回，配合最后一行pathremove回溯
+            Collections.reverse(path);
+            ladders.add(new ArrayList<String>(path));
+            Collections.reverse(path);
+        } else {
+            //for一下current 能到的距离为1的的加上去（不一定只为1）
+            // dfs
+            for (String next : map.get(crt)) {
+                // 下一步能到
+                if (distance.containsKey(next) && distance.get(crt) == distance.get(next) + 1) { 
+                    dfs(ladders, path, next, start, distance, map);
+                }
+            }           
+        }
+        path.remove(path.size() - 1);
+    }
+
+    
+}
+
+26.
+public void solveSudoku(char[][] board) {
+    if(board == null || board.length != 9 || board[0].length !=9)
+        return;
+    helper(board, 0, 0);
+}
+private boolean helper(char[][] board, int i, int j) {
+    if(j >= 9)
+        // 一行扫完了，接着下一行
+        return helper(board, i + 1, 0);
+    if(i == 9){
+        // 行都扫完了，true
+        return true;
+    }
+    //这个点如果要填，for一遍，都填一下，如果valid就下一个，
+    if(board[i][j] == '.'){
+        for(int k = 1; k <= 9; k++) {
+            board[i][j] = (char)(k + '0');
+            if(isValid(board, i, j)){
+                if(helper(board, i, j + 1))
+                    return true;
+            }
+            //否则回溯
+            board[i][j] = '.';
+        }
+    } else {
+        // 否则直接跳下一步
+        return helper(board, i, j + 1);
+    }
+    return false;
+}
+private boolean isValid(char[][] board, int i, int j) {
+    // 列没有重复 ［自己排除］
+    for(int k = 0; k < 9; k++){
+        if(k != j && board[i][k] == board[i][j])
+            return false;
+    }
+    // 行没有重复［自己排除］
+    for(int k = 0; k < 9; k++){
+        if(k != i && board[k][j] == board[i][j])
+            return false;
+    }    
+    //格子没有重复［自己排除］以3为格子
+    for(int row = i/3*3; row < i/3*3+3; row++) {
+        for(int col = j/3*3; col < j/3*3+3; col++){
+            if((row != i || col != j) && board[row][col] == board[i][j])
+                return false;
+        }
+    }
+    return true;
+}
+}
+
+
+
+27.
+public class Solution {
+   private List<String> list = new ArrayList<>();
+
+public List<String> generatePalindromes(String s) {
+    int numOdds = 0; //奇数的数字有多少个
+    int[] map = new int[128]; // Map from character to its frequency
+    // 计算每个字母的频率
+    for (char c: s.toCharArray()) {
+        map[c]++;
+        // 特算法［类似选举］
+        numOdds = (map[c] & 1) == 1 ? numOdds + 1 : numOdds - 1; //奇数的数字有多少个
+    }
+    
+    
+    
+    //奇数的数字有大于1，没有结果
+    if (numOdds > 1)   return list;
+
+
+    String mid = "";
+    int length = 0;
+    
+    for (int i = 0; i < 128; i++) {
+        //  有的话
+        if (map[i] > 0) {
+            //奇数的话放中间
+            if (map[i] % 2 == 1) { // Char with odd count will be in the middle／／实际偶数加入也在里面
+                mid = "" + (char)i;
+                map[i]--;
+            }
+            //否则减一半，我们只generate一半
+            map[i] /= 2; 
+            //长度加上
+            length += map[i]; 
+        }
+    }
+    generatePalindromesHelper(map, length, "", mid);
+    return list;
+}
+    private void generatePalindromesHelper(int[] map, int length, String s, String mid) {
+    // 长度到了reverse
+    if (s.length() == length) {
+        StringBuilder reverse = new StringBuilder(s).reverse(); // Second half
+        list.add(s + mid + reverse);
+        return;
+    }
+    // 128个char遍历，找到则加入，一半的生成就类似于permutation，选一个加上去
+    for (int i = 0; i < 128; i++) { // backtracking just like permutation
+        if (map[i] > 0) {
+            //回溯
+            map[i]--;
+            generatePalindromesHelper(map, length, s + (char)i, mid);
+            map[i]++;
+        } 
+    }
+}
+}
+
+
+28.
+public String getPermutation(int n, int k) {
+ 
+		// 初始化所有number
+		ArrayList<Integer> numberList = new ArrayList<Integer>();
+		for (int i = 1; i <= n; i++) {
+			numberList.add(i);
+		}
+ 
+		// 变成索引
+		k--;
+ 
+		// 设阶乘 set factorial of n
+		int mod = 1;
+		for (int i = 1; i <= n; i++) {
+			mod = mod * i;
+		}
+        
+		String result = "";
+ 
+		// find sequence
+		for (int i = 0; i < n; i++) {
+		    // 24个，n个数字第i轮循环是多少
+			mod = mod / (n - i);
+			// 找到循环中对应的次序
+			int curIndex = k / mod;
+			// k更新多少
+			k = k % mod;
+			
+			// 得数
+			result += numberList.get(curIndex);
+			
+			// 第一位，1234 第二位 选定后 124.。。
+			numberList.remove(curIndex);
+		}
+ 
+		return result.toString();
+	}
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+Nested List Weight Sum I II
+Longest Increasing Path in a Matrix
+Reconstruct Itinerary 2小时
+==========================================================================================
+1.2 Nested List Weight Sum I II 权重从高到低，从低到高
+	dfs，helper（1从1开始遍历）尾递归（类似）for遍历一遍list，isInteger()，＋＝，否则递归下去tem.getList();
+	bfs:初始全加入queue里，是isInteger直接加，不是就存bfs里（NestedInteger innerInt : nestedInt.getList()）变相dfs，先处理完一个
+	
+	II，加一个深度dfs，或者
+下面这个方法就比较巧妙了，由史蒂芬大神提出来的，这个方法用了两个变量unweighted和weighted，非权重和跟权重和，初始化均为0，然后如果nestedList不为空开始循环，先声明一个空数组nextLevel，遍历nestedList中的元素，如果是数字，则非权重和加上这个数字，如果是数组，就加入nextLevel，这样遍历完成后，第一层的数字和保存在非权重和unweighted中了，其余元素都存入了nextLevel中，此时我们将unweighted加到weighted中，将nextLevel赋给nestedList，这样再进入下一层计算，由于上一层的值还在unweighted中，所以第二层计算完将unweighted加入weighted中时，相当于第一层的数字和被加了两次，这样就完美的符合要求了，这个思路又巧妙又牛B，大神就是大神啊，参见代码如下：
+
+3. 矩阵中最长上升的len（四个方向不可能dp）path自动初始化为0，故最后结果要加1。
+	http://www.programcreek.com/2014/05/leetcode-longest-increasing-path-in-a-matrix-java/
+	基本上直接每个点dfs然后，然后不断更新全局变量（超时）
+
+4.用完飞机票 https://leetcode.com/discuss/84659/short-ruby-python-java-c
+	这题其实很水，只要你这些数据结构掌握的好的话。
+返回的答案必为n+1，n为tickets的个数
+一张飞机票只能用一次，所以要计数。（可能重复）
+字典序最小只需要保证我们遍历的时候从小到大遍历即可。so，建图的时候邻接表边从小到大。
+再ps: 题目其实可以增加难度的，比如，有的飞机票就是用不到啊[a,b ] [b,c] [f,g]最后一张用不到，让你求最多跑多少，多解输出最小序列。怎么实现就留给读者吧:)
+
+解法II 欧拉通路（Eulerian path）：
+参考链接：
+将机场视为顶点，机票看做有向边，可以构成一个有向图。
+
+通过图（无向图或有向图）中所有边且每边仅通过一次的通路称为欧拉通路，相应的回路称为欧拉回路。具有欧拉回路的图称为欧拉图（Euler Graph），具有欧拉通路而无欧拉回路的图称为半欧拉图。
+因此题目的实质就是从JFK顶点出发寻找欧拉通路，可以利用Hierholzer算法。
+
+
+5. 数组除2或加减1，最小的步数
+递归， Math.min(a[n - 1], a[n + 1])
+
+
+6.Scramble string
+// 直接相等就返回true
+// 频率表［一加一减］／或者直接sort统计，看是否是anagram
+// 分割，两部分直接相等 或 交换相等
+==========================================================================================
+6.
+public class Solution {
+    public boolean isScramble(String s1, String s2) {
+	// 直接相等就返回true
+        if (s1.equals(s2)) return true; 
+        // 频率表［一加一减］／或者直接sort统计，看是否是anagram
+        int[] letters = new int[26];
+        for (int i = 0; i < s1.length(); i++) {
+            letters[s1.charAt(i)-'a']++;
+            letters[s2.charAt(i)-'a']--;
+        }
+        for (int i = 0; i < 26; i++) if (letters[i] != 0) return false;
+    
+    
+    	// 分割，两部分直接相等 或 交换相等
+        for (int i = 1; i < s1.length(); i++) {
+            if (isScramble(s1.substring(0,i), s2.substring(0,i)) 
+             && isScramble(s1.substring(i), s2.substring(i))) return true;
+             
+            if (isScramble(s1.substring(0,i), s2.substring(s2.length()-i)) 
+             && isScramble(s1.substring(i), s2.substring(0,s2.length()-i))) return true;
+        }
+        return false;
+    }
+}
+
+
+1.
+public class Solution {
+   public int depthSum(List<NestedInteger> nestedList) {
+    return helper(nestedList, 1);
+}
+ 
+public int helper(List<NestedInteger> nestedList, int depth){
+    if(nestedList==null||nestedList.size()==0)
+        return 0;
+ 
+    int sum=0;
+    for(NestedInteger ni: nestedList){
+        if(ni.isInteger()){
+            sum += ni.getInteger() * depth;
+        }else{
+            sum += helper(ni.getList(), depth+1);
+        }
+    }
+ 
+    return sum;
+}
+}
+
+
+class Solution1 {
+    public int depthSum(List<NestedInteger> nestedList) {
+        // Write your code here
+        if (nestedList == null || nestedList.size() == 0) {
+            return 0;
+        }
+        int sum = 0;
+        Queue<NestedInteger> queue = new LinkedList<NestedInteger>();
+        for (NestedInteger nestedInt : nestedList) {
+            queue.offer(nestedInt);
+        }
+
+        int depth = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            depth++;
+            for (int i = 0; i < size; i++) {
+                NestedInteger nestedInt = queue.poll();
+                if (nestedInt.isInteger()) {
+                    sum += nestedInt.getInteger() * depth;
+                } else {
+                    for (NestedInteger innerInt : nestedInt.getList()) {
+                        queue.offer(innerInt);
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+}
+
+2.
+public class Solution {
+    public int depthSumInverse(List<NestedInteger> nestedList) {
+        if (nestedList == null) return 0;
+        Queue<NestedInteger> queue = new LinkedList<NestedInteger>();
+        int prev = 0;
+        int total = 0;
+        //先全加入
+        for (NestedInteger next: nestedList) {
+            queue.offer(next);
+        }
+        
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            int levelSum = 0;
+            for (int i = 0; i < size; i++) {
+                NestedInteger current = queue.poll();
+                if (current.isInteger()) levelSum += current.getInteger();
+                List<NestedInteger> nextList = current.getList();
+                if (nextList != null) {
+                    for (NestedInteger next: nextList) {
+                        queue.offer(next);
+                    }
+                }
+            }
+            prev += levelSum;
+            total += prev;
+        }
+        return total;
+    }
+}
+
+
+ class Solution1 {  
+    private int maxDepth(List<NestedInteger> nestedList, int depth) {  
+        int max = depth;  
+        for(NestedInteger ni : nestedList) {  
+            if (!ni.isInteger()) {  
+                max = Math.max(max, maxDepth(ni.getList(), depth + 1));  
+            }  
+        }  
+        return max;  
+    }  
+    private int sum(List<NestedInteger> nestedList, int depth) {  
+        int sum = 0;  
+        for(NestedInteger ni : nestedList) {  
+            if (ni.isInteger()) {  
+                sum += ni.getInteger() * depth;  
+            } else {  
+                sum += sum(ni.getList(), depth - 1);  
+            }  
+        }  
+        return sum;  
+    }  
+    public int depthSumInverse(List<NestedInteger> nestedList) {  
+        if (nestedList == null || nestedList.isEmpty()) return 0;  
+        int max = maxDepth(nestedList, 1);  
+        return sum(nestedList, max);  
+    }  
+}  
+
+
+3.
+public class Solution {
+    int[] dx = {-1, 1, 0, 0};
+    int[] dy = {0, 0, -1, 1};
+ 
+    public int longestIncreasingPath(int[][] matrix) {
+        if(matrix==null||matrix.length==0||matrix[0].length==0)
+            return 0;
+        // 记忆化
+        int[][] mem = new int[matrix.length][matrix[0].length];
+        int longest=0;
+        // 仍然每个点搜，但是加matrix记录而且比较longest
+        for(int i=0; i<matrix.length; i++){
+            for(int j=0; j<matrix[0].length; j++){
+                longest = Math.max(longest, dfs(matrix, i, j, mem));
+            }
+        }
+ 
+        return longest;
+    }
+ 
+    public int dfs(int[][] matrix, int i, int j,  int[][] mem){
+        // 有了就更新
+        if(mem[i][j]!=0)
+            return mem[i][j];
+        // 上下左右四个点
+        for(int m=0; m<4; m++){
+            int x = i+dx[m];
+            int y = j+dy[m];
+            //符合条件的点并且比原来的点大，就沿着这个点比较dfs
+            if(x>=0&&y>=0&&x<matrix.length&&y<matrix[0].length && matrix[x][y]>matrix[i][j]){
+                mem[i][j]=Math.max(mem[i][j], dfs(matrix, x, y, mem));
+            }
+        } 
+        // 找到之后再加1
+        return ++mem[i][j];
+    }
+}
+
+
+4.
+public class Solution{
+    //  一张飞机票只能用一次，必须用完，而PriorityQueue，poll相当于计数
+	HashMap<String, PriorityQueue<String>> map = new HashMap<String, PriorityQueue<String>>();
+	LinkedList<String> result = new LinkedList<String>();
+ 
+	public List<String> findItinerary(String[][] tickets) {
+	    //把边集换成邻接表，PriorityQueue为了字母序
+		for (String[] ticket : tickets) {
+			if (!map.containsKey(ticket[0])) {
+				PriorityQueue<String> q = new PriorityQueue<String>();
+				map.put(ticket[0], q);
+			}
+			map.get(ticket[0]).offer(ticket[1]);
+		}
+        // 开始
+		dfs("JFK");
+		return result;
+	}
+ 
+	public void dfs(String s) {
+	    //这个点邻接表提取出来
+		PriorityQueue<String> q = map.get(s);
+		// 有的话深搜
+		// 深搜的话，相当于以字母序一直耗邻接表数目
+		while (q != null && !q.isEmpty()) {
+			dfs(q.poll());
+		}
+		//本身加在最前面
+		result.addFirst(s);
+	}
+}
+5.
+ class Solution1 {
+   public int integerReplacement(int n) {
+    int c = 0;
+    while (n != 1) {
+        // 偶数 移位
+        if ((n & 1) == 0) {
+            n >>>= 1;
+        // 奇数，n == 3算一种， 移一位是偶数, 那么先减    
+        } else if (n == 3 || ((n >>> 1) & 1) == 0) {
+            --n;
+        } else {
+            // 相加
+            ++n;
+        }
+        ++c;
+    }
+    return c;
+}
+}
+
+public class Solution {
+    /**
+     * 递归搜索求解，注意他给了2147483647的测试，可能会溢出，所以需要使用long)
+     * */
+    public int integerReplacement(int n) {
+        return (int)longReplacement(n);
+    }
+
+    public long longReplacement(long n) {
+        // 小于3的话，步数就是n - 1 ，递归条件
+        if( n < 3 ) return n - 1;
+        // even只有一种递归途径
+        if(n%2 ==0) return longReplacement(n/2) + 1;
+        // odd的话就返回最小的那个＋1
+        else return Math.min(longReplacement(n-1),longReplacement(n+1)) + 1;
+    }
+}
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+Google Tag 1
+2. DFS,BFS,BackT(GraphUnion)
+	1. 二进制手表，亮n个灯，4个灯表示时钟，6个点表示分钟
+		个人觉得类似combination
+	  1 － 10位取3位
+	2. android lock
+	判断数组，for每个点开始，内部再加一个visited，存last和cur，从i到1
+	3.game of life
+	4. number of island（）后面跟count，四个方向
+	if (grid[i][j] == '1') {
+                DFSMarking(grid, i, j);//使得连接地方
+                ++count;
+            }
+	5. number of islandII 动态追踪岛的变化
+	6.有环无环，有的边是双向的？［http://www.lintcode.com/zh-cn/problem/graph-valid-tree/］
+	7.panlindrome permutationII 频率表，128个字符，for一遍，mid放奇数的，偶的减一半，然后再生成－－－for（＋＋ 把i放上去－－）
+	8.K维坐标
+	9. 0-9生成小于一个整数的值
+	https://instant.1point3acres.com/thread/188340
+	10.有向图找环
+	http://www.cnblogs.com/TenosDoIt/p/3644225.html
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+DFS＋BackT ＋ BFS Google Tag2
+	12. number of islandII, 岛2，O(k log mn)
+		动态加点更新，全并查集
+	所以M次SUB-Union(a,b)操作的时间复杂度为O(NlogN+M)
+	首先我们给出一个固定对象x的代表元指针head[x]被更新次数的上界。由于每次x的代表元指针被更新时，x必然在较小的集合中，因此x的代表元指针被更新一次后，集合至少含2个元素。类似地，下一次更新后，集合至少含4个元素，继续下去，当x的代表元指针被更新 log k 次后，集合至少含k个元素，而集合最多含n个元素，所以x的代表元指针至多被更新 log n 次。所以M次SUB-Union(a,b)操作的时间复杂度为O(NlogN+M)。算法总的时间复杂度为O(NlogN+M+Q)。
+	20. bomb enemy
+		// 每个点遍历一遍
+    // row为什么一个，因为j == 0必然算一次，之后有墙再更新
+    // col则需要存储每一个值，先行再列，列里每个j都要算一次，但是只有一个i
+
+
+	21. perfect square
+	http://www.cnblogs.com/grandyang/p/5825619.html 
+	点的性质，bit划分其所属位置，
+		有且只有:
+ *   - 最左下 最左上 最右下 最右上 的四个点只出现过一次,其他肯定是成对出现的(保证完全覆盖)
+ *   - 上面四个点围成的面积,正好等于所有子矩形的面积之和(保证不重复)
+
+	22. Alien Dic(Topo Sort—BFSQueue) 一个点的被入度表，一个点的入谁的map《Set》

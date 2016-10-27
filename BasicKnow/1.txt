@@ -1,0 +1,775 @@
+
+A.XML／SOAP／ProtocolBuffer［SysD里］／JSON－RPC
+1.5.2 在你的client 和 worker 之间， 加了三层 Gearman Client－ Gearman Job Server－Gearman Worker
+
+		1.5.3  restful首先是要求必须把所有的应用定义成为“resource”，然后只能针对资源做有限的四种操作。这是对API一个非常糟糕的抽象，有太多现实中需要的API，无法顺当的融入到restful所定义的规范中。
+rpc的成熟方案非常多，有古老的soap，也有轻量的json rpc
+		RESTful API 和 JSON-RPC 都不好用。应该二者结合，用兼容 RESTful API 的 RPC 才对。
+我们 ThoughtWorks 的几个小伙伴最近开源的 ThoughtWorksInc/microbuilder ，让你直接写 RPC 接口，然后自动转换成 RESTful 调用。
+		1.5.4 SOAP－Restful 
+		http://www.infoq.com/cn/articles/rest-soap-when-to-use-each
+			A.Web服务技术就有SOAP（Simple Object Access Protocol，简单对象访问协议）和REST（Representational State Transfer，表示性状态转移）这两种方案
+			B.基于“通用”传输协议是SOAP的一个优点。REST目前基于HTTP/HTTPS；而SOAP可支持任何传输协议，从HTTP/HTTPS到SMTP（Simple Mail Transfer Protocol，简单邮件传送协议），甚至JMS（Java Messaging Service，Java消息传递服务）。不过，由于XML较为冗长且解析费时，因此采用XML也成为一个弊端。
+			C.有限的带宽和资源 别忘了返回的结构可以采用（由开发者定义的）任何格式
+			完全无状态的操作
+			缓存考虑 若要利用无状态操作的特性，使得信息可被缓存，那么REST是很好的选择
+		异步处理与调用 如果你的应用需要确保可靠性与安全性，那么请采用SOAP。
+		形式化契约 若提供者/消费者双方必须就交换格式取得一致
+		有状态的操作 如果应用需要上下文信息与对话状态管理
+			D.RPC调用过程［Java RMI， RPC， RestAPI］
+			大体上来说，Netty就是提供一种事件驱动的，责任链式（也可以说是流水线）的网络协议实								现方式。
+				1.TCP通讯
+				2.寻址（UDDI，RMI Registry）
+				3.serde
+				4.serde	
+
+
+	1. Ajax
+		ajax的全称是AsynchronousJavascript+XML。
+	异步传输+js+xml。
+	所谓异步，在这里简单地解释就是：向服务器发送请求的时候，我们不必等待结果，而是可以同时做其他的事情，等到	有了结果我们可以再来处理这个事。（当然，在其他语境下这个解释可能就不对了）
+	这个很重要，如果不是这样的话，我们点完按钮，页面就会死在那里，其他的数据请求不会往下走了。这样比等待刷新	似乎更加讨厌。
+	（虽然提供异步通讯功能的组件默认情况下都是异步的，但它们也提供了同步选项，如果你好奇把那个选项改为false的话，你的页面就会死在那里）
+	xml只是一种数据格式，在这件事里并不重要，我们在更新一行字的时候理论上说不需要这个格式，但如果我们更新很多内容，那么格式化的数据可以使我们有条理地去实现更新。
+	现在大部分人其实是用JSON这种格式来代替XML的，因为前者更加简洁，据说目前的解析速度也更快。多快好省，能省则省啊。
+
+	2.算法内存泄漏侦测， 如何优化算法［内存有限，输入大量］
+		C++ Destructor没写？
+		Java内存泄漏：
+			Unreferenced vs Referenced：计数器，
+			Unused－－关注重点：A-> B -> C, D, E [中间一个链条出问题，后面全无法回收]
+			A生命周期远远长于B A引用B
+			1.特别注意一些像HashMap、ArrayList的集合对象，它们经常会引发内存泄漏。当它们被声明为static时，它们的生命周期就会和应用程序一样长。
+			2.注意事件监听和回调函数。当一监听器在使用的时候被注册，但不再使用之后却未被反注册
+			3.“如果一个类自己管理内存，那开发人员就得小心内存泄漏问题了。” 通常一些成员变量引用其他对象，初始化的时候需要置空
+			4.服务器程序往往长期运行
+			  通过关键字new／反射的方式为每个对象申请内存空间 (基本类型除外)，所有的对象都在堆 (Heap)中分配空间 ［加重了JVM的工作，慢］ 例如大多程序从main进程开始执行，那么该图就是以main进程顶点开始的一棵根树。在这个有向图中，根顶点可达的对象都是有效对象，GC将不回收这些对象。如果某个对象 (连通子图)与这个根顶点不可达(注意，该图为有向图)，那么我们认为这个(这些)对象不再被引用，可以被GC回收。
+			5.两种内存管理：1.有向图，2. 计数器 Java使用有向图的方式进行内存管理，可以消除引用循环的问题，例如有三个对象，相互引用，只要它们和根进程不可达的，那么GC也是可以回收它们的。这种方式的优点是管理内存的精度很高，但是效率较低。另外一种常用的内存管理技术是使用计数器，例如COM模型采用计数器方式管理构件，它与有向图相比，精度行低(很难处理循环引用的问题)，但执行效率很高。
+			6.我们就可以描述什么是内存泄漏。在Java中，内存泄漏就是存在一些被分配的对象，这些对象有下面两个特点，首先，这些对象是可达的，即在有向图中，存在通路可以与其相连；其次，这些对象是无用的，即程序以后不会再使用这些对象。	
+			7.虽然，我们只有几个函数可以访问GC，例如运行GC的函数System.gc()，但是根据Java语言规范定义， 该函数不保证JVM的垃圾收集器一定会执行。因为，不同的JVM实现者可能使用不同的算法管理GC。通常，GC的线程的优先级别较低。JVM调用GC的策略也有很多种，有的是内存使用到达一定程度时，GC才开始工作，也有定时执行的，有的是平缓执行GC，有的是中断式执行GC	
+		Java内存优化：
+			1.使用不频繁的大量数据可以先写入硬盘
+			2.内存占用和计算效率往往是矛盾的
+			3.内存占用量超过单机极限，算法和数据具有并行性，可以考虑多机并行的分布式运算
+			4.底层编译器优化
+		 	
+			8. 内存泄漏JProbe Profile[工具]
+			9.下面给出了一个简单的内存泄露的例子。在这个例子中，我们循环申请Object对象，并将所申请的对象放入一个Vector中，如果我们仅仅释放引用本身，那么Vector仍然引用该对象，所以这个对象对GC来说是不可回收的。因此，如果对象加入到Vector后，还必须从Vector中删除，最简单的方法就是将Vector对象设置为null。
+Vector v=new Vector(10);
+for (int i=1;i<100; i++)
+{
+	Object o=new Object();
+	v.add(o);
+	o=null;	
+}
+			10.3.3 容易引起内存泄漏的几大原因
+3.3.1 静态集合类
+      像HashMap、Vector 等静态集合类的使用最容易引起内存泄漏，因为这些静态变量的生命周期与应用程序一致，如示例1，如果该Vector 是静态的，那么它将一直存在，而其中所有的Object对象也不能被释放，因为它们也将一直被该Vector 引用着。
+3.3.2 监听器
+     在java 编程中，我们都需要和监听器打交道，通常一个应用当中会用到很多监听器，我们会调用一个控件的诸如addXXXListener()等方法来增加监听器，但往往在释放对象的时候却没有记住去删除这些监听器，从而增加了内存泄漏的机会。
+3.3.3 物理连接
+         一些物理连接，比如数据库连接和网络连接，除非其显式的关闭了连接，否则是不会自动被GC 回收的。Java 数据库连接一般用DataSource.getConnection()来创建，当不再使用时必须用Close()方法来释放，因为这些连接是独立于JVM的。对于Resultset 和Statement 对象可以不进行显式回收，但Connection 一定要显式回收，因为Connection 在任何时候都无法自动回收，而Connection一旦回收，Resultset 和Statement 对象就会立即为NULL。但是如果使用连接池，情况就不一样了，除了要显式地关闭连接，还必须显式地关闭Resultset Statement 对象（关闭其中一个，另外一个也会关闭），否则就会造成大量的Statement 对象无法释放，从而引起内存泄漏。
+3.3.4 内部类和外部模块等的引用
+        内部类的引用是比较容易遗忘的一种，而且一旦没释放可能导致一系列的后继类对象没有释放。对于程序员而言，自己的程序很清楚，如果发现内存泄漏，自己对这些对象的引用可以很快定位并解决，但是现在的应用软件
+并非一个人实现，模块化的思想在现代软件中非常明显，所以程序员要小心外部模块不经意的引用，例如程序员A 负责A 模块，调用了B 模块的一个方法如：
+public void registerMsg(Object b);
+这种调用就要非常小心了，传入了一个对象，很可能模块B就保持了对该对象的引用，这时候就需要注意模块B 是否提供相应的操作去除引用。
+			11.   映像（Reflector）是一个程序分析自己的能力。java.lang.reflect包提供了获取关于字段、构造函数、方法和类的修改器的信息的能力。利用这些信息可以建立和Java Beans组件打交道的工具。可以动态创建组件的特征。
+    堆（heap） ：栈(stack)与堆(heap)都是Java用来在Ram中存放数据的地方。与C++不同，Java自动管理栈和堆，程序员不能直接地设置栈或堆。栈的优势是，存取速度比堆要快，仅次于直接位于CPU中的寄存器。但缺点是，存在栈中的数据大小与生存期必须是确定的，缺乏灵活性。另外，栈数据可以共享，堆的优势是可以动态地分配内存大小，生存期也不必事先告诉编译器，Java的垃圾收集器会自动收走这些不再使用的数据。但缺点是，由于要在运行时动态分配内存，存取速度较慢。
+    连接池：在实际应用开发中，特别是在WEB应用系统中，如果JSP、Servlet或EJB使用JDBC直接访问数据库中的数据，每一次数据访问请求都必须经历建立数据库连接、打开数据库、存取数据和关闭数据库连接等步骤，而连接并打开数据库是一件既消耗资源又费时的工作，如果频繁发生这种数据库操作，系统的性能必然会急剧下降，甚至会导致系统崩溃。数据库连接池技术是解决这个问题最常用的方法，在许多应用程序服务器（例如：Weblogic,WebSphere,JBoss）中，基本都提供了这项技术，无需自己编程，但是，深入了解这项技术是非常必要的。
+　　数据库连接池技术的思想非常简单，将数据库连接作为对象存储在一个Vector对象中，一旦数据库连接建立后，不同的数据库访问请求就可以共享这些连接，这样，通过复用这些已经建立的数据库连接，可以克服上述缺点，极大地节省系统资源和时间。
+　　数据库连接池的主要操作如下：
+　　（1）建立数据库连接池对象（服务器启动）。
+　　（2）按照事先指定的参数创建初始数量的数据库连接（即：空闲连接数）。
+　　（3）对于一个数据库访问请求，直接从连接池中得到一个连接。如果数据库连接池对象中没有空闲的连接，且连接数没有达到最大（即：最大活跃连接数），创建一个新的数据库连接。
+　　（4）存取数据库。
+　　（5）关闭数据库，释放所有数据库连接（此时的关闭数据库连接，并非真正关闭，而是将其放入空闲队列中。如实际空闲连接数大于初始空闲连接数则释放连接）。
+　　（6）释放数据库连接池对象（服务器停止、维护期间，释放数据库连接池对象，并释放所有连接）
+	4.List of Others + Techs in Dir
+	5.How to design a A/B testing? 
+		对照实验，也叫随机实验和A /B测试
+	6.进程池，线程池，对象池［http://blog.csdn.net/catoop/article/details/50180949］
+		0.内存池避免内存碎片
+		1.线程池：基本思想还是一种对象池的思想，开辟一块内存空间，里面存放了众多(未死亡)的线程，池中线程执行调度由池管理器来处理。当有线程任务时，从池中取一个，执行完成后线程对象归池，这样可以避免反复创建线程对象所带来的性能开销，节省了系统的资源。
+		2.A.对比：进程池的最大好处在于任务的隔离性，不同进程处理的任务之间是相互独立，互不影响的，即使某个进程再处理某个用户的某个请求是crash了，也不会影响整个程序的执行。而线程池则正好相反，某个现场崩溃了，其他线程也不会有好果子吃，大家一起归西
+		  B. 线程池的优点之一就是现场切换代价小，而且数据共享容易（这也可以说成是它的缺点），处理重复的小任务还是比较好的.
+   市面上有些进程池框架是对每个用户连接一个进程进行处理，这种方式下并发量恐怕上不来（如果你的应用本来就不要球并发就没的说了），这样每个用户就和一个特定进程关联了。银行系统里面应该用得比较多，他们不缺钱，他们要尽可能杜绝用户之间相互影响。如果有一个主进程来处理解析协议和业务逻辑，每个进程只是作为工作进程，从队列里面取任务进行处理，如果进程过多，切换开销会很客观，但是如果你本来就是多核的服务器，而且进程数很少，且在这样的配置下，你的业务运行得很好，那也没的说了。
+		  C.1、需要大量的线程来完成任务，且完成任务的时间比较短。 WEB服务器完成网页请求这样的任务，使用线程池技术是非常合适的。因为单个任务小，而任务数量巨大，你可以想象一个热门网站的点击次数。但对于长时间的任务，比如一个Telnet连接请求，线程池的优点就不明显了。因为Telnet会话时间比线程的创建时间大多了。
+2、对性能要求苛刻的应用，比如要求服务器迅速响应客户请求。
+3、接受突发性的大量请求，但不至于使服务器因此产生大量线程的应用。突发性大量客户请求，在没有线程池情况下，将产生大量线程，虽然理论上大部分操作系统线程数目最大值不是问题，短时间内产生大量线程可能使内存到达极限，并出现"OutOfMemory"的错误。
+
+
+
+
+
+3.DB[1h]不同数据库使用［0.5h］［bittiger，FactsetOnsite］
+	1.recovery
+		1.What are types of recovery in sql server
+		http://www.360doc.com/content/10/1229/21/3554006_82452207.shtml
+		simple［只能回到刚结束］ bulk－logged［纪录操作］ full［全恢复］ 
+	2.不同数据库种类
+	3.execution plan
+		读取 SQL 语句
+		对其进行语法分析，形成一个语法分析树（或者关系代数表达式，两者相通）
+		对语法分析树根据关系代数等式进行优化转换
+		优化器根据一些统计数据得出一个最优的执行计划
+		计算引擎根据执行计划计算 SQL 语句结果
+	 Merge Join  (cost=198.11..268.19 rows=10 width=488)
+   Merge Cond: (t1.unique2 = t2.unique2)
+   ->  Index Scan using tenk1_unique2 on tenk1 t1  (cost=0.29..656.28 rows=101 width=244)
+         Filter: (unique1 < 100)
+   ->  Sort  (cost=197.83..200.33 rows=1000 width=244)
+         Sort Key: t2.unique2
+         ->  Seq Scan on onek t2  (cost=0.00..148.00 rows=1000 width=244)
+   Scan Methods
+
+Sequential Scan：扫描整个 table 选择结果
+Index Scan：从 B-tree 索引筛选，然后根据索引扫描 table 获取结果
+Index Only Scan：同 Index Scan，只是不需要再次查询 table 了，所有筛选和结果都使用索引
+Bitmap Index Scan：对普通的 Index Scan 的优化，从 B-tree 索引中筛选的结果首先保存在一个 bitmap 中， 然后对这个 bitmap 按照在磁盘中存储顺序排序，再按照这个顺序查询 table。
+Join Methods
+
+Nested Loop：最通用的双循环合并
+Hash Join：将较小的 table 放到一个 hash 表中，然后扫描较大的 table 并按照合并条件合并
+Merge Join：将两个 table 分别排序，然后根据合并条件合并
+
+	4. 优化：
+	语句：
+	Where VS. Having 查找单一记录（在过程中查找），查找并集记录（在结果中查找）
+	在可能的情况下用where代替having
+	在可能的情况下避免排序
+	在可能的情况下用Subquery代替Join，因为Join会产生相乘的时间复杂度
+	In与Not In与subquery合用时，用Exists与Not Exists代替可以简化过程
+	避免返回*
+	缩小范围后进行排序或组合
+	Design 对齐int（64）
+	设计：
+	indexing…，设计，范式，duplicate or not
+
+	5. B+indexing
+	http://blog.csdn.net/wwh578867817/article/details/50493940
+	在B+树中，key 的副本存储在内部节点，真正的 key 和 data 存储在叶子节点上 。
+n 个 key 值的节点指针域为 n 而不是 n+1。
+	B+树内节点不存储数据，所有 data 存储在叶节点导致查询时间复杂度固定为 log n。而B-树查询时间复杂度不固定，与 key 在树中的位置有关，最好为O(1)。‘
+	B+树可以很好的利用局部性原理，若我们访问节点 key为 50，则 key 为 55、60、62 的节点将来也可能被访问，我们可以利用磁盘预读原理提前将这些数据读入内存，减少了磁盘 IO 的次数。 
+当然B+树也能够很好的完成范围查询。比如查询 key 值在 50-70 之间的节点。
+	B+树更适合外部存储。由于内节点无 data 域，每个节点能索引的范围更大更精确
+	为什么 MongoDB 索引选择B-树，而 Mysql 索引选择B+树
+这些内容了解后，我们来看为什么 MongoDB 索引选择B-树，而 Mysql （InooDB 引擎）索引选择B+树。
+	我们说过，尽可能少的磁盘 IO 是提高性能的有效手段。MongoDB 是聚合型数据库，而 B-树恰好 key 和 data 域聚合在一起。
+	Mysql 是一种关系型数据库，区间访问是常见的一种情况，而 B-树并不支持区间访问（可参见上图），而B+树由于数据全部存储在叶子节点，并且通过指针串在一起，这样就很容易的进行区间遍历甚至全部遍历。见B/B+树的区别第二点：
+	PostgreSQL独特的地方是它支持高度需要的、完整的面向对象以及关系型数据库的功能，例如完全支持可靠性事务。
+由于其强大的底层技术，PostgreSQL能够非常高效地处理很多任务。得益于多版本并发控制（MVCC），它能够在没有读锁的情况下实现并发并保证ACID。
+
+PostgreSQL是高度可编程的，因此扩展性非常好，它支持称为“存储过程”的自定义程序。用户可以创建这种函数简化重复的、复杂的以及经常需要的数据库操作的执行。
+	6. Join兼mysql，（select ＊ 单独成一个表）SELECT a from a inner join customer on 。。。
+	SELECT * FROM ScientistSocialNetwork.paper where title = 'ty' 
+OR paperID in (SELECT referID FROM ScientistSocialNetwork.refer 
+where paperID = (select paperID from ScientistSocialNetwork.paper
+title like '%y%') >= 10  );
+		SELECT country FROM Websites
+		UNION
+		SELECT country FROM apps
+		ORDER BY country;  Union All 支持重复
+	 SUM First Last MAX MIN 
+	SELECT Websites.name,COUNT(access_log.aid) AS nums FROM access_log
+LEFT JOIN Websites
+ON access_log.site_id=Websites.id
+GROUP BY Websites.name;
+	在 SQL 中增加 HAVING 子句原因是，WHERE 关键字无法与聚合函数一起使用
+	SELECT Websites.name, Websites.url, SUM(access_log.count) AS nums FROM (access_log
+	INNER JOIN Websites
+	ON access_log.site_id=Websites.id)
+	GROUP BY Websites.name
+	HAVING SUM(access_log.count) > 200;
+	取第几高
+	select top 1 * from table where id in (select top 50 id from table order by id desc)		
+	B: user_id string. 
+              page_id string
+              time string
+   Find 1) Recent 90 days
+        2) the page that is viewed most by a user
+        3) and not viewed by any other 2 users.
+	select * from table where 时间字段 between '2008-02-21 18:05:56.420' and '2008-02-22 18:05:56.420'	
+		
+	3. Spark是什么？executor是什么？
+		Apache Spark是一个开源簇运算框架，最初是由加州大学柏克莱分校AMPLab所开发。相对于Hadoop的MapReduce会在运行完工作后将中介数据存放到磁盘中，Spark使用了内存内运算技术，能在数据尚未写入硬盘时即在内存内分析运算。Spark在内存内运行程序的运算速度能做到比Hadoop MapReduce的运算速度快上100倍，即便是运行程序于硬盘时，Spark也能快上10倍速度。
+		http://blog.jasonding.top/2015/07/08/Spark/%E3%80%90Spark%E3%80%91Spark%E5%BA%94%E7%94%A8%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/
+		
+	4.MapReduce是啥，spark跟普通mapreduce啥区别，什么时候用哪个更好？
+		A.Input-Split-Mapping-Shuffling-reducing-final result
+		B.Application：Spark 的应用程序，用户提交后，Spark为App分配资源，将程序转换并执行，其中Application包含一个Driver program和若干Executor
+		SparkContext：Spark 应用程序的入口，负责调度各个运算资源，协调各个 Worker
+Node 上的 Executor
+		Driver Program：运行Application的main()函数并且创建SparkContext
+		RDD Graph：RDD是Spark的核心结构， 可以通过一系列算子进行操作（主要有Transformation和Action操作）。当RDD遇到Action算子时，将之前的所有算子形成一个有向无环图（DAG）。再在Spark中转化为Job，提交到集群执行。一个App中可以包含多个Job
+		Executor：是为Application运行在Worker node上的一个进程，该进程负责运行Task，并且负责将数据存在内存或者磁盘上。每个Application都会申请各自的Executor来处理任务
+		Worker Node：集群中任何可以运行Application代码的节点，运行一个或多个Executor进程
+		Job：一个RDD Graph触发的作业，往往由Spark Action算子触发，在SparkContext中通过runJob方法向Spark提交Job
+	Stage：每个Job会根据RDD的宽依赖关系被切分很多Stage， 每个Stage中包含一组相同的Task， 这一组Task也叫TaskSet
+	Task：一个分区对应一个Task，Task执行RDD中对应Stage中包含的算子。Task被封装好后放入Executor的线程池中执行
+	DAGScheduler：根据Job构建基于Stage的DAG，并提交Stage给TaskScheduler
+	TaskScheduler：将Taskset提交给Worker node集群运行并返回结果
+
+
+		C.rdd3 = rdd2.map(map_func_2)                 \
+           .setName("points_in_out_circle") \
+           .cache()
+		sc.parallelize(xrange(total))                                 \
+    .map(lambda x: (random.random(), random.random()))        \
+    .map(lambda x: 1 if x[0]**2 + x[1]**2 < 1 else 0)         \
+    .reduce(lambda x, y: x + y)                               \
+    / float(total) * 4
+		D.spark shuffle 里的 block size 不能大于 2g。
+		  use reduceByKey instead of GroupByKey when possible
+	          use treeReduce instead of reduce when possible
+	5.列举几个spark的函数哪个只存内存，哪个会写到文件系统上面？
+		RDD的定义，RDD是一个分布式的不可变数据集合 如果你没有主动对RDDCache/Persist,它不过是一个概念上存在的虚拟数据集，你实际上是看不到这个RDD的数据的全集的(他不会真的都放到内存里)。
+		其实就是给某个Stage加上了一个saveAsMemoryBlockFile的动作，然后下次再要数据的时候，就不用算了
+		lazy load/operation/
+	6.Spark vs MapReduce
+		Spark 每次将处理过程加载到内存之中，然后该操作作为缓存一直保持在内存中直到下一步操作。如果 Spark 与其它资源需求型服务一同运行在 Hadoop YARN 上，又或者数据块太大以至于不能完全读入内存，此时 Spark 的性能就会有很大的降低。
+		当涉及需要重复读取同样的数据进行迭代式计算的时候，Spark 有着自身优势。 但是当涉及单次读取、类似 ETL （抽取、转换、加载）操作的任务，比如数据转化、数据整合等时，MapReduce 绝对是不二之选，因为它就是为此而生的。
+		Spark 集群的内存至少要和需要处理的数据块一样大，因为只有数据块和内存大小合适才能发挥出其最优的性能。所以如果真的需要处理非常大的数据，Hadoop 绝对是合适之选，毕竟硬盘的费用要远远低于内存的费用。
+		Spark 是数据处理的瑞士军刀；Hadoop MapReduce 是批处理的突击刀。
+		和 MapReduce 一样， Spark 会重试每个任务并进行预测执行。然而，MapReduce 是依赖于硬盘驱动器的，所以如果一项处理中途失败，它可以从失败处继续执行，而 Spark 则必须从头开始执行，所以 MapReduce 这样节省了时间。
+		Spark 的安全机制仍处在发展期。 Hadoop MapReduce 拥有更多安全控制机制和项目。
+	7. S3 与 HDFS
+		S3扩展好， HDFS 读取速度更快
+==========================================================================================
+4.Java & Data Structure[0.5h]［bittiger＋FactsetOnsite］
+	
+	1.hash collision的。大家回去看看基本概念，关于啥是linear hashing，quatratic hashing啥的。这里是我搜集的之前地里面试总结, hashmap
+		ArrayList＋LinkedList		
+		LinkedHashMap LinkedHashSet保留键的插入顺序，用equals 方法检查键和值的相等性
+		WeakHashMap是一种改进的HashMap，它对key实行“弱引用”，如果一个key不再被外部所引用，那么该key可以被GC回收。
+		普通碰撞－链表，N2，2N 
+	4.”what are some properties of a good hash function?", "
+		理论上非常的快、稳定并且是可确定的（快，稳定，避免碰撞，确定的）
+	2.Explain python vs java in terms of static vs dynamic.
+		弱类型语言，类型检查更不严格，如偏向于容忍隐式类型转换。譬如说C语言的int可以变成double。 这样的结果是：容易产生forbidden behaviours，所以是弱类型的
+		静态类型 statically: 如果在编译时拒绝ill behaved程序，则是statically typed;
+动态类型dynamiclly: 如果在运行时拒绝ill behaviors, 则是dynamiclly typed。
+	3. 误区
+大家觉得C语言要写int a, int b之类的，Python不用写(可以直接写a, b)，所以C是静态，Python是动态。这么理解是不够准确的。譬如Ocaml是静态类型的，但是也可以不用明确地写出来。。
+		http://www.jianshu.com/p/fedec1bfa6eb
+		无类型： 汇编
+		弱类型、静态类型 ： C/C++
+		弱类型、动态类型检查： Perl/PHP
+		强类型、静态类型检查 ：Java/C#
+		强类型、动态类型检查 ：Python, Scheme
+		静态显式类型 ：Java/C
+		静态隐式类型 ：Ocaml, Haskell
+	3.at first ask something about time complexity of bst and hashtable, and the advantages of using them
+		Hash不是单纯O（1）的
+		我们只需通过中序遍历BST即可获得排好序的key列表。而这并非哈希表的自然操作，需要额外的工作才可以实现。
+		使用BST可以很容易地执行顺序统计，找出最接近的最小和最大元素，执行范围查询。像排序一样，这些操作也不是哈希表的自然操作。
+		BST相较于哈希表更容易实现，我们可以很容易地实现自定义的BST。而要实现哈希表，我们一般需要依赖编程语言提供的库函数。
+		使用BST，所有的操作都可以确保在O(Logn)时间内完成，而对于哈希表， Θ(1) 是平均时间，对于某些特定的操作代价可能会比较高，尤其是当表的大小需要调整时。
+	5.Java provides two standard implementations of the List interface, LinkedList and ArrayList
+		Collections：Interface：List，Set，Map
+		Vector is synchronized, ArrayList is not.A Vector defaults to doubling the size of its array, while the ArrayList increases its array size by 50 percent.)
+		doublelinkedlist array，Search，Memory Consume，Deletion，Insertion
+		
+	6.process vs thread
+		进程和线程的主要差别在于它们是不同的操作系统资源管理方式。进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，而线程只是一个进程中的不同执行路径。线程有自己的堆栈和局部变量，但线程之间没有单独的地址空间，一个线程死掉就等于整个进程死掉，所以多进程的程序要比多线程的程序健壮，但在进程切换时，耗费资源较大，效率要差一些。但对于一些要求同时进行并且又要共享某些变量的并发操作，只能用线程，不能用进程。如果有兴趣深入的话，我建议你们看看《现代操作系统》或者《操作系统的设计与实现》。对就个问题说得比较清楚。
+	8.hash trie 算法
+		都可以对付字符串的处理。对于hash来说，字符串的hash求值复杂度基本上是和字符长长度相关的，因为你需要遍历一次你要求hash值的字符串，这点上Trie与其是相同的，树的深度和字符串的长度相同，因此单从检索效率来说，我个人的观点是两者差不多
+但是从应用范围来说，hash会更广一点，因为与其说hash是一种数据结构，倒不如说它是一种方法，一种映射的方法，除了字符串，hash对于数值等的表现也非常好，而Trie基本上多数用在字符串上
+从空间使用来说，个人观点是hash占优，因为虽然Trie的主要空间损耗还是在数据部分，但是每个节点的子节点未占满的情况下是需要保留指针域的，未出现的分支就置空，可是却占据了一个指针域，而相比之下，hash就没有这个顾虑，基本上附加损耗是常数的，我们以拉链的方式来看，本身除了链的头需要一个指针域之外，其余的都是对于一个新节点才会产生一个新的next指针，额外的消耗不会超过整个hash的模数（也就是求出hash值之后取余那个数）
+但是hash如此的优秀却有它的一个不确定因素，也就是hash函数的选取，选好了你的查找效率就非常的高，选得不好可能比直接一个个比较还烂，而相比起来Trie则较为稳定，不管怎么样查找的比较次数总是一个串的长度，这是其优势
+
+	8.1 pass key value
+		基本类型作为参数传递时，是传递值的拷贝，无论你怎么改变这个拷贝，原值是不会改变
+		在Java中对象作为参数传递时，是把对象在内存中的地址拷贝了一份传给了参数。
+		Python is a PASS-BY-OBJECT-REFERENCE programming language.
+	9.java garbage collector algorithm
+		两种办法：方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据
+		程序计数器（Program Counter Register）
+		Java虚拟机栈（Java Virtual Machine Stacks）也是线程私有的，它的生命周期与线程相同。虚拟机栈描述的是Java方法执行的内存模型
+		本地方法栈（Native Method Stack）与虚拟机栈所发挥的作用是非常相似的，它们之间的区别不过是虚拟机栈为虚拟机执行Java方法（也就是字节码）服务，而本地方法栈则为虚拟机使用到的Native方法服务
+		Java堆（Java Heap）是Java虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例都在
+这里分配内存
+		GC，referenced计数器，为0则回收
+		
+	10.Abstract class vs interfaces is a ／ has a
+		http://www.importnew.com/12399.html
+		抽象类是用来捕捉子类的通用特性的 。它不能被实例化，只能被用作子类的超类。
+		接口是抽象方法的集合。如果一个类实现了某个接口，那么它就继承了这个接口的抽象方法
+		接口方法默认修饰符是public。你不可以使用其它修饰符。
+		抽象方法可以有main方法并且我们可以运行它
+		接口是稍微有点慢的，因为它需要时间去寻找在类中实现的方法。
+		如果你往抽象类中添加新的方法，你可以给它提供默认的实现。因此你不需要改变你现在的代码。
+	11.primitive data types and what are their sizes.
+		byte（字节型）     1  -128～127 
+short（短整型）    2 -32768～32767 
+int（整型）        4  -2147483648～2147483647 
+long（长整型）     8  -9223372036854775808 ~ 9223372036854775807 
+float（浮点型）    4  -3.4E38～3.4E38 
+double（双精度型） 8  -1.7E308～1.7E308 
+char（字符型）     2  从字符型对应的整型数来划分，其表示范围是0～65535 
+boolean（布尔型）  1  true或false
+	12.The differences between inheritance and reference, etc.
+		is a / has a   
+	13.What is contingent? How is it different from inheritance?  
+		Inheritance between two classes, where one class extends another class establishes "IS A" relationship. Composition on the other end contains an instance of another class in your class establishes "Has A" relationship. ... I think this example makes the differences between inheritance and composition quite clear.
+	14.What structure would you use if you wanted to keep track of the median and needed to insert? 
+		LinkedListHashMap？
+		
+	15.java class占多少size JIT
+		8字节对齐
+		对象头：至少2个word（4字节），
+			对象的HashCode，锁信息等
+			到对象类型数据的指针
+			数组的长度（如果是数组的话）
+		规则：[long,double]、[int,float]、[char,short]、[byte,boolean]、reference
+		省空间
+		head(8) + a(8) + b(4) + c(4) + d(8) = 32。那如果父类中的属性不够八个字节怎么办？这样就有了新的一条规则：父类中最后一个成员与子类的第一个成员的间隔如果不够4个字节，此时需要扩展到4 个字节的基本单位
+		如果子类的第一个成员是double或者long，并且父类并没有用完8个字节，JVM会破坏规将较小的数 据填充到该空间，举个例子
+		此时占用的空间如下：head(8) + a(1) + padding(3) + c(2) + d(1) + padding(1) + b(8) = 24
+	16.编译型与解释型，两者各有利弊。前者由于程序执行速度快，同等条件下对系统要求较低，因此像开发操作系统、大型应用程序、数据库系统等时都采用它，像C/C++、Pascal/Object Pascal（Delphi）等都是编译语言，而一些网页脚本、服务器脚本及辅助开发接口这样的对速度要求不高、对不同系统平台间的兼容性有一定要求的程序则通常使用解释性语言，如JavaScript、VBScript、Perl、Python、Ruby、MATLAB 等等。
+	   		 JAVA的第一道工序是javac编译，当然目标文件是BYTECODE。后续可能有三种处理方式：
+1. 运行时，BYTECODE由JVM逐条解释执行，
+2. 运行时，部分代码可能由JIT翻译为目标机器指令（以method为翻译单位，还会保存起来，第二次执行就不用翻译了）直接执行；
+3. RTSJ。继JAVAC之后执行AOT二次编译，生成静态的目标平台代码（典型的就是IBM WEBSHPERE REAL TIME）。
+	17.HashMaps, Stack, 
+		就需thread-safe PriorityBlockingQueue.
+		Java中的Stack是通过Vector［threadsafe］来实现的［既然只是为了实现栈，为什么不用链表来单独实现，只是为了复用简单的方法而迫使它继承Vector（Stack和Vector本来是毫无关系的）。这使得Stack在基于数组实现上效率受影响
+使用数组实现不一定比链表实现优良。栈的大小在非常非常大的情况下，基于链表的实现才会比数组实现体现出性能优势，一般情况下，数组的实现在速度上反而超过链表的实现。因为数组元素都在cpu缓存内，而链表的元素要查询了。］
+	18. https://www.ibm.com/developerworks/cn/java/j-lo-polymorph/
+		 Java 对于方法调用动态绑定的实现主要依赖于方法表，但通过类引用调用和接口引用调用的实现则有所不同 静态方法调用是指对于类的静态方法的调用方式，是静态绑定的；而动态方法调用需要有方法调用所作用的对象，是动态绑定的
+		 Java 对于接口方法的调用是采用搜索方法表的方式，对如下的方法调用
+		 单继承时，C++ 对于多态的实现本质上与 Java 是一样的，也是基于方法表。但 C++ 在编译时就可以确认要调用的方法在方法表中的位置
+		 但由于支持多重继承，这会碰到和 Java 支持接口动态调用同样的问题，C++ 的解决方案是利用对象的多个方法表指针，不幸的是，这会引入额外的指针调整的复杂性
+	19.public enum EasySingleton{
+    			INSTANCE;
+		}
+	20.先问array和linkedlist区别，我直接画出来给他讲的，然后问啥时候用array啥时侯用linkedlist。两个数据结构search方法的big o。
+		Collections：Interface：List，Set，Map
+		Vector is synchronized, ArrayList is not.A Vector defaults to doubling the size of its array, while the ArrayList increases its array size by 50 percent.)
+		doublelinkedlist array，Search，Memory Consume，Deletion，Insertion
+	21.C++ Java OS/JVM OOP, GC, Security, Pointers
+	22.Default clone() method creates the shallow copy of an object. deep copy
+	23.public boolean equals(Object obj)public int hashCode()The contract between equals() and hashCode() is:1) If two objects are equal, then they must have the same hash code.2) If two objects have the same hash code, they may or may not be equal.So if we want to use HashSet<self-defined object>, we need to override both hashcode() and equal().
+	24.Final / finalize /finally[Finalize is a method, finalize is used to perform clean up processing just before object is garbage collected]
+	25.Checked[throws throw] Unchecked (compile time)
+		In C++, all exceptions are unchecked,
+		In Java exceptions under Error andRuntimeException classes[indexout,math,null] are unchecked exceptions, everything else under throwable is checked.  Throwable - Error Exception
+	26.HashSet is Implemented using a hash table. Elements are not ordered. The add, remove, and contains methodshave constant time complexity O(1).TreeSet is implemented using a tree structure(red-black tree in algorithm book). The elements in a set aresorted, but the add, remove, and contains methods has time complexity of O(log (n)). It offers several methodsto deal with the ordered set like first(), last(), headSet(), tailSet(), etc.LinkedHashSet is between HashSet and TreeSet. It is implemented as a hash table with a linked list runningthrough it, so it provides the order of insertion. The time complexity of basic methods is O(1).
+	27.String class is used to manipulate character strings that cannot be changed. Objects of type String are read onlyand immutable.The StringBuffer class is used to represent characters that can be modified.
+	28.HashMap is implemented as a hash table, and there is no ordering on keys or values.TreeMap is implemented based on red-black tree structure, and it is ordered by the key.LinkedHashMap preserves the insertion orderHashtable is synchronized, in contrast to HashMap. It has an overhead for synchronization. All methods ofHashtable are synchronized which makes them quite slow due to contention if a number of thread increases.ConcurrentHashMap is thread safe without synchronizing the whole map. Reads can happen very fast whilewrite is done with a lock. There is no locking at the object level. Unlike Hashtable and Synchronized Map, itnever locks whole Map, instead, it divides the map into segments and locking is done on
+	29.Comparable is implemented by a class in order to be able to comparing object of itself with some other objects.First, the class needs to implement Comparable, and in the class need to override compareTo method. (public intcompareTo(E e)) 
+	30. Threads(1.PC register, JVM Stack, Native Method) build on Heap, Method Area(Runtime Constant pool)
+	31.LinkedHashMap LinkedHashSet保留键的插入顺序，用equals 方法检查键和值的相等性
+		WeakHashMap是一种改进的HashMap，它对key实行“弱引用”，如果一个key不再被外部所引用，那么该key可以被GC回收。
+
+
+
+某饭店可以容纳100人同时就餐，某日有个商家恶意竞争，雇佣了200人来这个饭店坐着不吃不喝，导致饭店满满当当无法正常营业。（DDOS攻击成功）
+老板当即大怒，派人把不吃不喝影响正常营业的人全都轰了出去，且不再让他们进来捣乱，饭店恢复了正常营业。（添加规则和黑名单进行DDOS防御，防御成功）
+主动攻击的商家心存不满，这次请了五千人逐批次来捣乱，导致该饭店再次无法正常营业。（增加DDOS流量，改变攻击方式）
+饭店把那些捣乱的人轰出去只后，另一批接踵而来。此时老板将饭店营业规模扩大，该饭店可同时容纳1万人就餐，5000人同时来捣乱饭店营业也不会受到影响。（增加硬防与其抗衡）
+DDOS是Distributed Denial of Service的缩写，翻译成中文是“分布式拒绝服务“攻击，网络中的DDOS攻击与防御与上面例子所述差不多，DDOS只不过是一个概称，其下有各种攻击方式，比如“CC攻击、SYN攻击、NTP攻击、TCP攻击、DNS攻击等等”，现在DDOS发展变得越来越可怕，NTP攻击渐渐成为主流了，这意味着可以将每秒的攻击流量放大几百倍，比如每秒1G的SYN碎片攻击换成NTP放大攻击，就成为了200G或者更多。对NTP攻击的介绍看这里：http://drops.wooyun.org/papers/926
+
+
+弱碰撞：
+	已知函数和数据1，找到数据2，使得碰撞
+强碰撞：
+	已知函数， 找到数据1，数据2，使得碰撞
+http://blog.jobbole.com/22105/
+==========================================================================================
+正向代理,也就是传说中的代理,他的工作原理就像一个跳板,简单的说,我是一个用户,我访问不了某网站,但是我能访问一个代理服务器这个代理服务器呢,他能访问那个我不能访问的网站于是我先连上代理服务器,告诉他我需要那个无法访问网站的内容代理服务器去取回来,然后返回给我。
+这里所提到的 ooxx.me 这个域名对应的服务器就设置了反向代理功能。结论就是 反向代理正好相反，对于客户端而言它就像是原始服务器，并且客户端不需要进行任何特别的设置。客户端向反向代理 的命名空间(name-space)中的内容发送普通请求，接着反向代理将判断向何处(原始服务器)转交请求，并将获得的内容返回给客户端，就像这些内容 原本就是它自己的一样。
+加密和SSL加速
+负载均衡
+缓存静态内容
+压缩
+减速上传
+安全
+外网发布
+
+hashmap（table，map  ConcurrentHashMap）
+	除了HashMap是非synchronized的，并可以接受null(HashMap可以接受为null的键值(key)和值(value)
+HashMap不能保证随着时间的推移Map中的元素次序是不变的。
+
+
+mysql［join］
+	左右内外 
+
+type .com
+	https，handshake
+
+	
+比较vector的实现（如何能够random access + push_back同时实现）具体如何做到random access的
+	Vector 非常类似于 ArrayList，区别是 Vector 是线程同步的 扩容
+	Collection Map   Stack
+Array和LinkedList
+	ArrayList 实现了可变大小的数组。它允许所有元素，包括 Null。Size、IsEmpty、Get、Set 等方法的运行	时间为常数，但是 Add 方法开销为分摊的常数，添加 N 个元素需要 O(N) 的时间，其他的方法运行时间为线性。
+	LinkedList 可被用作堆栈（Stack）、队列（Queue）或双向队列（Deque）。请注意 LinkedList 没有同步	方法，它不是线程同步的，即如果多个线程同时访问一个 List，则必须自己实现访问同步。一种解决方法是在创建 	List 时构造一个同步的 List，方法如
+	List list = Collections.synchronizedList(new LinkedList(...))；
+OOP四大 abstract class override和overload virtual class
+	抽象包括两个方面：过程抽象和数据抽象
+	封装是面向对象编程的特征之一，也是类和对象的主要特征。封装将数据以及加在这些数据上的操作组织在一起
+	继承是一种联结类的层次模型，并且允许和鼓励类的重用
+	多态性是指允许不同类的对象对同一消息作出响应
+compile language和interpret language的区别
+	编译解释都有
+linux commands
+	export PATH=${PATH}:/usr/local/mysql/bin/
+	ls -d $PWD/* 显示绝对路径
+		vi ~/.profile
+	GRADLE_HOME=/Users/wangziming/gradle-2.10;
+	export GRADLE_HOME
+	export PATH=$PATH:$GRADLE_HOME/bin
+	cat file | grep 'warn' | grep '2013' | wc :
+	PS
+	kill -9 "pid"
+	iterm
+	cmd T //新开一个终端
+	ctrl c d z(退出)
+	先commit
+	pwd
+	vi   shift + 方向键 加速
+	mv a.txt b.txt //rename
+	command + L ----> edittext 行数
+passing value［java，但是］和reference passing［python］
+	1、对象是按引用传递的
+	2、Java 应用程序有且仅有的一种参数传递机制，即按值传递
+	3、按值传递意味着当将一个参数传递给一个函数时，函数接收的是原始值的一个副本
+	4、按引用传递意味着当将一个参数传递给一个函数时，函数接收的是原始值的内存地址，而不是值的副本
+	1.对象就是传引用
+	2.原始类型就是传值
+	3.String等immutable类型因为没有提供自身修改的函数，每次操作都是新生成一个对象，所以要特殊对待。可以认为是传值。
+
+
+Access modifier
+	默认的，也称为 default，在同一包内可见，不使用任何修饰符。
+	私有的，以 private 修饰符指定，在同一类内可见。
+	共有的，以 public 修饰符指定，对所有类可见。
+	受保护的，以 protected 修饰符指定，对同一包内的类和所有子类可见。
+	 
+sort radix sort
+	基数排序
+Java Memory Management的特点，我聊了一下JVM / Heap / Garbage Collection
+	stringbuilder和stringbuffer
+
+database normalization & denormalization
+	指数据库表的每一列都是不可分割的基本数据项
+	数据库表中不存在非关键字段对任一候选键的部分函数依赖，也即所有非关键字 段都完全依赖于任意一组候选关键字
+	传递依赖A->B->C，即主键A可以确定出某一非关键字段B，而B又可以确定出C，这意味着C依赖于一个非关键字段B
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+2.Network，OS［自己［10+10］+bittiger总结］
+Network：
+	layer2network
+		L2网络在数据中心中代表了一个二层广播域（layer2 broadcast domain  
+		http://zstack-cn.readthedocs.io/zh/latest/userManual/l2Network.html
+		一个虚拟网络是在物理网络或在其他虚拟网络之上，用软件的方法构造出的逻辑网络(Logic Network)，以实现用户定义的网络拓扑(Networking Topology)并满足用户特定的需求。主要应用的场景是多租户云计算数据中心   SDN(软件定义网络)  except 数据链路层
+
+	What type of visualization tools have you used?[虚拟技术？Docker，AWS，LOL]
+
+	How do you know when data has achieved third normal form (in terms of relational databases)? 原理1NF－3NF， 如果要查一些结果得需要join
+	
+	IPC都有哪些，shared memory是怎么回事，如果使其同步
+		Inter-Process Communication， 管道，消息队列，共享内存，文件和记录锁定
+	
+	socket是怎么回事，演绎从应用层到最底层的通信
+		本地：PID，跨机 TCP层协议和端口号可以唯一标示主机的一个进程，IP层的ip地址可以唯一标示主机
+		应用层和运输层的虚拟层
+		电话局注册号码，监听，通信
+
+	TCP为什么要3次握手，如果不是会有什么问题，举例说明［发了不知道状况］
+		http://www.cnblogs.com/weixiaojun/p/3455203.html
+		SYN   ACK（＋1）SYN  ACK
+		四次握手［FIN ACK FIN ACK］
+	Two computers are connected to a switch and the communication isn't working between them. How do you go about troubleshooting it?
+		网关MAC		
+	Priority Inversion和它的解决方法.
+		本来应该是优先级最高的任务A先执行的，结果却变成了，比优先级最高的任务A，的优先级低一些，中等		优先级任务B，先执行了。
+		可被抢占的
+		中断已禁止的
+	Linux是如何schedule进程的	［罗宾，多路，多优先级］
+	如何判断一个ip报头的包用的是udp还是tcp. 
+		wireshark
+		协议字段（报头检验和前面那个），其值为6，则为TCP，其值为17，则为UDP。
+	Describe how you would theoretically setup a cloud environment.
+		two way［多个模拟一个，一个模拟多个，建立映射］
+	What is AWS (amazon web services)? ［turn traditional to cloud］
+	Design a method for shuffling songs on an iPod?  
+		 for(int j = 1; j < a.length; j++) {
+            		int i = random.nextInt(j + 1);
+            		swap(a, i, j);
+        	  }
+    	external sort.....100gb文件，内存只有5mb 怎么sort.....
+		排成多个文件然后合并
+	Algorithm: MergeSort V.S. QuickSort
+		原地排序：快速排序通常被描述为一个原地算法，但是事实上并不是。大部分的实作需要O(log n)的空间
+		稳定：归并稳定， 快排不稳定
+	一个程序在内存里是什么样子，都有什么结构
+		JVM图
+		http://www.jianshu.com/p/ebfcea3cc71a
+	  class－－类加载器： 内存区［方法区，虚拟机栈，堆，程序计数器，本地方法栈］［执行引擎，本地库借口］
+
+
+	OSI七层
+	网络方面：一个包从一个host发到另一个host的整个过程，包括arp, ip, flood各种过程。
+		应用： http ftp smtp telnet
+		传输： TCP［segments］／UDP］［datagrams］［end to end］
+		网络： 路由，堵塞，互联
+		链路： 把帧解成IP数据报交给网络
+		物理： 与链路有关，也与传输介质有关
+
+		应用层－－－ FTP（文件传输） SMTP， WWW，FTP
+		表示层－－－ 数据加解密，压缩解吗
+		会话层－－－ 建立维持通信
+		传输层－－－ 最重要一层， 流量控制，ACK，查错（TCP，序列包交换 SPX）
+		网络层－－－ 路由决定最优路径，重构数据包（IP， IPX）
+		数据链路层－－－数据帧，MAC，查错
+		物理层－－－ 检测（网卡）
+		协议水平，接口垂直
+	Basic questions about routers, bridges, hubs. 
+		Router这个，大家应该最容易接受了，他是工作在3层的网络设备，基于IP地址实现数据转发，链接不同的子网，实现大的网络互联，今天的互联网通信，跨地域的连接，都离不开它的功劳。相对来说，其原理也比其他的要复杂！
+	
+		Gateway这个就是我们常说的网关，他的主要作用是连接两个不同的网络，这两个网络可能采用了不同的网络协议在通讯。又称网间连接器、协议转换器。网关在网络层以上实现网络互连，是最复杂的网络互连设备，仅用于两个高层协议不同的网络互连。网关既可以用于广域网互连，也可以用于局域网互连。由于现在的网络基本都是基于TCP/IP的协议进行通信的，所以，当前常见的路由器
+		Switch这个估计是很多人都比较熟悉的，端口比较多，数据传送速率也比bridge相对快，支持的管理能力也比较强，也是工作在2层的协议，同样也是基于MAC实现数据转发。但是个人觉得，和bridge没有太多本质区别。有点类似增强版的bridge。
+		Bridge是一个工作在二层的数据转发设备，端口数量比较少，有端口学习，STP/RSTP协议，基于MAC地址实现数据转发。
+		Hub就是一个重复转发器，就是从一个port接受到数据后，就会原样的向其他的所有端口发送刚才收到的数据。个人理解为是工作在物理层的东西。但是，后来发展中，出现了些所谓的智能hub，就是可以做简单的配置，实现端口管理。这个所谓的智能的hub，和后续的bridge/switch的差别貌似小了一步
+		出了道 Phonebook 的 OO design， 并且有一些客户要求如果Phonebook上某些人联系方式改变，会被通知；我意识到用obeserver pattern,写了java code,  通过，说会有下一轮面试 一个subject，存一堆observer list，加删通知，调用执行更新， observer 有一个subject参数传入做构建
+	用mvc pattern ［转发模式？］模拟处理一个网络（几个电脑啊..之类的）＋一个数据库。 其实我连题目都没听懂～～～～蛋疼.... 我就没懂mvc 怎么模拟东西...。
+
+
+export PATH=${PATH}:/usr/local/mysql/bin/
+ls -d $PWD/* 显示绝对路径
+vi ~/.profile
+GRADLE_HOME=/Users/wangziming/gradle-2.10;
+export GRADLE_HOME
+export PATH=$PATH:$GRADLE_HOME/bin
+cat file | grep 'warn' | grep '2013' | wc :
+PS
+kill -9 "pid"
+iterm
+cmd T //新开一个终端
+ctrl c d z(退出)
+先commit
+pwd
+
+vi   shift + 方向键 加速
+
+mv a.txt b.txt //rename
+command + L ----> edittext 行数
+
+解压命令: tar xvf InFile.tar
+压缩命令: tar cvf OutFile.tar InFiles
+tar -czf handin.tar get_started.ipynb xml_parser.ipynb scraper.ipynb
+sh a.sh
+
+sudo vim
+ls *.jar
+
+
+
+
+
+
+
+　　/bin 二进制可执行命令
+　　/dev 设备特殊文件
+　　/etc 系统管理和配置文件
+　　/etc/rc.d 启动的配置文件和脚本
+　　/home 用户主目录的基点，比如用户user的主目录就是/home/user，可以用~user表示
+　　/lib 标准程序设计库，又叫动态链接共享库，作用类似windows里的.dll文件
+　　/sbin 系统管理命令，这里存放的是系统管理员使用的管理程序
+　　/tmp 公用的临时文件存储点
+　　/root 系统管理员的主目录（呵呵，特权阶级）
+　　/mnt 系统提供这个目录是让用户临时挂载其他的文件系统。
+　　/lost+found 这个目录平时是空的，系统非正常关机而留下“无家可归”的文件（windows下叫什么.chk）就在这里
+　　/proc 虚拟的目录，是系统内存的映射。可直接访问这个目录来获取系统信息。
+　　/var 某些大文件的溢出区，比方说各种服务的日志文件
+　　/usr 最庞大的目录，要用到的应用程序和文件几乎都在这个目录。其中包含：
+
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+OOD
+0.Other	
+	1. What kind of experience you have with Business Intelligence
+		This summer， Joins， long sql
+	2. Linux questions
+		End， Bash，
+		shell是系统的用户界面，提供了用户与内核进行交互操作的一种接口
+		文件系统
+		http://blog.csdn.net/hguisu/article/details/6122513
+	3. Platforms you're comfortable working on
+		Fine ［Docker］［Linux］ End
+	4. Difference between TCP and UDP.
+		Reliable
+		Stream／DataGrams
+		Order
+		WWW，FTP，Shell｜DNS，multiplayer games
+	5. 如何实现哈希表（不要求Coding，但要讲清楚原理）
+		ArrayList＋LinkedList		
+		LinkedHashMap LinkedHashSet保留键的插入顺序，用equals 方法检查键和值的相等性
+		WeakHashMap是一种改进的HashMap，它对key实行“弱引用”，如果一个key不再被外部所引用，那么该key可以被GC回收。
+		普通碰撞－链表，N2，2N 
+
+	6. 【系统设计相关】当你在你的浏览器中输入谷歌/CNN/百度之类的域名并敲回车后，会发生什么
+面试官常常会问：你觉得你的解法会有什么漏洞？如何改变？你的解法的运行效率是如何？有没有提升的空间？
+		localhost－DNS－（ip）－route－tcp3handshake，html，css，4handshake，Ajax	
+	8.先问array和linkedlist区别，我直接画出来给他讲的，然后问啥时候用array啥时侯用linkedlist。两个数据结构search方法的big o。
+		Collections：Interface：List，Set，Map
+		Vector is synchronized, ArrayList is not.A Vector defaults to doubling the size of its array, while the ArrayList increases its array size by 50 percent.)
+		doublelinkedlist array，Search，Memory Consume，Deletion，Insertion
+	9.写写singleton。问我有哪些实例用singleton。design pattern（Factory，abstract factory）
+		public enum EasySingleton{
+    			INSTANCE;
+		}
+		public static Singleton getSingleton() {
+   		 if (instance == null) {                         //Single Checked
+       		 synchronized (Singleton.class) {
+          		  if (instance == null) {                 //Double Checked
+                instance = new Singleton();
+        	   	 }
+        	}
+   			 }
+   		 return instance ;
+		}
+	11.What is polymorphism and how is it implemented in C++/Java? 
+		 https://www.ibm.com/developerworks/cn/java/j-lo-polymorph/
+		 Java 对于方法调用动态绑定的实现主要依赖于方法表，但通过类引用调用和接口引用调用的实现则有所不同 静态方法调用是指对于类的静态方法的调用方式，是静态绑定的；而动态方法调用需要有方法调用所作用的对象，是动态绑定的
+		 Java 对于接口方法的调用是采用搜索方法表的方式，对如下的方法调用
+		 单继承时，C++ 对于多态的实现本质上与 Java 是一样的，也是基于方法表。但 C++ 在编译时就可以确认要调用的方法在方法表中的位置
+		 但由于支持多重继承，这会碰到和 Java 支持接口动态调用同样的问题，C++ 的解决方案是利用对象的多个方法表指针，不幸的是，这会引入额外的指针调整的复杂性
+	12.HashMaps, Stack, 
+		就需thread-safe PriorityBlockingQueue.
+		Java中的Stack是通过Vector［threadsafe］来实现的［既然只是为了实现栈，为什么不用链表来单独实现，只是为了复用简单的方法而迫使它继承Vector（Stack和Vector本来是毫无关系的）。这使得Stack在基于数组实现上效率受影响
+使用数组实现不一定比链表实现优良。栈的大小在非常非常大的情况下，基于链表的实现才会比数组实现体现出性能优势，一般情况下，数组的实现在速度上反而超过链表的实现。因为数组元素都在cpu缓存内，而链表的元素要查询了。］
+		Queue LinkedList
+	13.What is the difference between an interpretive and compiled language? 
+		 JAVA的第一道工序是javac编译，当然目标文件是BYTECODE。后续可能有三种处理方式：
+1. 运行时，BYTECODE由JVM逐条解释执行，
+2. 运行时，部分代码可能由JIT翻译为目标机器指令（以method为翻译单位，还会保存起来，第二次执行就不用翻译了）直接执行；
+3. RTSJ。继JAVAC之后执行AOT二次编译，生成静态的目标平台代码（典型的就是IBM WEBSHPERE REAL TIME）。
+		编译型与解释型，两者各有利弊。前者由于程序执行速度快，同等条件下对系统要求较低，因此像开发操作系统、大型应用程序、数据库系统等时都采用它，像C/C++、Pascal/Object Pascal（Delphi）等都是编译语言，而一些网页脚本、服务器脚本及辅助开发接口这样的对速度要求不高、对不同系统平台间的兼容性有一定要求的程序则通常使用解释性语言，如JavaScript、VBScript、Perl、Python、Ruby、MATLAB 等等。
+
+	16.JVM http://www.jianshu.com/p/eacff08ac8a9
+		方法区（Method Area）与Java堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据
+		程序计数器（Program Counter Register）
+		Java虚拟机栈（Java Virtual Machine Stacks）也是线程私有的，它的生命周期与线程相同。虚拟机栈描述的是Java方法执行的内存模型
+		本地方法栈（Native Method Stack）与虚拟机栈所发挥的作用是非常相似的，它们之间的区别不过是虚拟机栈为虚拟机执行Java方法（也就是字节码）服务，而本地方法栈则为虚拟机使用到的Native方法服务
+		Java堆（Java Heap）是Java虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例都在
+这里分配内存
+		GC，referenced计数器，为0则回收
+==========================================================================================
+1.OOD[必有一轮，好好准备]
+
+1.Triangle class code review(very bad code and I think I did not good there) linked list related problem and oop design related problem. They give you a triangle class to point out design errors and compilation errors. They give you 10 minutes to read the code. Code is 3 pages long. Some of the common mistakes which I found were : 
+
+	1.One function was useless, 
+	2.one object was not initialized but was being passed as a parameter, 
+	3.a function which converts upper case letter to lower case letter does not function correctly, character array not initialized,
+	4. some functions takes integers as input but if you enter a negative number, that kind of exception is not handled etc.
+是一个三角形类，大概错误有
+	5.protected换成private， 
+	6.边界情况判断
+	7.函数命名规范，还有一个method应该写成一个类会比较好，
+	8.还有一个地方用很多if判断应该换成switch，然后再加default情况.
+2. 第一轮改代码题，选的java，是linkedlist。 
+		我是linkedlist。我说了我familair with java之后其实还是给的我的c++的code。不过syntax不重要，但是如果你多少知道点c++可以跟面试官讨论讨论跟java的区别啊什么的比如c++是inlcude文件，java import，c++有destructor，java不用因为有garbage collector什么的。
+如果你简历上完全没写c++你完全不会也没事儿这不是重点。
+	1.重点是在于插入删等除method有没有写对。有一个push方法对应的addlast，insert方法对应的addafter（node，data），delete有clear对应delete all和deleteAfternode。大概错误如下
+1.public private错误
+2.add或delete的时候size没有跟着增加或者减少。这里我一开始没注意到size的问题，面试官提醒后找到了，然后小哥就顺着这个问如果没有加减size，main函数里调用这些方法输出的结果是什么什么的。
+3.insert方法没有把新加的node set data，也就是说新加进去的node是空node。
+4.还会让你下链表清空的算法（原来部分逻辑不对，而且时间复杂度太高），直接改下逻辑把O(n^2)改到O(n)
+其余的不记得了。
+	5.第二轮:看代码找错误，C#代码，是关于把一个获取时间的函数结果缓存起来的，用的是Dictionary。最后问如果你own这个代码，你怎么办？内存泄露和效率问题
+==========================================================================================
+	3. 第二轮是设计停车厂。
+	从最基础的停车场，到加入停车场Manager，到支持多层，到支持计费。最后又用Python写了findAvaliableParkingSpot()的代码和Park()的代码。面完还有10多分钟，随便聊了聊。
+	1.how do i validate data for duplicates［meta size,multi hashing］
+
+	3.a design question involving microsoft excel 
+	我说我对你们demo那个把公司软件和Excel交互那个挺感兴趣的，他说那我们来说设计一个download系统吧，把各种信息download到excel中，聊了1-2分钟==他自言自语说这不是一个好的题目orz……………………
+我跟他说我们直接设计Excel吧……然后就开始设计Excel了……. 
+需要考虑很多，时间复杂度，每个Cell可能存很多不同的类别，最重要的是如果存Function咋办，D5 = B1 + B2，如果B1改了，
+	1.D5如何实时改动呢？如何删除一行，一列呢？以及根据我的设计相对的问了很多问题，这一轮准备过聊的比较high……
+	2.操作函数
+	3.DB
+	最后有个小关于excell的小设计题，设计一个开关，能够给指定的excell cell变色，还能变回来。简单来说，你就介绍一下，什么是EXCELL?你所理解的EXCELL提供哪些功能？
+如何存储数据？
+	4.https://en.wikipedia.org/wiki/Sparse_matrix来设计的。
+	5.一轮是oo design，设计扫雷游戏，这轮运气好遇上中国人全程中文。。顿时压力小了许多。
+		BFS，棋盘，布雷，单例
+	6.我是设计一个grocery store。不同面试官其实风格不一样，我这个一上来就让我直接开始写class，写java code，连问题都不让我问，我准备画uml图来的，也说直接就开始做吧。。我还是先岔开问了一句这个store是不是就是普通的卖东西的store啊什么的。。不过这个面试官很明显也就是想一步一步加功能这样来考你的。所以我就开始先写store，然后要用到product的时候就再写product的fields和function。中途就是面试官想到了啥就问，然后我给出相应的class function啊设计什么的，用到的数据结构不对的的时候就跟面试官交流改对。最后还考了考abstract class什么的。		7.design a tennis board game
+	8.design a class for some Lego blocks. It wasn't hard but it did catch me off guard since I wasn't really sure how to exhibit good OOD principles with 3 plain lego blocks.  
+	http://systemdesigns.blogspot.com/2015/12/ood-blackjack.html
+	9.Design a Tetris game (OOP design)
+		card，Deck，CardBox｜｜ gameroom｜｜Player，Game，Action，Dealer，Strategy
+	10.Design a workflow using OOP concepts.  
+	11.Design iTunes using object-oriented principles
+	12.How would you model a Mule, which is a combination of a Horse and a Donkey, using OOP?  
+	13.How would you model a zoo using OOP? 
+		一个abc，让我上来设计一个zoo，太细致我就不说了。我就用UML画图跟他说了大致的class关系，里面有什么功能大致。中间他对我在food里的一些功能有异议，他说觉得这些class不够，我说那就搞个zooController的class来控制吧，他说好。设计的差不多了，他又让我写几个功能伪代码就行。一个是采购员要去shopping，生成一个list需要买什么。另个问题是怎么安排动物进cage的功能，很简单的用uml设计里面的attributes写了下代码，他说ok,it works就让我提问了。
+	14.Design a hash map class.  
+	15.Design an air traffic control system. It should be able to track plane 'parking spots', whether the spots are full or empty, and assign waiting planes to each spot based on the plane's priority.  
+	18.第四轮ood，设计一个游戏。两个人给我一个单子上面写着有游戏规则，有点像小时候玩过的坦克大战，地图上方有四排外星人的spaceship，四个种类，攻击，血量，技能，奖励分数各不一样，然后每十分钟出一个boss，玩家控制坦克在地图下面左右移动发射炮弹打外星人，之前没遇到过类似的，就画了好几个uml，感觉他们对这游戏规则也有些不清楚，后面时间快到了，他们说这样可以，提了点问题，感觉糊弄过去了orz。
+	20.board game, 说chess行不行。我说不熟，要不俄罗斯方块吧，然后我就开始边说边搞了。然后他估计觉得一步一步写下来太浪费时间，然后挑了几个关键的问了我怎么实现，比如得分，消除行等等。。。
+	21.2个Design都是game(一个俄罗斯方块，一个没细问），建议大家还是准备下游戏，至少CC189上的Blackjack可以套上去；
+	22.chess
+	17.Patient-children table, 叫你找每个patient有多少个children, 然后children age table, 叫你找每个patient的最大的child, 然后一些更复杂的关系，比如grandpatient啥的。。。反正不是特别难，但是很久没碰SQL了有点不确定，反正他们说OK,我就过了，碰到有问题的他们会跟我说，人挺好的。然后
+==========================================================================================
+3.DB[准备数据库postgreaql等数据库区别，数据库实现，sqlquery，graph query，设计调优，logicalphysicalplan]	
+	1.What are types of recovery in sql server
+		http://www.360doc.com/content/10/1229/21/3554006_82452207.shtml
+		simple［只能回到刚结束］ bulk－logged［纪录操作］ full［全恢复］ 
+	snapshot
+	2.What kind of backup plan will you suggest for a data warehouse environment
+	3.How do you apply and validate patches and service packs
+	4.oracle to sql server migration,BI Tools etc
+	5.从数据库中取字段，求和
+	where vs having clause in sql  
+	不同种类数据库
+	physical plan
+	http://fugangqiang.github.io/blog/posts/postgresql/postgresql%E4%B9%8B%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92(Execution%20Plan).html
+	18.design 一个简单的database
+	details
+	
+	Where VS. Having 查找单一记录（在过程中查找），查找并集记录（在结果中查找）
+	在可能的情况下用where代替having
+	在可能的情况下避免排序
+	在可能的情况下用Subquery代替Join，因为Join会产生相乘的时间复杂度
+	In与Not In与subquery合用时，用Exists与Not Exists代替可以简化过程
+	避免返回*
+	缩小范围后进行排序或组合
+	Design 对齐int（64）
+	SELECT Customer,SUM(OrderPrice) FROM Orders
+	WHERE Customer='Bush' OR Customer='Adams'
+	GROUP BY Customer
+	HAVING SUM(OrderPrice)>1500
+
+	5. database optimization (indexing…，设计，范式，duplicate or not)
+	Adstraction, Inherientance, Polymorsim, Encuplation
+	如果一个大一新生跑过来问你什么是Object-oriented programming，你怎么解释［things，more than relations］
+	问我Java和C在Memory方面有啥区别 不安全 safety common
+	16.Design a Stack class and a Queue class. 
+	17.How would you design a word suggestion system, specifically for words which may have one mistyped letter? Assume you have a dictionary of all words in the English language. (Ex: vallyy should suggest valley)
+	override和overload的区别 
+
+	http://blog.csdn.net/wwh578867817/article/details/50493940
+	在B+树中，key 的副本存储在内部节点，真正的 key 和 data 存储在叶子节点上 。
+n 个 key 值的节点指针域为 n 而不是 n+1。
+	B+树内节点不存储数据，所有 data 存储在叶节点导致查询时间复杂度固定为 log n。而B-树查询时间复杂度不固定，与 key 在树中的位置有关，最好为O(1)。‘
+	B+树可以很好的利用局部性原理，若我们访问节点 key为 50，则 key 为 55、60、62 的节点将来也可能被访问，我们可以利用磁盘预读原理提前将这些数据读入内存，减少了磁盘 IO 的次数。 
+当然B+树也能够很好的完成范围查询。比如查询 key 值在 50-70 之间的节点。
+	B+树更适合外部存储。由于内节点无 data 域，每个节点能索引的范围更大更精确
+	为什么 MongoDB 索引选择B-树，而 Mysql 索引选择B+树
+
+这些内容了解后，我们来看为什么 MongoDB 索引选择B-树，而 Mysql （InooDB 引擎）索引选择B+树。
+	我们说过，尽可能少的磁盘 IO 是提高性能的有效手段。MongoDB 是聚合型数据库，而 B-树恰好 key 和 data 域聚合在一起。
+	Mysql 是一种关系型数据库，区间访问是常见的一种情况，而 B-树并不支持区间访问（可参见上图），而B+树由于数据全部存储在叶子节点，并且通过指针串在一起，这样就很容易的进行区间遍历甚至全部遍历。见B/B+树的区别第二点：
+
+
+
+	PostgreSQL独特的地方是它支持高度需要的、完整的面向对象以及关系型数据库的功能，例如完全支持可靠性事务。
+
+由于其强大的底层技术，PostgreSQL能够非常高效地处理很多任务。得益于多版本并发控制（MVCC），它能够在没有读锁的情况下实现并发并保证ACID。
+
+PostgreSQL是高度可编程的，因此扩展性非常好，它支持称为“存储过程”的自定义程序。用户可以创建这种函数简化重复的、复杂的以及经常需要的数据库操作的执行。

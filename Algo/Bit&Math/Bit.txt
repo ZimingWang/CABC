@@ -1,0 +1,453 @@
+挤一波时间联系下下周的面试
+Tips：
+A.有符号计数
++= (A[j]>>i)&1 统计各位位数
+res += (digits[i]%3)<<（i） 二进制转10进制
+
+B. ^=
+
+C.无符号左移
+n >>>= 1;
+<<6 移动6位
+
+0b10000000 二进制数
+==========================================================================================
+A. 找数专题
+	1.find single number 找只出现一次的数
+	2.find duplicate number 找只出现两次的数
+	3.find single number II	Ai~B Bi~A ^~
+	4.find the difference ［1 char］	
+	5.find missing number 
+	6.find single number III[two once, other twice]	
+==========================================================================================
+B. Power of 专题
+	1. power of two  
+	2  power of three	
+	3  power of four	
+==========================================================================================
+C. Bits 操作
+	1. counting of bits
+	2. 一个数二进制有多少个1［］
+	3. reverse bits，反复大量的1.分成4个byte，每个byte reverse，并且（byte，int）map，byte reverse之前先找有没有已经存过的
+	https://segmentfault.com/a/1190000003483740
+	4.数转成16进制，所有都可以先转2进制再转成16进制，无符号右移4位［每次num & 15，类似 num&1］
+	5.Bit加法
+	6.找一个范围内所有数与的结果［最后的数是该数字范围内所有的数的左边共同的部分，然后其余位为0］
+==========================================================================================
+
+D. 其他应用
+	1. Subsets特殊解法
+		0-7  －－－－ subsets 3［0 1 1］－－－选倒数第一个和倒数第二个元素
+	2. binary watch decode二进制部分， 分钟＋＝leds[i] << (3 - i)遍历 9
+	3. repeat DNA的集合， hash map。长度为10的子串，有的话且次数正好为1，就加入list，否则直接put1
+	https://segmentfault.com/a/1190000003922976
+	4.UTF-8 Validation
+		规则：1-4个字节
+		一个UTF8字符的长度从1到4个字节不等，服从下列规则：
+		1.对于1字节的字符，首位数是0，后面是unicode代码。
+		2.对于n字节的字符，前n位数全是1，第n+1位是0，后面跟着n-1个字节的最高位的两位数是10
+		data = [197, 130, 1], which represents the octet sequence: 11000101 10000010 00000001.
+
+	5. Maximum Product of Word Lengths val |= 1<<(words[i].charAt(j)-'a');//第几位出不出现1，用或的原因是，已经有了或也无妨，相当于set， 数组里构造两两比较 
+
+==========================================================================================
+D4
+public class Solution {
+    public boolean validUtf8(int[] data) {
+        int n = data.length;
+        if (n == 0) return true;
+        int skip = 0b10000000;
+        int check = 0;// count
+        for (int i = 0; i < data.length; i++) {
+            if (check > 0) {
+                // check大于0，所有字节应该以10开头，过了之后－1
+                if ((data[i] & skip) == skip) check--;
+                else return false;
+            } else {
+                // 查几个字节
+                check = getOneBitCountFromHead(data[i]);
+                if (check < 0) return false;
+            }
+        }
+        // 看check完了没
+        return check == 0;
+    }
+    // 检查有几个字节，以及会不会出错
+    private int getOneBitCountFromHead(int num) {
+        if ((num & 0b11110000) == 0b11110000) return 3;
+        if ((num & 0b11100000) == 0b11100000) return 2;
+        if ((num & 0b11000000) == 0b11000000) return 1;
+        if ((num & 0b10000000) == 0b10000000) return -1; //error
+        return 0;
+    }
+}
+
+
+D5
+public class Solution {
+public int maxProduct(String[] words) {
+    int max = 0;
+    int[] bytes = new int[words.length];
+    for(int i=0;i<words.length;i++){
+        int val = 0;
+        for(int j=0;j<words[i].length();j++){
+            val |= 1<<(words[i].charAt(j)-'a');//第几位出不出现1，用或的原因是，已经有了或也无妨，相当于set
+        }
+        bytes[i] = val;
+    }
+    //典型一个数组里两两比较
+    for(int i=0; i<bytes.length; i++){
+        for(int j=i+1; j<bytes.length; j++){
+            if((bytes[i] & bytes[j])==0)max = Math.max(max,words[i].length()*words[j].length());
+        }
+    }
+    return max;
+}
+}
+
+
+
+C6//m!=n时右边移动，纪录移动了多少位，最后再左移回去
+public class Solution {
+    public int rangeBitwiseAnd(int m, int n) {
+        int bit = 0;
+        while(m!=n) {
+            m>>=1;
+            n>>=1;
+            bit++;
+        }
+        return m<<bit;
+    }
+}
+
+
+
+
+C5
+public class Solution {
+    public int getSum1(int a, int b) {
+        return (b == 0) ? a : getSum((a ^ b), (a & b) << 1); 
+    }
+    public int getSum(int a, int b){
+        if (a == 0){
+            return b;
+        }
+        if (b == 0){
+            return a;
+        }
+        while (b != 0){
+            // 用与来求得进位 1+1 有进位 为 1
+            int carry = a & b;
+            // 异或来算如果不进位的和， 101+001 ＝ 100
+            a = a ^ b;
+            // 开始进位，左移动
+            b = carry << 1; 
+           
+        }
+        return a;
+    }
+}
+
+
+C4
+public class Solution {
+    char[] map = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
+    
+    public String toHex(int num) {
+        if(num == 0) return "0";
+        String result = "";
+        while(num != 0){
+            result = map[(num & 15)] + result; 
+            num = (num >>> 4);
+        }
+        return result;
+    }
+}
+
+
+
+D3.
+public class Solution {
+    public List<String> findRepeatedDnaSequences(String s) {
+        List<String> res = new LinkedList<String>();
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        for(int index = 10; index <= s.length(); index++){
+            // 从第10位开始作为结尾，位移一位，比较一次子串
+            String substr = s.substring(index - 10, index);
+            if(map.containsKey(substr)){
+                // 如果是第一次遇到，则加入结果
+                if(map.get(substr) == 1){
+                    res.add(substr);
+                }
+                // 标记为已经遇到过一次了
+                map.put(substr, 2);
+            } else {
+                // 如果不存在，则加入表中
+                map.put(substr, 1);
+            }
+        }
+        return res;
+    }
+}
+public class Solution {
+    public List<String> findRepeatedDnaSequences(String s) {
+    Set<Integer> words = new HashSet<>();
+    Set<Integer> doubleWords = new HashSet<>();
+    List<String> rv = new ArrayList<>();
+    char[] map = new char[26];
+    //map['A' - 'A'] = 0;
+    map['C' - 'A'] = 1;
+    map['G' - 'A'] = 2;
+    map['T' - 'A'] = 3;
+//两位映射 00 01 10 11 都不相同
+    for(int i = 0; i < s.length() - 9; i++) {
+        int v = 0;
+        for(int j = i; j < i + 10; j++) {
+            v <<= 2;
+            v |= map[s.charAt(j) - 'A'];// 存上这个序列的两位
+        }
+        if(!words.add(v) && doubleWords.add(v)) {//出现多次保证只用存一次
+            rv.add(s.substring(i, i + 10));
+        }
+    }
+    return rv;
+}
+}
+
+C3.
+public class Solution {
+    // you need treat n as an unsigned value
+   public int reverseBits(int n) {
+    int result = 0;
+    for (int i = 0; i < 32; i++) {
+        result += n & 1;
+        n >>>= 1;   // CATCH: must do unsigned shift
+        if (i < 31) // CATCH: for last digit, don't shift!
+            result <<= 1;//只能推31次，过了就推出去了
+    }
+    return result;
+}
+}
+
+
+C2
+public class Solution {
+   public int[] countBits(int num) {
+    int[] f = new int[num + 1];
+     //f[i] = f[i / 2] + i % 2.（）
+     // 数字等于二进制一直往前挪，加上有没有多余的1，[1,2,4,8,16]只是一个1一直往前挪而已
+    for (int i=1; i<=num; i++) f[i] = f[i >> 1] + (i % 2);
+    return f;
+}
+}
+
+C1
+result计数，当n!=0 时候， n&1判断， 然后无符号左移 n >>>= 1;
+public class Solution {
+    // you need to treat n as an unsigned value
+   public int hammingWeight(int n) {
+        int result = 0;
+        while (n != 0) {
+            if ((n & 1) == 1) {
+                result++;
+            }
+            n >>>= 1;
+        }
+        return result;
+    }
+}
+
+
+B3
+n<0, 首先要powerof2， 并且 num》0的时候， num －1 ％ 3 ＝＝0［ex： （4 － 1） ％ 3 ＝＝ 0］
+public class Solution {
+    public boolean isPowerOfFour(int num) {
+    if (num <= 0) return false;
+    return (num & (num-1)) == 0 &&  num > 0 && (num - 1) %3==0;
+    }
+}
+
+
+B2:
+n>0, n==1 直接返回， （n％3 ＝＝ 0 && power（n／3））递归解，［能除以3就一直除以3］
+public class Solution {
+   public boolean isPowerOfThree(int n) {
+    return n>0 && (n==1 || (n%3==0 && isPowerOfThree(n/3)));
+}
+}
+
+
+B1
+首先判断小不小于0， 基于补码比较并且实际也
+n&（n－1） ex：16 和 15
+public class Solution {
+    public boolean isPowerOfTwo(int n) {
+        if(n<=0){
+            return false; 
+        }else{
+            return (n&n-1)==0;
+        }
+    }
+}
+
+A6. X1 ^ X2 如何区分
+A. 找到x1， x2 不同的一位
+diff－－－^=得到
+diff &＝ －diff［补码］ （得到最后一个1位置）［x1，x2不同的位置］
+B. num&diff
+rets[0] ^= num;
+rets[1] ^= num;
+public int[] singleNumber(int[] nums) {
+        int diff = 0;
+        for (int num : nums) {
+            diff ^= num;//XOR通常来运算，去除两次重复，或者是加法时该留在本位的数字
+        }
+        // Get its last set 1 bit
+        diff &= -diff;//算法得到最后一个1的位置
+
+        // Pass 2 :
+        int[] rets = {0, 0}; // this array stores the two numbers we will return
+        for (int num : nums)
+        {
+            if ((num & diff) == 0) // the bit is not set
+            {
+                // 用以区分两类数，从而得出结果
+                rets[0] ^= num;
+            }
+            else // the bit is set
+            {
+                rets[1] ^= num;
+            }
+        }
+        return rets;
+    }
+
+A5. 
+i(index) ^ nums[i]
+xor ^ i
+public class Solution {
+  public int missingNumber(int[] nums) {
+    int xor = 0, i = 0;
+    for (i = 0; i < nums.length; i++) {
+        xor ^= i ^ nums[i];
+    }
+
+    return xor ^ i;
+}
+//  太大溢出怎么办[全局和 首项＋末项]
+// len +=  i - num[i]
+public static int missingNumbera(int[] nums) {
+    int sum = nums.length;
+    for (int i = 0; i < nums.length; i++)
+        sum += i - nums[i];
+    return sum;
+}
+}
+
+
+A4. 把这两个数^=一遍，
+public class Solution {
+    public char findTheDifference(String s, String t) {
+	int n = t.length();
+	char c = t.charAt(n - 1);
+	for (int i = 0; i < n - 1; ++i) {
+		c ^= s.charAt(i);
+		c ^= t.charAt(i);
+	}
+	return c;
+}
+}
+
+
+A3.
++= (A[j]>>i)&1 统计各位位数
+res += (digits[i]%3)<<i 二进制转10进制
+public class Solution {
+   public int singleNumber1(int[] A) {
+    int[] digits = new int[32];
+    for(int i=0;i<32;i++)
+    {
+        for(int j=0;j<A.length;j++)
+        {
+            digits[i] += (A[j]>>i)&1;//从32位第一位，与上000...0001，有一才加//因为舍弃，用以在第一位与1运算 所以右移
+        }
+    }
+    int res = 0;
+    for(int i=0;i<32;i++)
+    {
+        res += (digits[i]%3)<<i;//左右移动贴0 从小到大累加，所以左移
+    }
+    return res;
+}
+public int singleNumber(int[] A) {
+    int ones = 0, twos = 0;
+    for(int i = 0; i < A.length; i++){
+        ones = (ones ^ A[i]) & ~twos;
+        twos = (twos ^ A[i]) & ~ones;
+    }
+    return ones;
+}
+}
+
+A1.
+public class Solution {
+    public int singleNumber(int[] nums) {
+        int result = 0;
+        for(int element : nums){
+            result ^= element ;
+        }
+        return result;
+    }
+}	
+
+
+A2. 
+A. 暴力hashmap
+B. 排序，前后一致
+
+C. 二分查找[中间的数，统计小于的个数，mid＋1 mid－1]
+D. 映射找环[快慢针dowhile，然后从头开始的target与slow同步长相会]
+public class Solution {
+    public int findDuplicate(int[] nums) {
+        int slow = 0;
+        int fast = 0;
+        // 找到快慢指针相遇的地方
+        do{
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while(slow != fast);
+        int find = 0;
+        // 用一个新指针从头开始，直到和慢指针相遇
+        while(find != slow){
+            slow = nums[slow];
+            find = nums[find];
+        }
+        return find;
+    }
+}
+}
+鸽巢原理，不用排序
+public class Solution {
+    public int findDuplicate(int[] nums) {
+        int min = 0, max = nums.length - 1;
+        while(min <= max){
+            // 找到中间那个数
+            int mid = min + (max - min) / 2;
+            int cnt = 0;
+            // 计算总数组中有多少个数小于等于中间数
+            for(int i = 0; i < nums.length; i++){
+                if(nums[i] <= mid){
+                    cnt++;
+                }
+            }
+            // 如果小于等于中间数的数量大于中间数，说明前半部分必有重复
+            if(cnt > mid){
+                max = mid - 1;
+            // 否则后半部分必有重复
+            } else {
+                min = mid + 1;
+            }
+        }
+        return min;
+    }
+}

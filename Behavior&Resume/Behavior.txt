@@ -1,0 +1,50 @@
+0. Zillow：
+	1.来源： 在线旅游公司Expedia的原班人马, zillions of pillow
+	2.网站特色和对比
+		Multiple listings service(MLP) mash up on map
+		2.1 Zillow: 估值更好，更多图片，数据更直观［地图中心］［Bing］		    
+		    ＋Trulia: 搜索更好，有crime分析［Google Map］
+		    Redfin:  traditional + agent-central
+		    Hotpads（租房搜索）StreetEasy（纽约的,有点老）
+		
+		2.2 new feature - Home Design — Houzz
+	3.可以更改进的地方： 	
+		3.1 prediction for future: price of value, 热点， Hotspot（sold，buy）
+		3.2 周边产品扩展－－例如Home Design; water free，cups paid
+		3.3 更多特征搜索，多维度，一张大表，all dimensions 
+		怎么设计
+先问面试官做什么，再说自己简历或者兴趣经历
+问什么问题：1. 地图不一样，combine的时候不兼容怎么办
+	  2. house price prediction？ 
+	   3. OLAP-RTAP
+	    4. 微服务
+==========================================================================================
+
+==========================================================================================
+0.先问面试官做什么，再说自己简历或者兴趣经历
+==========================================================================================
+1.协作关系［实验室，小组，跨组，实战］
+2.merge conflict
+==========================================================================================
+	1.lunch interview，影响应该不是很大，只要别乱说话就行吧
+		1. ［job］，［tech］，［teamwork－cross teamwork］ ［how much data］
+		2.  peak time
+		3.  new things
+	2.觉得他家真的非常非常注重交流，因为感觉题目并不难，但没有答的很好，最终HR联系offer的时候说，是director觉得我的背景和他们组match，所以给的offer也就是他们组的。
+	3.问了一些behavior question，如team遇到conflicts应该怎么办啊，
+		rules，policy should be set before，vote 
+	best ever thing experienced
+		academic research － interested things
+	least like three projects
+		result is boring 1 ＋ 1 ＝ 2 
+	what do you learn from the projects
+		Fancy model never works， never believe documents mysql hbase
+	一些学校生活，怎么转变学生到上班的生活，楼主还几次把hr逗笑了，感觉这轮还行。
+		What happens in Vegas, stays in Vegas.
+		Real thing
+	注意积累下新技术的关键词就行了
+		RTAP
+	问了以前实习经历，本次面试体验建议，地点选择，工资要求，啥时候能工作，最喜欢的课程，最不喜欢的课程，教授的评价，喜欢的人，不喜欢的人
+		Team － location Mars
+		result is boring 1 ＋ 1 ＝ 2 （course lessons 1th）
+		Team－first［today］Discussion CC Team Project

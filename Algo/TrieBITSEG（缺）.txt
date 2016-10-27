@@ -1,0 +1,26 @@
+1. 先把BST的删除 
+
+
+1.  Binary indexed tree树状数组。Fenwick
+
+也叫能在log(n)查询区间和，并且在log(n)时间内进行结点更新操作。
+https://www.youtube.com/watch?v=CWDQJGaN1gY
+
+2. Segment Tree
+https://www.youtube.com/watch?v=ZBHKZF5w4YU
+
+3. Trie
+
+红黑数听听视频
+
+10. Other Tree（BST，Trie，BIT, Seg）
+	1. 2 sum in BST
+	http://jinger8910.blogspot.com/2015/11/2sum-in-bst.html
+	2. sum query 一维，数组不变
+		前缀数组，注意建成后，访问i 到 j时 sum[j] - sum[i - 1] i为0时直接返回sum[j]
+	3. 2D immutable
+
+
+
+http://blog.csdn.net/l664675249/article/details/50157669
+Other Tree ［Trie，BST，Seg  BIT］

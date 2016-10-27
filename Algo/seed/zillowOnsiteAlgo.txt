@@ -1,0 +1,2525 @@
+
+5.DP/Tree 1h
+  LinkedList/Array/String 1h	
+  Math/DS  1h
+  BS/流/DFS/BFS 1h
+ 
+  10-11 review 0.5／repeat 0.5
+==========================================================================================
+异常 －－－ throws & throw［1h］
+A. DP
+	1.Frog Jump
+		
+	2.Factorial
+		
+	3.Fibonacci implementation
+		
+	4.Maximum Subarray
+		
+	5.Triangle
+		
+	6.Pascal's Triangle
+		
+	7.Pascal's Triangle II
+		
+	8.Buy and sell stock (Leetcode)
+		
+	9.path sum i 
+		
+	10.Path sumo
+	假设不用以leaf node为path的终点，返回所有path  （follow-up of 2).鏈枃鍘熷垱鑷�1point3acres璁哄潧
+	假设path不只是从root开始，从任意一个节点开始都可以 （follow-up of 3）。这里写得稍久了一点，感觉代码也不是很精简，她说对了，就不改了。
+	
+==========================================================================================
+
+B. Tree
+	1.BST level order traveral
+	2.Vertical level
+	
+	3.mirror tree 
+	4.Lowest Common Ancestor of a Binary Tree
+	https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+	Find the Least Common Ancestor given two nodes of a binary tree. The nodes each 	have a reference to their parent node and you do not have the root node of the 		tree https://www.careercup.com/question?id=56769  
+	5.Find the first Common Parent
+	
+	6. 一个node 是不是另一个 parent
+	10.find least greatest value with given target in a BST.
+
+	7.LCA of a Binary Tree and making it efficient.  
+	8.Lowest Common Ancestor of a Binary Search Tree
+	https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+	9.validate bst
+	
+
+	11.Implement Trie (Prefix Tree)
+https://leetcode.com/problems/implement-trie-prefix-tree/
+	//12.Decision Tree construction (i.e., how to compute entropy and information gaim).
+
+==========================================================================================
+C. LinkedList
+	1. merge two linkedlist,
+
+	2. merge k sorted list
+	3. Swap nodes in pairs in a linked list
+https://leetcode.com/problems/swap-nodes-in-pairs/
+	4. reverse a cycle linked list a->b->c->d->a  —>  a->d->c->b->a.
+	5. 两两反转single linked list: A -> B -> C -> D -> E -> F -> G
+                        变成: B -> A -> D -> C -> F -> E -> G 
+	
+==========================================================================================
+D. Array & String
+	1.find median from data stream
+	2.then give you a sorted array and a target value, find the median in the subarray which the elements in the subarray is greater equal than the target value.
+	3.Median of Two sorted Arrays
+	5. find median(int[] array)
+	6.In pseudo code, given a string of integers, find duplicates.
+	7.Given a file containing all possible numbers on a 32-bit architecture, 4 numbers are missing. Find the 4 missing…  Find K missing 系列
+	8. 找出first unique char in streaming data
+	9.remove duplicates in a sorted array (Leetcode)
+	10.find first duplicate in string.  这一个系列
+	First non-repeat character in a given string
+http://javarevisited.blogspot.com/2014/03/3-ways-to-find-first-non-repeated-character-String-programming-problem.html
+
+	11.美国人，第一题是给一个string找第一个unique character，我扫两次做的。follow up，给你的是一个iterator，只能顺着这个iterator走一遍，不允许存下来从头扫。我用linkedHashSet做的＝ ＝，估计他不懂这是什么鬼，现场去查了下发现确实可以，然后follow up就变成了让我讲讲怎么实现一个linkedHashSet。
+	
+	10.Product of Array Except Self
+	11.Two sum ,0
+	https://leetcode.com/prob lems/two-sum/
+	
+	12. Search a 2D Matrix II (Leetcode)
+	13.矩阵左右旋转
+
+	14.两种方法找出intersections of two integer arrays，. 1point3acres.com/bbs
+    arr1 [4,5,2,4,2,2,6] arr2 [4,5,5,2,2], return [4,5,2,2].
+	15.add one
+	16.atoi, float,String into a double
+	17.reverse integer
+	18.reverse words in string
+	20.写一个function myMin，模拟Math.min
+	myMin(a, b)(只有两个参数)
+	myMin(a, b, c …)(传任意参数)
+		递归调用？myMin(a, b)
+==========================================================================================
+F. Math
+	1.Question: A solution consists of four balls from a set of four different colors. The user tries to guess the solution.
+If they guess the right color for the right spot, record it as being in the correct 'Location'. If it's the right color, but the wrong spot, record it as a correct 'Color'. For example: if the solution is 'BGRR' and the user guesses 'RGYY' they have 1 'Location' and 1 'Color'. A correct solution would be 4 'Location' and 0 'Color'.
+https://www.careercup.com/question?id=3037
+
+	2.Bulls and Cows
+https://leetcode.com/problems/bulls-and-cows/
+	3.Factorial Trailing Zeroes
+https://leetcode.com/problems/factorial-trailing-zeroes/
+	4.Determine if two rectangular are overlapped
+
+
+
+	5.Given a list of Locations (x, y, z), find the nearest Location to all［？店面］
+	6. 给你个钟的时间，返回时针&分针之间小于180度的那个角的角度: 7点50分 －> (10 - (7 + 5/6)) * 30 = 65度。3点50分 －> ((3 + 5/6) + 12 - 10) * 30 = 175度。
+	7.题目：给byte array，例如00000001，00111001，01101111，11111111
+要求输出结果让人知道那个col只有0，还是只有1，还是都有。他先问输出用什么数据结构，我想就array呗。就说0代表全0，1代表全1，2代表混合。例如02222221。
+==========================================================================================
+G.DS
+	1. HashTable
+	2.Given a 2^31 x 2^31 tic tac toe board, describe how you would store the state of the game to check if there is a winner.
+https://www.careercup.com/question?id=4871704801181696
+	3.Implement a LRU cache. 
+	4.top 100， https://www.careercup.com/question?id=4908484506157056 
+
+
+
+
+
+
+	5.给你一个graph每一个node都是一个facebook的user，然后找出这个user的两度关系以内所有和他last name一样的人的email address
+	6.给你一个log file，每一行都有一条记录，包括三个数据：访问时间，user id，访问的page id。然后让你找出访问次数最多的10组3个连续访问page。就是如果user A访问了page 1 2 3，这样 1 2 3 就算被访问了一次。不用考虑时间间隔所以我昨天访问1，今天2，后天3，也能算作连续访问page。我的做法是先用map统计了所有用户的按时间顺序排列好的访问page，然后三个三个加到另一个map里面去count(我用最土的办法 id1_id2_id3 下划线连接)，最后用minHeap找出前10个
+	7: Given a map, mark its nodes as Black or Red, no two adjacent nodes have the same color. Return true or false. 
+    Follow up: the problem with saving color data inside node class. 当有不同的thread同时跑在同一个graph上的时候，如果把color存在Node类里就会出问题，比如一个thread先把一个node染色后，之后的thread看到这个node就已经有颜色了。这时候用个hashmap把node-color信息存在function里就能避免这个问题。
+	8. 阿三哥出题果然不同凡响：题目是一句话：给一条街，几个洞，判断是否能通过这个街道而不掉入洞内。（给定 width, length 和洞的 position, radius）
+问出很多限定条件：洞可以无限小，也可以无限大，但是行人也是无限小。每个洞的大小不一致。行人的起点是最左边的 width 的任意点，终点是最右边的任意点。只要给出 true/false 即可，不用给出具体路线。
+一开始我以为是 leetcode 上的unique path 问题，阿三哥不满意，这个问题如果用 grid 划分 street 的话最后的 matrix 会太大太占内存。后来突然发现是连通问题 connected component 是用 union find 解决的！
+然后我说可以判断左右边是否能连通，阿三哥说还不够好。最后是只要判断 holes 是否上下连通即可。interesting..
+最后我 union find 忘了具体算法用 brute-force 做的然后时间就差不多了。。。
+
+
+
+	9. Web site hit counter
+   Implement this interface: Interface hit counter {
+                                void increment();
+                                int gethits();
+                             }
+   to calculate the web site hits within 1 minute
+	11.2. col1 col2
+    x     5
+    x     9
+    y     7
+    …     …
+   what kind of data structure can it be?. visit 1point3acres.com for more.
+   filter out everything except x
+	
+	12.given an prefix expression, convert it to a postfix expression(eg. +12 -> 12+)
+	13.zigzag iterator
+	14.Valid parentheses （LC原题）
+	15.R2. Given a 2d array of numbers, write a function that all matching pairs of numbers. Return a structure that contains the value and positions of each pair. Use each location in the array only once.
+Example input:
+1 3 4 1
+6 1 7 8.
+9 0 5 8
+2 2 1 2
+Example Return:. more info on 1point3acres.com
+[{value:1, x1:0, y1:0, x2:1, y2:1}, 鏉ユ簮涓€浜�.涓夊垎鍦拌鍧�. 
+{value:1, x1:2, y1:3, x2:3, y2:0},
+{value:8, x1:3, y1: 2, x2:3, y2:1},. 1point 3acres 璁哄潧
+{value:2, x1:0, y1:3, x2:1, y2:3}] 鏉ユ簮涓€浜�.涓夊垎鍦拌鍧�. 
+这题实在是太难理解了！我一开始什么叫matching pair没看懂，后来看了一下例子，发现原来是值相等的数字。可是例子中输出第二行，(2, 3)的值明明不是1啊？？我赶紧问面试官，面试官说：哦，这是个bug。。。然后他又突然反应过来，哦。。x是纵坐标，y是横坐标。。。我：好吧。。可是返回的数据应该是什么格式？他说：由你定义，只要把返回的信息都包含就行了。。.
+我就开始写，
+我的思路是用一个Map<Integer, List<List<Integer>>>来保存信息，key是值，value是坐标的list。遍历完矩阵后，再将长度大于两次的list两两配对。写完遍历矩阵后，我停住了，两两配对这也太麻烦了。。我又看了一遍例子。。等等，1不是出现了四遍吗，输出中怎么会只有两对？面试官说：每个location只出现一次，所以第一次出现和第二次出现配对，第三次和第四次配对。好吧。。。。我还以为是只允许遍历矩阵一遍的意思！！可是我实在想不出返回的格式用什么好。。我说：python的话我可以放在tuple中，java我实在不知道用什么数据结构来保存这些信息。。他说，就跟tuple差不多。
+。好吧，我只好又定义了一个Pair类，有value和pair两个属性，然后返回的是List<Pair>。赶紧写完，已经42分钟了。。他说：我感觉应该行。我赶紧说：我还可以改进，一开始思路错了。。他说，那是优化的事了，可是我们来不及了。然后我问了两个问题，结束。
+	16.最后她给我布置了一个assignment。具体是给一组数据，里面包括userid,timestamp,activity_count，基于这些数据设计一个算法来找到某一个ID在给定得10mins内activity_count数超过500。然后再把算法扩展到large-scale data应该怎么实现。
+	17.问了过马路避免洞洞的问题和井字棋判断胜手的问题。
+	18.第三轮问了字符拆分（Word Break），substr的实现。
+	19.quick sort  merge sort题
+
+==========================================================================================
+H.BS
+	1. Binary Search
+	2. Given a sorted array and minimum threshold value, find the median of the subarray which contains values that are greater than or equal to the minimum threshold.  
+Binary search for leftmost index i in sorted array such that arr[i] == minimum threshold. Call that index j. Then find median of arr[j...end] in constant time, accounting for whether size of subarray is even or odd. Accounted for edge cases when minimum threshold is less than arr[0] or greater than arr[end]. Accounted for duplicates.
+	3. float sqrt(int number, float tolerance)（Other）
+	
+==========================================================================================
+I.DFS(BT)
+	1.Find all subsets of a set
+https://leetcode.com/problems/subsets/
+	2.Permutations I & II (input char array)
+	3. Word Ladder II.鐣欏璁哄潧-涓€浜�-涓夊垎鍦�
+	4.第二轮：美国人，第一题是要求用递归的方式来求一个string的长度，不允许用任何求length相关的libary method。我用substring的方式做出来了。写完后follow up是说我substring复杂度太高，因为要把所有char都copy一遍，所以要我想一个O(n)的。想死都没想出来最后他说你可以用exception的try-catch呀－ －我当时就听醉了。
+	
+==========================================================================================
+J.BFS
+	1.Giving a 2D grid with pixels valued 0 or 1. How to check if pixels A and B are connected through a path of 0-valued pixels. 
+	2.第二题是写扫雷的OnClick方法，不用考虑UI相关的东西，输入是一个已经把雷埋好数字标好的board。他说主要想看的是你点了一个数字为0的格子时候如何把周围一圈都reveal然后如何继续把是0的格子给处理下去。 
+==========================================================================================
+
+==========================================================================================
+［1h］
+流式数据整理［leetcode里流式数据专题］
+http://121.42.47.99/yuenshome/wordpress/?p=3224
+
+
+Collections.Onsite总结帖
+LCA
+Rectangle
+BlackJack
+FacebookUser
+给你一个log file，每一行都有一条记录，包括三个数据：访问时间，user id，访问的page id。然后让你找出访问次数最多的10组3个连续访问page
+Find the first Common Parent
+Atoi
+Cost
+ValidPathe
+Group
+PathSum
+
+1.
+public Node LCA(node A, node B){
+        if(height(A) > height(B)){
+                return LCA(B, A);
+        }
+        node t1 = A;
+        node t2 = B;
+        while(t1 != t2){
+                if(t2.parent == null){
+                        if(t1.parent == null){
+                                return null;
+                        }else{
+                                t1 = t1.parent;
+                        }
+                }else{
+                        t2 = t2.parent;
+                }
+        }
+        return t1;
+}
+
+private int height(node A){
+        int count = 0;
+        while(A.parent != null){
+                count++;
+                A = A.parent;
+        }
+        return count;
+}
+
+class Node {
+        int val;
+        Node parent;
+        Node(int x){
+                val = x;
+        }
+}
+
+2.
+//check两个rectangle是否重叠
+public class overlapRectangle {
+        public static boolean check(Node topLeftA, Node topLeftB, Node bottomRightA, Node bottomRightB){
+                //左右关系，用x
+                if(bottomRightA.x <= topLeftB.x || bottomRightB.x <= topLeftA.x){
+                        return false;
+                }
+                //上下关系，用y
+                if(topLeftA.y <= bottomRightB.y || topLeftB.y <= bottomRightA.y){
+                        return false;
+                }
+                return true;
+        }
+       
+        public static class Node {
+                double x;
+                double y;
+                public Node(double x, double y){
+                        this.x = x;
+                        this.y = y;
+                }
+        }
+}
+
+
+3.
+Implement a function for blackjack that returns the score of your hand
+public int score(Hand hand){
+        int score = 0;
+        for(Card currentCard : hand){
+                switch(currentCard.value){
+                        case value.Two:
+                                score += 2;
+                                break;
+                        case value.Three:
+                                score += 3;
+                                break;
+                        case value.Four:
+                                score += 4;
+                                break;
+                        case value.Five:
+                                score += 5;
+                                break;
+                        case value.Six:
+                                score += 6;
+                                break;
+                        case value.Seven:
+                                score += 7;
+                                break;
+                        case value.Eight:
+                                score += 8;
+                                break;
+                        case value.Nine:
+                                score += 9;
+                                break;
+                        case value.Ten:
+                        case value.Jack:
+                        case value.Queen:
+                        case value.King:
+                                score += 10;
+                                break;
+                        case value.Ace:
+                                score += 11;
+                                break;
+
+                }
+        }
+
+        // after evaluating with 11 for each ace, if score has busted,
+        //then change each ace value from 11 to 1
+        if(score > 21){
+                for(Card currentAcecard : hand){
+                        if(score < 21){
+                                break;
+                        }
+                        if(currentAcecard.val == value.Ace){
+                                score -= 10;
+                        }
+                }
+        }
+        return score;
+}
+
+
+
+
+4.
+给你一个graph每一个node都是一个facebook的user，然后找出这个user的两度关系以内所有和他last name一样的人的email address
+public List<String> getEmail(Node node){
+        List<String> result = new ArrayList<String>();
+        Queue<Node> queue = new Queue<Node>();
+        queue.add(node);
+        int count = 2;
+        while(!queue.isEmpty()){
+               
+                Node curr = queue.poll();
+                for(Node neighbor : neighbors){
+                        if(neighbor.user.lastname.equals(curr.lastname)){
+                                result.add(neighbor.email);
+                        }
+                        queue.add(neighbor);
+                }
+                count--;
+                if(count == 0){
+                        break;
+                }
+        }
+        return result;
+}
+class Node {
+        User user;
+        String email;
+        List<Node> neighbors;
+        public Node (User user, String email){
+                this.user = user;
+                this.email = email;
+        }
+}
+class User {
+        String firstname;
+        String lastname;
+        public User(String first, String last){
+                fisrtname = first;
+                lastname = last;
+        }
+}
+
+
+5.
+给你一个log file，每一行都有一条记录，包括三个数据：访问时间，user id，访问的page id。然后让你找出访问次数最多的10组3个连续访问page。就是如果user A访问了page 1 2 3，这样 1 2 3 就算被访问了一次。不用考虑时间间隔所以我昨天访问1，今天2，后天3，也能算作连续访问page。我的做法是先用map统计了所有用户的按时间顺序排列好的访问page，然后三个三个加到另一个map里面去count(我用最土的办法 id1_id2_id3 下划线连接)，最后用minHeap找出前10个
+public int[] maxFrequencyPage(List<Log> logFile){
+        int len = logFile.size();
+        //userId 对应一个list，每个list是个hashmap<pageId_list ： 个数>
+        //Map<Integer, List<HasshMap<List<Integer>, Integer>>> user_page = new HashMap<>();
+
+        //Map<Integer, List<List<Integer>>> user_page = new HashMap<>();
+        Map<Integer, List<Integer>> user_page = new HashMap<>();
+        Map<List<Integer>, Integer> count_map = new HashMap<>();
+        //List<PQNode> count_map = new ArrayList<PQNode>();
+        //Deque<Integer> deque = new LinkedList<Integer>();
+        for(Log info : logFile){
+                if(!user_page.containsKey(info.userId)){
+                        Deque<Integer> deque = new LinkedList<Integer>();
+                        user_page.add(info.userId, deque);
+                }
+
+                deque = user_page.get(info.userId);
+                if(deque.size() == 3){
+                       
+                        if(!count_map.containsKey(deque)){
+                                count_map.put(new LinkedList<Integer>(deque), 1);
+                        }else{
+                                count_map.put(new LinkedList<Integer>(deque), count_map.get(deque) + 1);
+                        }
+                        deque.removeFrist();
+                        deque.addLast(info.pageId);
+                }else{
+                        deque.addLast(info.pageId);
+                }
+        }
+
+
+        Collections.sort(count_map, new Comparator<Map.Entry<List<Integer>, Integer>>{
+                public int compare(Map.Entry<List<Integer>, Integer> a, Map.Entry<List<Integer>, Integer> b){
+                        return (b.getValue()).compareTo(a.getValue);
+                }
+        });
+
+        int i = 0;
+        List<Integer>[] result = new ArrayList<Integer>[10];
+        for(Map.Entry<List<Integer>, Integer> entry : count_map){
+                        result[i++] = entry.getKey();
+                        if(i == 10){
+                                break;
+                        }
+                }
+        }
+        return result;
+}
+
+class Log{
+        date time;
+        int userId;
+        int pageId;
+        public Log (date time, int userId, int pageId){
+                this.time = time;
+                this.userId = userId;
+                this.pageId = pageId;
+        }
+}
+
+
+
+6.
+fibonacci implementation
+http://crunchify.com/write-java-program-to-print-fibonacci-series-upto-n-number/
+求那个斐波那契数列， 刚开始就写了简单的递归，然后他说给个index，是让返回这个数列所有斐波那契数的和。 只好在写个函数，把每个斐波那契数算出来，加入到一个arraylist里面，再去扫一遍arraylist加到一起。然后问怎么优化，就把算斐波那契数的函数里面改用DP做
+
+
+
+7.
+判断一个node 是否是另一个 node 的 child 很简单一个 DFS 搞定
+
+
+
+
+
+8.Reverse Integer, 像这样：int reverse(1234), 返回4321
+
+if (ret >= (Integer.MAX_VALUE - num % 10) / 10 && isPositive ||
+    ret >= (Integer.MAX_VALUE - num % 10 + 1) / 10 && !isPositive) {
+    throws new Exception;
+}
+I miss the edge case where you should check for max integer input, basically if input is larger then Max integer, the function should throws NumberFormatException
+
+
+
+
+
+
+
+Point {
+    int x; 
+    int y;
+}
+class FindOptimalCost{
+  public int findOptimalCost(char[][] grid, Point start, Point end) {
+            if (grid == null || 
+                grid.length == 0 || 
+                grid[0] == null || 
+                grid[0].length == 0){
+                    return -1;
+            }
+            int[][] distance = new int[grid.length][grid[0].length];
+            // set the start distance
+            distance[start.x][start.y] = 0;
+            boolean[][] visited = new boolean[grid.length][grid[0].length];
+            buildDistance(grid, start.x, start.y, distance, 0, visited);
+            return distance[end.x][end.y];
+  }  
+  public void  buildDistance(char[][] grid, int x, int y, int[][] distance, int cur, boolean[][] visited){
+            if (x + 1 < grid.length /*- 1*/ && grid[x + 1][y] != 'X' && !visited[x + 1][y]){
+                distance[x + 1][y] = cur + 1;
+                buildDistance(grid, x + 1, y, distance, cur + 1, visited);
+            }
+            if (y - 1 > 0 &&  grid[x][y - 1] != 'X' && !visited[x][y + 1]){
+                distance[x][y + 1] = cur + 1;
+                buildDistance(grid, x, y + 1, distance, cur + 1, visited);
+            }
+            if (y + 1 < grid[0].length - 1 && grid[x][y + 1] != 'X' && !visited[x][y + 1]){
+                distance[x][y + 1] = cur + 1;
+                buildDistance(grid, x - 1, y, distance, cur + 1, visited);
+            }
+            if (x - 1 > 0 && grid[x - 1][y] != 'X' && !visited[x - 1][y]){
+                 distance[x - 1][y] = cur + 1;
+                 buildDistance(grid, x, y - 1, distance, cur + 1, visited);
+            }
+  }
+    
+}
+
+
+
+
+public class Solution {
+    public int myAtoi(String str) {
+    int index = 0, sign = 1, total = 0;
+    //1. Empty string
+    if(str.length() == 0) return 0;
+
+    //2. Remove Spaces
+    while(str.charAt(index) == ' ' && index < str.length())
+        index ++;
+
+    //3. Handle signs
+    if(str.charAt(index) == '+' || str.charAt(index) == '-'){
+        sign = str.charAt(index) == '+' ? 1 : -1;
+        index ++;
+    }
+
+    //4. Convert number and avoid overflow
+    while(index < str.length()){
+        int digit = str.charAt(index) - '0';
+        if(digit < 0 || digit > 9) break;
+
+        //check if total will be overflow after 10 times and add digit
+        if(Integer.MAX_VALUE/10 < total || Integer.MAX_VALUE/10 == total && Integer.MAX_VALUE %10 < digit)
+            return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;//再加一位就溢出了
+
+        total = 10 * total + digit;
+        index ++;
+    }
+    return total * sign;
+}
+}
+
+
+public class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<Character>();
+        for(Character c : s.toCharArray()){
+           if("({[".contains(String.valueOf(c))){
+            stack.push(c);
+          }else{
+              if(!stack.isEmpty()&&isMatched(stack.peek(),c)){
+                  stack.pop();
+              }else{
+                  return false;
+              }
+          }  
+        }
+        return stack.isEmpty();
+    }
+    private boolean isMatched(char c1,char c2){
+        return (c1=='('&&c2==')')||(c1=='{'&&c2=='}')||(c1=='['&&c2==']');
+    }
+}
+
+
+public class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        if (strs == null || strs.length == 0) return new ArrayList<List<String>>();
+        //注意返回的结果类型
+        Map<String, List<String>> map = new HashMap<String, List<String>>();
+        Arrays.sort(strs);
+        for (String s : strs) {
+            char[] ca = s.toCharArray();
+            Arrays.sort(ca);
+            String keyStr = String.valueOf(ca); //每个字符串，先转成字符数组排序，再比对key加入
+            if (!map.containsKey(keyStr)) map.put(keyStr, new ArrayList<String>());
+            map.get(keyStr).add(s);
+        }
+        return new ArrayList<List<String>>(map.values());//map的值直接调用传参
+    }
+}
+
+
+public class Solution {
+   public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+  if (root == null)
+    return null;
+
+  if (root.val <= p.val) {
+    return inorderSuccessor(root.right, p);
+  } else {
+    TreeNode left = inorderSuccessor(root.left, p);
+    return (left != null) ? left : root;
+  }
+}
+}
+
+public class Solution {
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+    List<List<Integer>> res = new ArrayList<List<Integer>>();
+    if(root==null)
+        return res;
+    ArrayList<Integer> item = new ArrayList<Integer>();
+    item.add(root.val);
+    helper(root,sum-root.val,item,res);
+    return res;
+}
+private void helper(TreeNode root, int sum, ArrayList<Integer> item, List<List<Integer>> res)
+{
+    if(root == null)
+        return;
+    if(root.left==null && root.right==null && sum==0)
+    {
+        res.add(new ArrayList<Integer>(item));
+        return;
+    }
+    if(root.left!=null)
+    {
+        item.add(root.left.val);
+        helper(root.left,sum-root.left.val,item,res);
+        item.remove(item.size()-1);
+    }
+    if(root.right!=null)
+    {
+        item.add(root.right.val);
+        helper(root.right,sum-root.right.val,item,res);
+        item.remove(item.size()-1);
+    }        
+}
+}
+
+
+public class Solution {
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if(root==null){
+            return false;
+        }
+        if(root.left==null&&root.right==null){
+            return sum==root.val;
+        }
+        return hasPathSum(root.left,sum-root.val)||hasPathSum(root.right,sum-root.val);
+        
+    }
+}
+
+public class Solution {
+    // you need treat n as an unsigned value
+   public int reverseBits(int n) {
+    int result = 0;
+    for (int i = 0; i < 32; i++) {
+        result += n & 1;
+        n >>>= 1;   // CATCH: must do unsigned shift
+        if (i < 31) // CATCH: for last digit, don't shift!
+            result <<= 1;//只能推31次，过了就推出去了
+    }
+    return result;
+}
+}
+
+public class Solution {
+    public int reverse(int x)
+{
+    int result = 0;
+
+    while (x != 0)
+    {
+        int tail = x % 10;
+        int newResult = result * 10 + tail;
+        if ((newResult - tail) / 10 != result)
+        { return 0; }//为了防止溢出
+        result = newResult;
+        x = x / 10;
+    }
+
+    return result;
+}
+}
+
+
+public class Solution {
+    public ListNode reverseList(ListNode head) {
+    ListNode newHead = null;
+    while(head != null){
+        ListNode next = head.next;
+        head.next = newHead;
+        newHead = head;
+        head = next;
+    }
+    // head-newhead   next
+    return newHead;
+}
+}
+
+
+class FindPath {
+    public boolean findPath(int x, int y, int[][] squares) {
+            if (x < 0 || y < 0){
+                return false;
+            }
+            if (squares == null || squares[0] == null){
+                return false;
+            }
+            boolean[][] visit = new boolean[squares.length][squares[0].length];
+            bfs(x, y, visit, squares);
+            return visit[squares.length - 1][squares[0].length - 1];
+    }
+    //
+    public void bfs(int x, int y, boolean[][] visit, int[][] squares){
+        if (x + 1 < squares.length 
+        && squares[x+1][y] != -1 
+        && visit[x+1][y] != true){
+            visit[x+1][y] == true
+            bfs(x + 1, y,  visit, squares);
+            
+        }
+        if (x - 1 > 0
+        && squares[x - 1][y] != -1 
+        && visit[x - 1][y] != true){
+            visit[x - 1][y] == true
+            bfs(x - 1, y,  visit, squares);
+            
+        }
+        if (y + 1 < squares[0].length 
+        && squares[x][y + 1] != -1 
+        && visit[x][y+1] != true){
+            visit[x][y+1] == true
+            bfs(x, y + 1,  visit, squares);
+            
+        }
+        if (y - 1 > 0
+        && squares[x][y - 1] != -1 
+        && visit[x][y - 1] != true){
+            visit[x][y - 1] == true
+            bfs(x, y - 1, visit, squares);
+            
+        }
+        
+    }
+    
+    
+}
+
+
+class Fibonacci {
+    
+    public int getResultFrom(int input) throws Exception{
+        if (input < 0){
+            throw new Exception();
+        }
+        if (input == 0 || input == 1){
+           return 0; 
+        }
+        if (input == 2){
+            return 1;
+        }
+       // int[] res = new int[input];
+        int count = 1;
+        res[0] = 0;
+        res[1] = 1;
+        int first = 0;
+        int second = 1;
+        for (int i = 2; i < input; i++){
+            int temp = second;
+            second += first;
+            //res[i] = second;
+            count += second;
+            first = temp;
+        }
+        //for (int i = 0; i < input; i++){
+        //    count += res[i];
+        //}
+        return count;
+    }
+    
+}
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=176715&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3089%5D%5Bvalue%5D%5B3%5D%3D3%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3046%5D%5Bvalue%5D%3D31%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+
+
+
+
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=156517&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3089%5D%5Bvalue%5D%5B3%5D%3D3%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3046%5D%5Bvalue%5D%3D31%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+
+
+==========================================================================================
+1.DP
+1.local global -> local > 0 留下
+ public int maxSubArray(int[] nums) {//记录的话就用数组，不需要所以节省空间
+        if(nums == null || nums.length == 0){
+            return 0;
+        }
+        int global = nums[0];
+        int local = nums[0];
+        for(int i = 1;i<nums.length;i++){
+            local = (local > 0) ? local + nums[i] : nums[i];
+            global = Math.max(global, local);//看包含到哪里最优，断与不断
+        }
+        return global;
+    }
+ 
+
+2.阶乘
+
+ public static int factorial(int x) {
+        if (x < 0) {
+            throw new IllegalArgumentException("x must be>=0");
+        }
+        int fact = 1;
+        for (int i = 2; i <= x; i++) {
+            fact *= i;
+        }
+        return fact;
+    }
+
+递归要看到出口
+public static int factorial2(int x) {
+        if (x < 0) {
+            throw new IllegalArgumentException("x must be>=0");
+        }
+        if (x <= 1) {
+            return 1;
+        } else
+            return x * factorial2(x - 1);
+    }
+
+3.public static long fibonacci(int n) {
+        if (n <= 1) return n;
+        else return fibonacci(n-1) + fibonacci(n-2);
+  }
+ 
+4. 三个最大 min max， a，b，max，min
+public int maxProduct(int A[]) {  
+        if(A==null||A.length==0) {  
+          return 0;  
+        }  
+        int maxProduct = A[0];  
+        int max_temp   = A[0];  
+        int min_temp   = A[0];  
+          
+        for(int i=1;i<A.length;i++) {  
+            int a = A[i]*max_temp;  
+            int b = A[i]*min_temp;  
+            max_temp = Math.max(Math.max(a,b), A[i]);  
+            min_temp = Math.min(Math.min(a,b), A[i]);  
+            maxProduct = Math.max(maxProduct, max_temp);  
+        }  
+        return maxProduct;  
+    }  
+
+5.
+0， 中间， j ＝ j，j－1＋， i
+i 1-size
+j i－1， －－
+public class Solution {
+   //从下往上 
+   public int minimumTotal(List<List<Integer>> triangle) {
+    if(triangle == null || triangle.size() == 0)
+        return 0;
+    if(triangle.size()==1)
+        return triangle.get(0).get(0);
+        
+    int[] sums = new int[triangle.size()];
+    //金字塔尖
+    sums[0] = triangle.get(0).get(0);
+    // 
+    for(int i=1;i<triangle.size();i++){
+        // 第i行i列
+        sums[i] = sums[i-1]+triangle.get(i).get(i);
+        for(int j=i-1;j>=1;j--){
+            sums[j] = (sums[j]<sums[j-1] ? sums[j]:sums[j-1]) + triangle.get(i).get(j);
+        }
+        // 第i行0列
+        sums[0] = sums[0]+triangle.get(i).get(0);
+    }
+    
+    // 找一个最大的，初始＋for
+    int minimum = sums[0];
+    for(int i=1;i<=sums.length-1;i++){
+        minimum = Math.min(minimum,sums[i]);
+    }
+    return minimum;
+}
+}
+
+int minimumTotal(vector<vector<int> > &triangle) {  
+2:      int row = triangle.size();  
+3:      if(row ==0) return 0;  
+4:      vector<int> minV(triangle[row-1].size());  
+5:      for(int i =row-1; i>=0; i--)  
+6:      {  
+7:        int col = triangle[i].size();  
+8:        for(int j =0; j<col; j++)  
+9:        {  
+10:          if(i == row-1)  
+11:          {  
+12:            minV[j] = triangle[i][j];  
+13:            continue;  
+14:          }  
+15:          minV[j] = min(minV[j], minV[j+1]) + triangle[i][j];  
+16:        }  
+17:      }  
+18:      return minV[0];  
+19:    }
+
+
+
+6.不断在前面补1，i行，j=1,list.size()-1 set（j，（j）＋（j＋1））
+public class Solution {
+   public List<Integer> getRow(int rowIndex) {
+    List<Integer> list = new ArrayList<Integer>();
+    if (rowIndex < 0)
+        return list;//返回的是空的
+    for (int i = 0; i <= rowIndex ; i++) {//从第0行到第四行
+        list.add(0, 1);
+        for (int j = 1; j < list.size() - 1; j++) {
+            list.set(j, list.get(j) + list.get(j + 1));
+        }
+    }
+    return list;
+}
+}
+//一定要new
+ allrows.add(new ArrayList<Integer>(row));
+
+7.
+初始
+curMin = max(curM，price［i］)
+maxP＝max（maxP，price［i］－curMin）
+public class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices.length < 2) return 0;
+        
+        int maxProfit = 0;
+        int curMin = prices[0];
+        
+        for (int i = 1; i < prices.length; i++) {
+            curMin = Math.min(curMin, prices[i]);
+            maxProfit = Math.max(maxProfit, prices[i] - curMin);
+        }
+        
+        return maxProfit;
+    }
+}
+
+II －》 diff i＋1 － i，大于0就加上
+
+IV－》if (k >= prices.length) return maxProfit2(prices);
+int i = 1; i < prices.length
+for (int j = 1; j <= k; j++)天数，笔数
+
+diff仍然是price［i］ － price［i － 1］
+	local[i][j]和global[i][j]的区别是：local[i][j]意味着在第i天一定有交易（卖出）发生
+	local[i][j] = max(global[i – 1][j – 1]｛diff小于0｝ , local[i – 1][j] + diff｛大于0｝)
+	第i天有无交易
+	global[i][j] = max(global[i – 1][j], local[i][j])
+	最后i省掉
+
+
+8.
+public class Solution {
+    public int maxProfit(int[] prices) {
+    if (prices == null || prices.length == 0) {
+        return 0;
+    }
+    // 在每个点卖的时候的最大值
+    int[] dp = new int[prices.length]; 
+    int max = 0;
+    // 组成buy sell 的组合
+    for (int i = 1; i < prices.length; i++) { // i sell
+        for (int j = i - 1; j >= 0; j--) { // j buy
+            // 1. 如果在i卖
+            //j小于2，之前没有交易，也没有cooldown，直接搞就是
+            if (j < 2) {
+                dp[i] = Math.max(prices[i] - prices[j], dp[i]);
+            } else {
+                // 反推，如果今天卖过了，前面就要停一天，在这次交易买j之前一天的cooldown
+                dp[i] = Math.max(dp[j - 2] + (prices[i] - prices[j]), dp[i]);
+            }
+            // 2.如果在i不卖和卖谁更赚，j＝＝0时不存在在i不卖，必须卖了才有钱
+            dp[i] = (j == 0) ? dp[i] : Math.max(dp[i - 1], dp[i]);//买不买，在i
+        }
+        // 并没有累积关系
+        max = Math.max(max, dp[i]);
+    }
+    return max;
+}
+}
+
+
+9.三种情况，选一个加，或者第四种
+public class Solution {
+   public int minPathSum(int[][] grid) {
+    int m = grid.length;// row
+    int n = grid[0].length; // column
+    /*int[][]  result = new grid[m][n];chushihua?*/
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (i == 0 && j != 0) {
+                grid[i][j] = grid[i][j] + grid[i][j - 1];
+            } else if (i != 0 && j == 0) {
+                grid[i][j] = grid[i][j] + grid[i - 1][j];
+            } else if (i == 0 && j == 0) {
+                grid[i][j] = grid[i][j];
+            } else {
+                grid[i][j] = Math.min(grid[i][j - 1], grid[i - 1][j])
+                        + grid[i][j];
+            }
+        }
+    }
+
+    return grid[m - 1][n - 1];//  初始化与dp过程一道
+}
+}
+10.root to leaf
+空，叶子，左右
+public class Solution {
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if(root==null){
+            return false;
+        }
+        if(root.left==null&&root.right==null){
+            return sum==root.val;
+        }
+        return hasPathSum(root.left,sum-root.val)||hasPathSum(root.right,sum-root.val);
+        
+    }
+}
+11.all root to leaf
+先sub里加root。val。dfs
+
+
+12.root null返回，不用到叶子节点， if sum－root＝0，全局＋＋，否则左不空递归左，右不空递归右，不能backtracking，因为每次要往下
+public int pathSum(TreeNode root, int sum) {
+        if(root==null)
+            return 0;
+        else{
+            Total total= new Total();
+            int orig_sum=sum;
+            //Set<TreeNode> visited = new HashSet<TreeNode>();
+            pathSum_m(root, sum, total);
+            return total.all+pathSum(root.left,sum)+pathSum(root.right,sum);
+        }
+    }
+    
+    public void pathSum_m(TreeNode root, int sum, Total total) {
+        
+        if(root==null)
+            return;
+        else{
+            int subsum = sum-root.val;
+            //sum=orig_sum;
+            if(subsum==0){
+                total.all++;
+            }
+            
+            if(root.left!=null){
+                pathSum_m(root.left, subsum, total);
+            }
+            
+            
+            
+            if(root.right!=null){
+                pathSum_m(root.right, subsum, total);
+
+            }
+
+        }
+    
+        }
+    
+    
+    public static class Total{
+        private int all=0;
+    }
+
+空
+叶子了 看＝＝ return；
+左不空，右不空 ＋左＋右 remove
+
+
+13.
+public class Solution {
+    int maxValue;
+
+    public int maxPathSum(TreeNode root) {
+        maxValue = Integer.MIN_VALUE;
+        maxPathDown(root);
+        return maxValue;
+    }
+
+    private int maxPathDown(TreeNode node) {
+        if (node == null) return 0;
+        int left = Math.max(0, maxPathDown(node.left));
+        int right = Math.max(0, maxPathDown(node.right));
+        maxValue = Math.max(maxValue, left + right + node.val);//这个是计算结果
+        return Math.max(left, right) + node.val;//这个是底层节点，bottom－up角度去理解
+    }
+}
+==========================================================================================
+1.public class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    public boolean isValidBST(TreeNode root, long minVal, long maxVal) {
+        if (root == null) return true;
+        if (root.val >= maxVal || root.val <= minVal) return false;
+        return isValidBST(root.left, minVal, root.val) && isValidBST(root.right, root.val, maxVal);
+    }
+}
+
+2.
+trie
+insert 
+ for(int i = 0; i < word.length(); i++){
+            char c = word.charAt(i);
+            if(ws.children[c - 'a'] == null){
+                ws.children[c - 'a'] = new TrieNode(c);
+            }
+            ws = ws.children[c - 'a'];
+        }
+search isword
+startWith，能到就行
+
+trie树开始为空
+
+3.merge 谁到头
+public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    if(l1 == null) return l2;
+    if(l2 == null) return l1;
+
+    if(l1.val < l2.val){
+        l1.next = mergeTwoLists(l1.next, l2);
+        return l1;
+    }else{
+        l2.next = mergeTwoLists(l1, l2.next);
+        return l2;
+    }
+
+}
+
+public ListNode mergeTwoListsII(ListNode l1, ListNode l2) {
+	ListNode fakeHead = new ListNode(0);
+	ListNode current = fakeHead;
+
+	while (l1 != null || l2 != null) {
+		if (l1 == null || (l2 != null && l1.val >= l2.val)) {
+			current.next = l2;
+			current = l2;
+			l2 = l2.next;
+		} else {
+			current.next = l1;
+			current = l1;
+			l1 = l1.next;
+		}
+	}
+	return fakeHead.next;
+}
+}
+
+4.merge interval
+Interval prev = null;
+//不相交且大于，加上并成为新的判断标准
+
+
+5.
+public List<List<Integer>> levelOrder(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        List<List<Integer>> wrapList = new LinkedList<List<Integer>>();
+
+        if(root == null) return wrapList;
+
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            int levelNum = queue.size();
+            List<Integer> subList = new LinkedList<Integer>();
+            for(int i=0; i<levelNum; i++) {
+                if(queue.peek().left != null) queue.offer(queue.peek().left);
+                if(queue.peek().right != null) queue.offer(queue.peek().right);
+                subList.add(queue.poll().val);
+            }
+            wrapList.add(subList);
+        }
+        return wrapList;
+    }
+
+ if(LeftToRight){
+                   sublist.add(queue.poll().val);
+               }else{
+                   sublist.add(0,queue.poll().val);
+               }//怎么加
+
+LeftToRight=!LeftToRight;
+
+
+wrapList.add(0,subList);
+
+
+6.newHead， head。next存起来， 然后指向修改
+public ListNode reverseList(ListNode head) {
+    ListNode newHead = null;
+    while(head != null){
+        ListNode next = head.next;
+        head.next = newHead;
+        newHead = head;
+        head = next;
+    }
+    // head-newhead   next
+    return newHead;
+
+
+7.
+premNode postN
+if (postnNode == null) {
+                return null;
+}
+public class Solution {
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        if (m >= n || head == null) {
+            return head;
+        }
+        
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;//有人指head
+        head = dummy;//地址指向
+        
+        for (int i = 1; i < m; i++) {
+            if (head == null) {
+                return null;
+            }
+            head = head.next;
+        }//先到m
+        
+        ListNode premNode = head;
+        ListNode mNode = head.next;//m先 本身
+        ListNode nNode = mNode, postnNode = mNode.next;//n 本身 后
+        for (int i = m; i < n; i++) {
+            if (postnNode == null) {
+                return null;
+            }
+            ListNode temp = postnNode.next;//存n后
+            postnNode.next = nNode;//N赋给后N
+            nNode = postnNode;
+            postnNode = temp;
+        }
+        mNode.next = postnNode;
+        premNode.next = nNode;
+        
+        return dummy.next;
+    }
+}
+
+8.
+public  ListNode reverseKGroup(ListNode head, int k) {
+        if(head == null || k == 1) return head;
+        // pre 和 head
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
+        int i = 0;
+        // head 遍历，走k次，％k＝＝0就reverse一次，建立新的pre head
+        while(head != null){
+            i++;
+            if(i % k ==0){
+                pre = reverse(pre, head.next);
+                head = pre.next;
+            }else {
+                head = head.next;
+            }
+        }
+        return dummy.next;
+    }
+
+9.快慢针
+
+public boolean hasCycle(ListNode head) {
+        if(head==null) return false;
+		ListNode walker = head;
+		ListNode runner = head;
+		while(runner.next!=null && runner.next.next!=null) {
+			walker = walker.next;
+			runner = runner.next.next;
+			if(walker==runner) return true;
+		}
+		return false;
+    }
+
+
+10.
+
+h.next = head
+p=h
+
+ while(p.next != null && p.next.next != null){
+
+p用t1保存  ListNode t2 = p.next.next;
+先接后，再回环
+
+
+11.
+vertical
+	Map<Integer, ArrayList<Integer>> map = new HashMap<>();
+	Queue<TreeNode> q = new LinkedList<>();
+	Queue<Integer> cols = new LinkedList<>();
+
+	int col = cols.poll();
+		//没有就建新的
+		if(!map.containsKey(col)) map.put(col, new ArrayList<Integer>());
+		// poll出来先加入
+		map.get(col).add(node.val);
+左不空：右不空： 判断max min
+	最后从min－max
+
+
+12.
+return checkeSymmetric(root.left,root.right);
+左右均空，true
+左右均不空，false
+值不等false
+递归左右 右左
+
+
+
+13.假设左右都找到了，公共，否则返回找到的，if(root == null || root == p || root == q)  return root;
+ public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null || root == p || root == q)  return root;
+        TreeNode left = lowestCommonAncestor(root.left, p, q);// 找到左边的
+        TreeNode right = lowestCommonAncestor(root.right, p, q);//找到右边的
+        if(left != null && right != null)   return root;//都找到了，返回公共的
+        return left != null ? left : right;//总找到一个
+    }
+
+
+14. 根据值判断在哪边
+ public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null || p==null || q==null) return null;
+        
+        if(Math.max(p.val, q.val) < root.val) {
+            return lowestCommonAncestor(root.left, p, q);
+        } else if(Math.min(p.val, q.val) > root.val) {
+            return lowestCommonAncestor(root.right, p, q);
+        } else return root;
+
+
+15.
+9.Find the first Common Parent, 感觉下面这方法会更好，原答案一些edge case没有很好地cover：
+node* LCA(node* nd1, node* nd2){ .鏈枃鍘熷垱鑷�1point3acres璁哄潧
+
+node* cur1 = nd1; . 鐗涗汉浜戦泦,涓€浜╀笁鍒嗗湴
+node* cur2 = nd2; 
+
+// calculate nd1 height 
+int nd1_height = 0; 
+while(cur1->parent!=NULL){ . 鐣欏鐢宠璁哄潧-涓€浜╀笁鍒嗗湴
+nd1_height++; 
+cur1 = cur1->parent; . from: 1point3acres.com/bbs 
+} 
+. From 1point 3acres bbs
+// calculate nd2 height 
+int nd2_height = 0; . 鍥磋鎴戜滑@1point 3 acres
+while(cur2->parent!=NULL){ 
+nd2_height++; 
+cur2 = cur2->parent; 
+} 
+
+int diff = nd1_height - nd2_height; 
+
+cur1 = nd1; . 1point 3acres 璁哄潧
+cur2 = nd2; . 鐣欏鐢宠璁哄潧-涓€浜╀笁鍒嗗湴
+
+if(diff>0){ 
+while(diff--){ 
+cur1 = cur1->parent; 
+} 
+} else{ . 鍥磋鎴戜滑@1point 3 acres
+diff = -diff; 
+while(diff--){ 
+cur2 = cur2->parent; 
+} 
+} 
+
+while(1){ 
+if(cur1==NULL || cur2==NULL) break; 
+if(cur1 == cur2) 
+return cur1; 
+cur1 = cur1->parent; . 鍥磋鎴戜滑@1point 3 acres
+cur2 = cur2->parent; 
+} 
+
+return NULL; 
+}
+
+
+16.
+int findNum(node* node, int K)
+{
+        if(node == NULL)
+        {
+                return -1;
+        }
+        else if(K <= node->data)
+        {
+                return findNum(node->left,K);
+        }
+        else if(K > node->data)
+        {
+                int t = findNum(node->right,K);
+                return t > node->data ? t : node->data;
+        }
+
+        return -1;
+}
+==========================================================================================
+1.remove dup
+＋＋j i
+
+
+2.search
+ public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix == null || matrix.length < 1 || matrix[0].length <1) {
+            return false;
+        }
+        int col = matrix[0].length-1;
+        int row = 0;
+        while(col >= 0 && row <= matrix.length-1) {
+            if(target == matrix[row][col]) {
+                return true;
+            } else if(target < matrix[row][col]) {
+                col--;
+            } else if(target > matrix[row][col]) {
+                row++;
+            }
+        }
+        return false;
+    }
+
+3.
+public class Solution {
+    public int[] twoSum(int[] numbers, int target) {
+    int[] result = new int[2];
+    Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+    for (int i = 0; i < numbers.length; i++) {
+        if (map.containsKey(target - numbers[i])) {
+            result[1] = i + 1;
+            result[0] = map.get(target - numbers[i]);//从低到高，剩了判断谁先谁后，并且前面判断过，后面不可能再判断
+            return result;
+        }
+        map.put(numbers[i], i + 1);//index要加1
+    }
+    return result;
+}
+}
+
+
+4. 1 1 2 6
+   res*right(1)right*num
+public int[] productExceptSelf(int[] nums) {
+    int[] res = new int[nums.length];
+    res[0] = 1;
+    for (int i = 1; i < nums.length; i++) {
+        res[i] = res[i - 1] * nums[i - 1];
+        //1126
+    }
+    int right = 1;
+    for (int i = nums.length - 1; i >= 0; i--) {
+        res[i] *= right;
+        right *= nums[i];
+        //  24 12 8 6
+    }
+    return res;
+}
+
+5.
+public String reverseString(String s) {
+        int i=0,j=s.length()-1;
+        char[] str=s.toCharArray();
+        while(i<j){
+           char temp=str[i];
+           str[i]=str[j];
+           str[j]=temp;
+            i++;
+            j--;
+        }
+        String ss=new String(str);
+        return ss;
+    }
+
+
+6.
+ result += n & 1;
+        n >>>= 1;   // CATCH: must do unsigned shift
+        if (i < 31) // CATCH: for last digit, don't shift!
+            result <<= 1;//只能推31次，过了就推出去了
+
+
+7.
+public class Solution {
+    public void reverseWords(char[] s) {
+    // Three step to reverse
+    // 1, reverse the whole sentence
+    reverse(s, 0, s.length - 1);
+    // 2, reverse each word
+    int start = 0;
+    for (int i = 0; i < s.length; i++) {
+        if (s[i] == ' ') {//找到一个空之后从start到n-1,双指针
+            reverse(s, start, i - 1);
+            start = i + 1;
+        }
+    }
+    // 3, reverse the last word, if there is only one word this will solve the corner case
+    reverse(s, start, s.length - 1);//corner case
+}
+
+public void reverse(char[] s, int start, int end) {
+    while (start < end) {
+        char temp = s[start];
+        s[start] = s[end];
+        s[end] = temp;
+        start++;
+        end--;
+    }
+}//reverse 单独写一个函数，双指针，三步交换
+}
+
+public class Solution {
+    public String reverseWords(String s) {
+        String[] parts = s.trim().split("\\s+");//标准字符处理先trim再按空格分
+        String out = "";
+        if (parts.length > 0) {
+             for (int i = parts.length - 1; i > 0; i--) {
+             out += parts[i] + " ";
+            }//前n-1个每加一个加 " "
+             out += parts[0];//最后单独补上，concate或者append会不会好点
+        }
+            return out;
+    }
+}
+
+8.
+public class Solution {
+    public int addDigits(int num) {
+        return num == 0 ? 0 : (num % 9 == 0 ? 9 : num % 9);
+    }
+}
+
+
+9.
+public class Solution {
+    public int reverse(int x)
+{
+    int result = 0;
+
+    while (x != 0)
+    {
+        int tail = x % 10;
+        int newResult = result * 10 + tail;
+        if ((newResult - tail) / 10 != result)
+        { return 0; }//为了防止溢出
+        result = newResult;
+        x = x / 10;
+    }
+
+    return result;
+}
+}
+
+10.
+ public String reverseVowels(String s) {
+        char[] list=s.toCharArray();
+        for(int i=0,j=list.length-1;i<j;){
+            if(!isVowel(list[i])){
+                i++;
+                continue;
+            }
+            if(!isVowel(list[j])){
+                j--;
+                continue;
+            }
+            char temp=list[i];
+            list[i]=list[j];
+            list[j]=temp;
+            i++;
+            j--;
+        }
+        return String.valueOf(list);
+    }
+
+11.
+public class Solution {
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<Integer>();
+        for(String element:tokens){
+            if(!"+-*/".contains(String.valueOf(element))){
+                stack.push(Integer.valueOf(element));//无符号push value
+            }else{
+                int a = stack.pop();
+                int b = stack.pop();
+                if(element.equals("+")){
+                    stack.push(b + a);
+                }
+                if(element.equals("-")){
+                    stack.push(b - a);
+                }
+                if(element.equals("*")){
+                    stack.push(b * a);
+                }
+                if(element.equals("/")){
+                    stack.push(b / a);
+                }//是符号弹出两个值
+            }
+        }
+        return stack.pop();
+    }
+}
+
+
+12.
+public class Solution {
+    public int trailingZeroes(int n) {
+        return n == 0 ? 0 : n / 5 + trailingZeroes(n / 5);
+    }
+}
+
+
+
+
+13.
+public class Solution {
+    public int myAtoi(String str) {
+    int index = 0, sign = 1, total = 0;
+    //1. Empty string
+    if(str.length() == 0) return 0;
+
+    //2. Remove Spaces
+    while(str.charAt(index) == ' ' && index < str.length())
+        index ++;
+
+    //3. Handle signs
+    if(str.charAt(index) == '+' || str.charAt(index) == '-'){
+        sign = str.charAt(index) == '+' ? 1 : -1;
+        index ++;
+    }
+
+    //4. Convert number and avoid overflow
+    while(index < str.length()){
+        int digit = str.charAt(index) - '0';
+        if(digit < 0 || digit > 9) break;
+
+        //check if total will be overflow after 10 times and add digit
+        if(Integer.MAX_VALUE/10 < total || Integer.MAX_VALUE/10 == total && Integer.MAX_VALUE %10 < digit)
+            return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;//再加一位就溢出了
+
+        total = 10 * total + digit;
+        index ++;
+    }
+    return total * sign;
+}
+}
+
+
+14.
+public static char getFirstNonRepeatedChar(String str) { Map<Character,Integer> counts = new LinkedHashMap<>(str.length()); for (char c : str.toCharArray()) { counts.put(c, counts.containsKey(c) ? counts.get(c) + 1 : 1); } for (Entry<Character,Integer> entry : counts.entrySet()) { if (entry.getValue() == 1) { return entry.getKey(); } } throw new RuntimeException("didn't find any non repeated Character"); } 
+
+Read more: http://javarevisited.blogspot.com/2014/03/3-ways-to-find-first-non-repeated-character-String-programming-problem.html#ixzz4NzwOpuMK
+
+
+15.
+public class Solution {
+    public String getHint(String secret, String guess) {
+    int bulls = 0;
+    int cows = 0;
+    int[] numbers = new int[10];//对应1-9出现次数//生产消费对应槽bucket
+    for (int i = 0; i<secret.length(); i++) {
+        if (secret.charAt(i) == guess.charAt(i)) bulls++;
+        else {
+            if (numbers[secret.charAt(i)-'0']++ < 0) cows++;
+            if (numbers[guess.charAt(i)-'0']-- > 0) cows++;//生产者消费者
+        }
+    }
+    return bulls + "A" + cows + "B";
+}
+}
+
+16.
+* One's digit: n/10=143 143*1+1
+ * Ten's digit: n/100=14 14*10+10
+ * Hun's digit: n/1000=1 1*100+100
+ * Tho's digit: 1432%1000+1=433
+
+
+==========================================================================================
+1.
+class Solution{
+public List<List<Integer>> subsets(int[] S) {
+    List<List<Integer>> result = new ArrayList<List<Integer>>();
+
+    if(S.length == 0){
+        return result;
+    }
+
+    Arrays.sort(S);
+    dfs(S, 0, new ArrayList<Integer>(), result);
+    return result;
+}
+
+public void dfs(int[] s, int index, List<Integer> path, List<List<Integer>> result){
+    result.add(new ArrayList<Integer>(path));
+
+    for(int i = index; i < s.length; i++){
+        path.add(s[i]);
+        dfs(s, i+1, path, result);
+        path.remove(path.size()-1);
+    }
+}
+}
+public class Solution {
+    public List<List<Integer>> permute(int[] num) {
+    List<List<Integer>> res = new ArrayList<List<Integer>>();
+    ArrayList<Integer> tmp = new ArrayList<Integer>();
+    boolean[] visit = new boolean[num.length];
+    Arrays.sort(num);
+    dfs(res,tmp,num,visit);
+    return res;
+    }
+    
+    public void dfs(List<List<Integer>> res, ArrayList<Integer> tmp, int[] num, boolean[] visit){
+        if(tmp.size()==num.length) {
+            res.add(new ArrayList<Integer>(tmp));
+            return;            
+        }
+        for(int i=0; i<num.length; i++){ //从零开始，全加入
+            if(visit[i]==false){
+                tmp.add(num[i]);
+                visit[i] = true;
+                dfs(res,tmp,num,visit);
+                tmp.remove(tmp.size()-1);
+                visit[i] = false;
+            }
+        }
+    }
+}
+
+
+2.
+//找第一个小于之后数的
+  if(i!=0){
+          swap(nums,i-1); //两次均找一个大于i－1的
+      }//if the number exist,which means that the nums not like{5,4,3,2,1}   12354
+
+      reverse(nums,i); //从i开始把后面全部reverse 
+
+
+   private List<String> list = new ArrayList<>();
+
+public List<String> generatePalindromes(String s) {
+    int numOdds = 0; //奇数的数字有多少个
+    int[] map = new int[128]; // Map from character to its frequency
+    // 计算每个字母的频率
+    for (char c: s.toCharArray()) {
+        map[c]++;
+        // 特算法［类似选举］
+        numOdds = (map[c] & 1) == 1 ? numOdds + 1 : numOdds - 1; //奇数的数字有多少个
+    }
+    
+    
+    
+    //奇数的数字有大于1，没有结果
+    if (numOdds > 1)   return list;
+
+
+    String mid = "";
+    int length = 0;
+    
+    for (int i = 0; i < 128; i++) {
+        //  有的话
+        if (map[i] > 0) {
+            //奇数的话放中间
+            if (map[i] % 2 == 1) { // Char with odd count will be in the middle／／实际偶数加入也在里面
+                mid = "" + (char)i;
+                map[i]--;
+            }
+            //否则减一半，我们只generate一半
+            map[i] /= 2; 
+            //长度加上
+
+3.
+public class ZigzagIterator {
+
+    private Iterator<Integer> i, j, tmp;
+
+    public ZigzagIterator(List<Integer> v1, List<Integer> v2) {
+        i = v2.iterator();
+        j = v1.iterator();
+    }
+
+    public int next() {
+        if (j.hasNext()) { tmp = j; j = i; i = tmp; }
+        return i.next();
+    }
+
+    public boolean hasNext() {
+        return i.hasNext() || j.hasNext();
+    }
+}
+4.
+for(int i=1; i <= s.length(); i++){
+            for(int j=0; j < i; j++){
+                if(f[j] && dict.contains(s.substring(j, i))){
+                    f[i] = true;
+                    break;
+                }
+            }
+        }
+
+5.
+for (int i = 0; i < len + 1; i++) {
+            canBreak[i] = true;
+        }
+            
+        dfs3(s, dict, path, ret, 0, canBreak);
+        
+
+
+6.
+public class Solution {
+    public double findMedianSortedArrays(int[] A, int[] B) {
+        int m = A.length, n = B.length;
+        int l = (m + n + 1) / 2;
+        int r = (m + n + 2) / 2;
+        return (getkth(A, 0, B, 0, l) + getkth(A, 0, B, 0, r)) / 2.0;
+    }
+
+public double getkth(int[] A, int aStart, int[] B, int bStart, int k) {
+    if (aStart > A.length - 1) return B[bStart + k - 1];            
+    if (bStart > B.length - 1) return A[aStart + k - 1];                
+    if (k == 1) return Math.min(A[aStart], B[bStart]);
+
+    int aMid = Integer.MAX_VALUE, bMid = Integer.MAX_VALUE;
+    if (aStart + k/2 - 1 < A.length) aMid = A[aStart + k/2 - 1]; 
+    if (bStart + k/2 - 1 < B.length) bMid = B[bStart + k/2 - 1];        
+
+    if (aMid < bMid) 
+        return getkth(A, aStart + k/2, B, bStart,       k - k/2);// Check: aRight + bLeft 
+    else 
+        return getkth(A, aStart,       B, bStart + k/2, k - k/2);// Check: bRight + aLeft
+}
+}
+
+8.
+public class Solution {
+    //DP
+    public boolean canCross(int[] stones) {
+        if (stones.length == 2) return stones[1] == 1;
+        //Map[stone]:all possible previous steps to reach this stone
+        Set<Integer>[] myMap = new HashSet[stones.length];
+
+        //first stone
+        myMap[0] = new HashSet<Integer>();
+        //first can be reach with last step size 1
+        myMap[0].add(0);
+
+        
+        for (int i = 1; i < stones.length; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                //if stone j can not be reached
+                if (myMap[j] == null)continue;
+                
+                //Since the stone is sorted, if last steps needed to reach stone i is larger than the maximum
+                //possible steps needed to reach j, break.
+                int step = stones[i] - stones[j];
+                if (step > stones[j] + 1) break;
+                
+                //if the stone i can be reached from stone j, uppdate stone i
+                if (myMap[j].contains(step) || myMap[j].contains(step - 1) || 
+                    myMap[j].contains(step + 1)) {
+                    if (myMap[i] == null) myMap[i] = new HashSet<Integer>();
+                    myMap[i].add(step);
+                }
+                
+            }
+           
+        }
+        
+        return myMap[stones.length - 1] != null;
+    }  
+}
+9。
+public String substring(int beginIndex, int endIndex) {
+ 2         if (beginIndex < 0) {
+ 3             throw new StringIndexOutOfBoundsException(beginIndex);
+ 4         }
+ 5         if (endIndex > count) {
+ 6             throw new StringIndexOutOfBoundsException(endIndex);
+ 7         }
+ 8         if (beginIndex > endIndex) {
+ 9             throw new StringIndexOutOfBoundsException(endIndex - beginIndex);
+10         }
+11         return ((beginIndex == 0) && (endIndex == count)) ? this :
+12             new String(offset + beginIndex, endIndex - beginIndex, value);
+13 }
+
+
+10.
+class MedianFinder {
+    
+    PriorityQueue<Integer> maxheap;
+    PriorityQueue<Integer> minheap;
+    
+    public MedianFinder(){
+        // 新建最大堆
+        maxheap = new PriorityQueue<Integer>(11, new Comparator<Integer>(){
+            public int compare(Integer i1, Integer i2){
+                return i2 - i1;
+            }
+        });
+        // 新建最小堆
+        minheap = new PriorityQueue<Integer>();
+    }
+
+    // Adds a number into the data structure.
+    public void addNum(int num) {
+        // 如果最大堆为空，或者该数小于最大堆堆顶，则加入最大堆
+        if(maxheap.size() == 0 || num <= maxheap.peek()){
+            // 如果最大堆大小超过最小堆，则要平衡一下
+            if(maxheap.size() > minheap.size()){
+                minheap.offer(maxheap.poll());
+            }
+            maxheap.offer(num);
+        // 数字大于最小堆堆顶，加入最小堆的情况
+        } else if (minheap.size() == 0 || num > minheap.peek()){
+            if(minheap.size() > maxheap.size()){
+                maxheap.offer(minheap.poll());
+            }
+            minheap.offer(num);
+        // 数字在两个堆顶之间的情况
+        } else {
+            if(maxheap.size() <= minheap.size()){
+                maxheap.offer(num);
+            } else {
+                minheap.offer(num);
+            }
+        }
+    }
+
+    // Returns the median of current data stream
+    public double findMedian() {
+        // 返回大小较大的那个堆堆顶，如果大小一样说明是偶数个，则返回堆顶均值
+        if(maxheap.size() > minheap.size()){
+            return maxheap.peek();
+        } else if (maxheap.size() < minheap.size()){
+            return minheap.peek();
+        } else if (maxheap.isEmpty() && minheap.isEmpty()){
+            return 0;
+        } else {
+            return (maxheap.peek() + minheap.peek()) / 2.0;
+        }
+    }
+};
+
+11。intersection
+	排序合并
+	两个hashset
+	一个hashset＋排序二分
+
+
+12.public int sqrt(int x) {
+        // write your code here
+        if (x == 0){
+            return 0;
+        }
+        if (x == 1){
+            return 1;
+        }
+        // 涉及平方操作的注意不要用int
+        long start = 1;
+        long end = x;
+        // 这里用start + 1会不会太小
+        while (start + 1 < end){
+            long mid = (end - start) / 2 + start;
+            if (mid * mid <= x){
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        //找最后一个符合要求的
+        if (end * end <= x){
+            return (int)end;
+        }
+        return (int)start;
+    }
+
+13.
+http://flyingcat2013.blog.51cto.com/7061638/1281026
+ if (left<right){
+            int middle = (left+right)/2;
+            internalMergeSort(a, b, left, middle);          //左子数组
+            internalMergeSort(a, b, middle+1, right);       //右子数组
+            mergeSortedArray(a, b, left, middle, right);    //合并两个子数组
+        }
+    }
+
+
+14.http://flyingcat2013.blog.51cto.com/7061638/1281614
+public static void quickSort(int[] arr){
+    qsort(arr, 0, arr.length-1);
+}
+private static void qsort(int[] arr, int low, int high){
+    if (low < high){
+        int pivot=partition(arr, low, high);        //将数组分为两部分
+        qsort(arr, low, pivot-1);                   //递归排序左子数组
+        qsort(arr, pivot+1, high);                  //递归排序右子数组
+    }
+}
+private static int partition(int[] arr, int low, int high){
+    int pivot = arr[low];     //枢轴记录
+    while (low<high){
+        while (low<high && arr[high]>=pivot) --high;
+        arr[low]=arr[high];             //交换比枢轴小的记录到左端
+        while (low<high && arr[low]<=pivot) ++low;
+        arr[high] = arr[low];           //交换比枢轴小的记录到右端
+    }
+    //扫描完成，枢轴到位
+    arr[low] = pivot;
+    //返回的是枢轴的位置
+    return low;
+}
+
+15.
+public class Solution {
+    // 搜索集大成题之一 dfs + bfs
+    public List<List<String>> findLadders(String start, String end,
+            Set<String> dict) {
+        //结果
+        List<List<String>> ladders = new ArrayList<List<String>>();
+        //哪些路径到，记录all方案
+        Map<String, List<String>> map = new HashMap<String, List<String>>();
+        //距离
+        Map<String, Integer> distance = new HashMap<String, Integer>();
+        
+        dict.add(start);
+        dict.add(end);
+ 
+        bfs(map, distance, start, end, dict);
+        List<String> path = new ArrayList<String>();
+        dfs(ladders, path, end, start, distance, map);
+        return ladders;
+    }
+
+//BFS构出一个图， 最短
+    public void bfs(Map<String, List<String>> map, 
+                    Map<String, Integer> distance,
+            String start, String end, Set<String> dict) {
+        Queue<String> q = new LinkedList<String>();
+        
+        //初始化
+        q.offer(start);
+        distance.put(start, 0);
+        for (String s : dict) {
+            map.put(s, new ArrayList<String>());
+        }
+        
+        while (!q.isEmpty()) {
+            String crt = q.poll();
+            List<String> nextList = expand(crt, dict);
+            for (String next : nextList) {
+                map.get(next).add(crt);
+                if (!distance.containsKey(next)) {
+                    distance.put(next, distance.get(crt) + 1);
+                    q.offer(next);
+                }
+            }
+        }
+    }
+//在bfs基础的图上，从终点开始做深搜， 从起点也可以
+    void dfs(List<List<String>> ladders, List<String> path, String crt,
+            String start, Map<String, Integer> distance,
+            Map<String, List<String>> map) {
+        path.add(crt);
+        if (crt.equals(start)) {
+            Collections.reverse(path);
+            ladders.add(new ArrayList<String>(path));
+            Collections.reverse(path);
+        } else {
+            //哪些能到下一步
+            for (String next : map.get(crt)) {
+                // 下一步能到
+                if (distance.containsKey(next) && distance.get(crt) == distance.get(next) + 1) { 
+                    dfs(ladders, path, next, start, distance, map);
+                }
+            }           
+        }
+        path.remove(path.size() - 1);
+    }
+
+    
+    
+    //等于 word ladder 里 getNextWords + replace
+    List<String> expand(String crt, Set<String> dict) {
+        List<String> expansion = new ArrayList<String>();
+        for (int i = 0; i < crt.length(); i++) {
+            for (char ch = 'a'; ch <= 'z'; ch++) {
+                if (ch != crt.charAt(i)) {
+                    String expanded = crt.substring(0, i) + ch
+                            + crt.substring(i + 1);
+                    if (dict.contains(expanded)) {
+                        expansion.add(expanded);
+                    }
+                }
+            }
+        }
+        return expansion;
+    }
+}
+
+
+16.
+
+        int key;
+        int value;
+        Node prev;
+        Node next;
+        public Node(int key, int value){
+            this.key = key;
+            this.value = value;
+            this.prev = null;
+            this.next = null;
+        }
+    
+ HashMap<Integer,Node> result = new HashMap<Integer, Node>();
+
+
+17.
+Set<Long> idSet = new LinkedHashSet<Long>();
+idSet.addAll(itemIds);
+idSet.addAll(itemIdsFromSearch);
+http://blog.csdn.net/rain097790/article/details/50377788
+
+
+18.Find K missing
+void printMissing(int arr[], int n)
+{
+   for (int i = 0; i < n; ++i)
+   {
+      int k = i;
+
+      while(arr[k] != (k+1))
+      {
+         if( arr[k] < 1 || arr[k] > n || arr[k] == arr[arr[k] - 1] )
+         {
+            arr[k] = -1;
+            break;
+         }
+
+         std::swap(arr[k], arr[arr[k] - 1]);
+      }
+   }
+
+   for (int i = 0; i < n; ++i)
+   {
+      if(arr[i] < 0 )
+         std::cout << i+1 << " is missing" << std::endl;
+   }
+}
+
+
+
+19.
+It is 2*2^31*2^31/32 ----> that is 2 arrays, each with (2^31 arraylength) no of rows and each row contains ((2^31)/32 ( integers)) as columns.
+
+To represent the state, we need say 00 for 'O' and 11 for 'X' and 01 or 10 for 'empty'.
+
+So one array stores the state of O as 0 and rest as1s,
+and in, Other array store the stae of X as 1 and rest as 0s.
+
+
+20.
+public class TicTacToe {
+private int[] rows;
+private int[] cols;
+// 加入对角线，只有两条中心对角线满足条件
+private int diagonal;
+private int antiDiagonal;
+
+// 初始化, 两个一维数组代表二维数组
+public TicTacToe(int n) {
+    rows = new int[n];
+    cols = new int[n];
+}
+
+public int move(int row, int col, int player) {
+    // 1的＋1，否则－1，这样可以判断一列或者一对角线
+    int toAdd = player == 1 ? 1 : -1;
+    
+    rows[row] += toAdd;
+    cols[col] += toAdd;
+    
+    //在中心对角线上
+    
+    if (row == col)
+    {
+        diagonal += toAdd;
+    }
+    //在另对角线上
+    if (col == (cols.length - row - 1))
+    {
+        antiDiagonal += toAdd;
+    }
+    //判断当前这部玩家是否胜利
+    int size = rows.length;
+    if (Math.abs(rows[row]) == size ||
+        Math.abs(cols[col]) == size ||
+        Math.abs(diagonal) == size  ||
+        Math.abs(antiDiagonal) == size)
+    {
+        return player;
+    }
+    //没谁胜利返回0
+    return 0;
+}
+}
+
+
+16
+public class Solution {
+    // 矩阵里的方向问题，简便解法
+    int[][] dirs = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+
+// 并查集
+public List<Integer> numIslands2(int m, int n, int[][] positions) {
+    List<Integer> result = new ArrayList<>();
+    if(m <= 0 || n <= 0) return result;
+
+    int count = 0;                      // number of islands
+    int[] roots = new int[m * n];       // one island = one tree
+    // 填充
+    Arrays.fill(roots, -1);            
+
+    for(int[] p : positions) {
+        // 转换成一维数组的点确定唯一位置
+        int root = n * p[0] + p[1];     // assume new point is isolated island
+        // 初始化，根是自己
+        roots[root] = root;             // add new island
+        //  加岛
+        count++;
+        // 四个方向
+        for(int[] dir : dirs) {
+            // 确定四个方向在一维化的唯一位置nb
+            int x = p[0] + dir[0]; 
+            int y = p[1] + dir[1];
+            int nb = n * x + y;
+            
+            // 越界了或者不是根，跳过
+            if(x < 0 || x >= m || y < 0 || y >= n || roots[nb] == -1) continue;
+           
+            // 扩的这四个点的根rootNb不是本根
+            int rootNb = findIsland(roots, nb);
+            if(root != rootNb) {  // if neighbor is in another island
+                // 把自己合并岛rootNb上
+                roots[root] = rootNb;   // union two islands 
+                // 改换rootNb
+                root = rootNb;          // current tree root = joined tree root
+                // 少一个岛
+                count--;               
+            }
+        }
+        //每进来一个点刷新一次
+        result.add(count);
+    }
+    return result;
+}
+
+// 找根
+public int findIsland(int[] roots, int id) {
+    while(id != roots[id]) {
+        roots[id] = roots[roots[id]];   // 压缩优化
+        id = roots[id];
+    }
+    return id;
+}
+}
+
+
+public int numIslands(char[][] grid) {
+    int count = 0;
+    n = grid.length;
+    if (n == 0) return 0;
+    m = grid[0].length;
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++)
+            if (grid[i][j] == '1') {
+                DFSMarking(grid, i, j);//使得连接地方
+                ++count;
+            }
+    }    
+    return count;
+}
+
+private void DFSMarking(char[][] grid, int i, int j) {
+    if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] != '1') return;
+    grid[i][j] = '0';
+    DFSMarking(grid, i + 1, j);
+    DFSMarking(grid, i - 1, j);
+    DFSMarking(grid, i, j + 1);
+    DFSMarking(grid, i, j - 1);
+}
+}
+
+
+public class Solution {
+    public void wallsAndGates(int[][] rooms) {
+        if (rooms.length == 0 || rooms[0].length == 0) return;
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < rooms.length; i++) {
+            for (int j = 0; j < rooms[0].length; j++) {
+                if (rooms[i][j] == 0) queue.add(new int[]{i, j});
+            }
+        }
+        while (!queue.isEmpty()) {
+            int[] top = queue.remove();
+            int row = top[0], col = top[1];
+            if (row > 0 && rooms[row - 1][col] == Integer.MAX_VALUE) {// judgement
+                rooms[row - 1][col] = rooms[row][col] + 1;
+                queue.add(new int[]{row - 1, col});
+            }
+            if (row < rooms.length - 1 && rooms[row + 1][col] == Integer.MAX_VALUE) {
+                rooms[row + 1][col] = rooms[row][col] + 1;
+                queue.add(new int[]{row + 1, col});
+            }
+            if (col > 0 && rooms[row][col - 1] == Integer.MAX_VALUE) {
+                rooms[row][col - 1] = rooms[row][col] + 1;
+                queue.add(new int[]{row, col - 1});
+            }
+            if (col < rooms[0].length - 1 && rooms[row][col + 1] == Integer.MAX_VALUE) {
+                rooms[row][col + 1] = rooms[row][col] + 1;
+                queue.add(new int[]{row, col + 1});
+            }
+        }
+    }
+}
+
+
+17.
+I would use a combination of a doubly linked list, a hash table and a min heap.
+The hash table maps from a property to its location in the linked list. The linked list holds the items in order, and when an item is viewed it is moved to the end of the list. The list also points for each item to its location in a min heap of size 100 (not all properties are in the heap). I would have a routine that would periodically remove items from the list based on the time (and update the rest of the data structures). When a property is viewed, it is added/updated in the hash table. It is put at the end of the linked list with its new time. Then we compare the number of views for that item with the top of the min heap. if it is larger, we pop the top of the min heap and insert the new item to the heap.
+
+
+18.
+Node head = new Node(-1, -1);
+Node tail = new Node(-1, -1);
+set remove，insert头，moveTotail  
+get map返回， moveTotail
+==========================================================================================
+
+
+	1.给你一个log file，每一行都有一条记录，包括三个数据：访问时间，user id，访问的page id。然后让你找出访问次数最多的10组3个连续访问page。就是如果user A访问了page 1 2 3，这样 1 2 3 就算被访问了一次。不用考虑时间间隔所以我昨天访问1，今天2，后天3，也能算作连续访问page。我的做法是先用map统计了所有用户的按时间顺序排列好的访问page，然后三个三个加到另一个map里面去count(我用最土的办法 id1_id2_id3 下划线连接)，最后用minHeap找出前10个
+	follow up是如何优化空间，我那个时候大脑已经跪了，想了二十分钟想不出来就投降要hint了，然后经过提示就用大小为3的queue来存那连续三个page id，count完之后就扔掉第一个然后读第三个就好，不占用空间。
+
+	2: Given a map, mark its nodes as Black or Red, no two adjacent nodes have the same color. Return true or false. 
+    Follow up: the problem with saving color data inside node class. 当有不同的thread同时跑在同一个graph上的时候，如果把color存在Node类里就会出问题，比如一个thread先把一个node染色后，之后的thread看到这个node就已经有颜色了。这时候用个hashmap把node-color信息存在function里就能避免这个问题。
+
+
+
+	3. 阿三哥出题果然不同凡响：题目是一句话：给一条街，几个洞，判断是否能通过这个街道而不掉入洞内。（给定 width, length 和洞的 position, radius）
+问出很多限定条件：洞可以无限小，也可以无限大，但是行人也是无限小。每个洞的大小不一致。行人的起点是最左边的 width 的任意点，终点是最右边的任意点。只要给出 true/false 即可，不用给出具体路线。
+一开始我以为是 leetcode 上的unique path 问题，阿三哥不满意，这个问题如果用 grid 划分 street 的话最后的 matrix 会太大太占内存。后来突然发现是连通问题 connected component 是用 union find 解决的！
+然后我说可以判断左右边是否能连通，阿三哥说还不够好。最后是只要判断 holes 是否上下连通即可。interesting..
+最后我 union find 忘了具体算法用 brute-force 做的然后时间就差不多了。。。
+	4.第一轮：亚洲人，第一题写个AnagramsServer类，实现init(String[] dict)和getAnagrams(String s)两个方法。基本就是让你在init里面把字典里的词都存好，然后getAnagrams的时候可以把和s是anagram的都输出。init调用一次，get调用多次。
+
+	http://www.geeksforgeeks.org/bipartite-graph/
+
+
+
+
+
+
+public class Solution {
+    // unionfind的压缩
+    //最简便的写法是Quick-Union,耗费时间
+     public boolean validTree(int n, int[][] edges) { 
+         // 图的边集
+        if (edges.length != n - 1){
+            return false;
+        }
+        // 初始化
+        int[] root = new int[n];  
+        for(int i = 0; i < n; i++)  
+            root[i] = i; 
+        // 遍历边集，找边两个点的根，如果相同则不是树
+        // 否则以其中一个为根 root1为根
+        for(int i = 0; i < edges.length; i++) {
+            // 如果一条边的两个节点已经在同一集合(同一个根)中，
+            // 说明新的边将产生环路
+            int root1 = find(root, edges[i][0]);  
+            int root2 = find(root, edges[i][1]);  
+            if(root1 == root2)  
+                return false;
+            // 不然以其中一个为根 root1为根
+            root[root2] = root1;  
+        }
+        return true;
+    }  
+    // find是找根，root[e] == e时候返回  
+    private int find(int[] root, int e) {  
+        if(root[e] == e)  
+            return e;  
+        else  
+            return find(root, root[e]);  
+    }  
+}
+
+
+public class Solution {
+    //http://buttercola.blogspot.com/2016/01/leetcode-number-of-connected-components.html
+private int[] father;
+public int countComponents(int n, int[][] edges) {
+ 
+    Set<Integer> set = new HashSet<Integer>();
+    father = new int[n];
+    // 初始化
+    for (int i = 0; i < n; i++) {
+        father[i] = i;
+    }
+    // 对每条边union一下
+    for (int i = 0; i < edges.length; i++) {
+         union(edges[i][0], edges[i][1]);
+    }
+    // 对每个点找根－－统计数目
+    for (int i = 0; i < n; i++){ 
+        set.add(find(i));
+    }
+    return set.size();
+}
+//找根
+int find(int node) {
+    if (father[node] == node) {
+        return node;
+    }
+    father[node] = find(father[node]);
+    return father[node];
+}
+ 
+void union(int node1, int node2) {
+    //把node1的根的father赋成node2
+    father[find(node1)] = find(node2);
+}
+}
+
+
+
+// Step 2: BFS for 'O' and put them to '+'
+    while (!queue.isEmpty()) {
+        Point p = queue.poll();
+        int x = p.x, y = p.y;
+        if (x-1 >= 0   && board[x-1][y] == 'O') addPoint(board, queue, x-1, y);
+        if (x+1 <= m-1 && board[x+1][y] == 'O') addPoint(board, queue, x+1, y);
+        if (y-1 >= 0   && board[x][y-1] == 'O') addPoint(board, queue, x, y-1);
+        if (y+1 <= n-1 && board[x][y+1] == 'O') addPoint(board, queue, x, y+1);//上下左右//0变＋
+    }
+
+    // Step 3: Put all '+' to 'O' and 'O' to 'X'
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (board[i][j] == 'O') board[i][j] = 'X';
+            if (board[i][j] == '+') board[i][j] = 'O';//
+        }
+    }
+
+
+
+
+public class Solution {
+    //DP
+    public boolean canCross(int[] stones) {
+        // input check
+        if (stones.length == 2) return stones[1] == 1;
+        
+        //Map[stone]:之前所有可能的步数
+        Set<Integer>[] myMap = new HashSet[stones.length];
+
+        //初始化第一步
+        myMap[0] = new HashSet<Integer>();
+        myMap[0].add(0);
+
+        // i个数 依赖于前i-1的状态分析［有一个就行］
+        for (int i = 1; i < stones.length; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                //如果都没有，肯定不可达到
+                if (myMap[j] == null)continue;
+                
+                //Since the stone is sorted, if last steps needed to reach stone i is larger than the maximum
+                //possible steps needed to reach j, break.
+                int step = stones[i] - stones[j];
+                // 到j所需要的步数＋1都达不到［可选 stones[j]－1， stones[j]， stones[j] ＋ 1］
+                if (step > stones[j] + 1) break;
+                
+                //如果可以达到，j里有这个步数
+                if (myMap[j].contains(step) || myMap[j].contains(step - 1) || 
+                    myMap[j].contains(step + 1)) {
+                    // 把step加到dp数组里    
+                    if (myMap[i] == null) myMap[i] = new HashSet<Integer>();
+                    myMap[i].add(step);
+                }
+                
+            }
+           
+        }
+        // 最后步数有没有空即可
+        return myMap[stones.length - 1] != null;
+    }  
+}

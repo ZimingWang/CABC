@@ -1,0 +1,91 @@
+
+
+http://www.1point3acres.com/bbs/thread-199191-2-1.html
+双面经［］＋ https://leetcode.com/company/snapchat/ 看一遍
+	1.有个stream of URLs to one componen't，  让你设计一个系统知道怎么url是第一次访问。10 billions of urls
+	2.https://leetcode.com/problems/edit-distance/
+	3.BST
+	http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=199797&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3088%5D%5Bvalue%5D%3D1%26searchoption%5B3088%5D%5Btype%5D%3Dradio%26searchoption%5B3089%5D%5Bvalue%5D%5B2%5D%3D2%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3090%5D%5Bvalue%5D%3D1%26searchoption%5B3090%5D%5Btype%5D%3Dradio%26searchoption%5B3048%5D%5Bvalue%5D%3D2%26searchoption%5B3048%5D%5Btype%5D%3Dradio%26searchoption%5B3046%5D%5Bvalue%5D%3D21%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+	4.http://www.lintcode.com/en/problem/six-degrees/
+	5.word search II
+https://instant.1point3acres.com/thread/189397
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=201395&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3088%5D%5Bvalue%5D%3D1%26searchoption%5B3088%5D%5Btype%5D%3Dradio%26searchoption%5B3089%5D%5Bvalue%5D%5B2%5D%3D2%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3090%5D%5Bvalue%5D%3D1%26searchoption%5B3090%5D%5Btype%5D%3Dradio%26searchoption%5B3048%5D%5Bvalue%5D%3D2%26searchoption%5B3048%5D%5Btype%5D%3Dradio%26searchoption%5B3046%5D%5Bvalue%5D%3D21%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+	6. 第一题是给一个string，一个dict，要求返回dict中的string，其可以由string中的char组成（每个char最多用一次），最后返回一个list
+	7. prime number
+	8. all prime numbers <= n
+	9. a power b
+	10.1.就是实现sqrt()。自己因为刚练习过，所以很快写出了牛顿迭代的方法。然后被要求做测试，分别使用build-in 的sqrt()测试了，负数，0，以及INT_MAX，当测到INT_MAX的时候，发现结果不对，相差1.。。。顿时懵逼。然后一气之下，写了另一个二分法的sqrt()，也就是从0---x/2+1开始，二分搜索结果。之后测试INT_MAX，结果还是差1。 懵逼之中，面试官说要不再测几个case，于是试了试101，才意识到原来sqrt()输出的是float。。。。。 于是测试的时候，改成了(int)sqrt(testValue); 这下结果OK了。总之在尴尬和紧张的气氛中熬过了面试。很赞的是，snapchat居然半小时之内给了结果，通知去onsite。感谢面试小哥没有因为尴尬的气氛fail掉我。祝大家找工作跳槽顺利
+	11.倒数第K个linkedlist
+	12.https://leetcode.com/problems/copy-list-with-random-pointer/ 
+	13.3.http://stackoverflow.com/questions/15855594/min-n-m-so-that-whole-array-will-be-sorted/15855670#15855670
+	14.minimum window substring
+	15.俩站实现队列
+	16.https://leetcode.com/problems/reconstruct-itinerary/ 
+	17.start end merge log ?
+==========================================================================================
+https://leetcode.com/company/snapchat/
+0.SystemD
+	有个stream of URLs to one componen't，  让你设计一个系统知道怎么url是第一次访问。10 billions of urls
+==========================================================================================
+1.DP
+	Valid Palindrome.
+        Follow-up是可以增删改，使得输入字符串成为palindrome，输出最少操作次数。（DP）
+	One Edit Distance 162
+	edit distance
+==========================================================================================
+2.Tree
+	1. 前序中序构建树
+	2. 实现BST
+	http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=199797&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3088%5D%5Bvalue%5D%3D1%26searchoption%5B3088%5D%5Btype%5D%3Dradio%26searchoption%5B3089%5D%5Bvalue%5D%5B2%5D%3D2%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3090%5D%5Bvalue%5D%3D1%26searchoption%5B3090%5D%5Btype%5D%3Dradio%26searchoption%5B3048%5D%5Bvalue%5D%3D2%26searchoption%5B3048%5D%5Btype%5D%3Dradio%26searchoption%5B3046%5D%5Bvalue%5D%3D21%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+==========================================================================================
+3.DFS
+	1.given a pattern, given input string check whether it follows the pattern.  eg: pattern = "abba", input = "bigsmallsmallbig" return true.Word Pattern II
+	2.里面第一个其实比原来的题目还简单，只写其中几个function，第二个就是给几个Color object然后求他们的和，使他们刚好等于一个target的Color
+	3.group of friends
+	http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=202672&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3088%5D%5Bvalue%5D%3D1%26searchoption%5B3088%5D%5Btype%5D%3Dradio%26searchoption%5B3089%5D%5Bvalue%5D%5B2%5D%3D2%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3090%5D%5Bvalue%5D%3D1%26searchoption%5B3090%5D%5Btype%5D%3Dradio%26searchoption%5B3048%5D%5Bvalue%5D%3D2%26searchoption%5B3048%5D%5Btype%5D%3Dradio%26searchoption%5B3046%5D%5Bvalue%5D%3D21%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+	4.word search II
+https://instant.1point3acres.com/thread/189397
+http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=201395&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3088%5D%5Bvalue%5D%3D1%26searchoption%5B3088%5D%5Btype%5D%3Dradio%26searchoption%5B3089%5D%5Bvalue%5D%5B2%5D%3D2%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3090%5D%5Bvalue%5D%3D1%26searchoption%5B3090%5D%5Btype%5D%3Dradio%26searchoption%5B3048%5D%5Bvalue%5D%3D2%26searchoption%5B3048%5D%5Btype%5D%3Dradio%26searchoption%5B3046%5D%5Bvalue%5D%3D21%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+==========================================================================================
+4.BFS+graph
+	1. 二分图
+	2. http://www.lintcode.com/en/problem/six-degrees/
+	3. BFS穿墙（import coder）
+	http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=198749&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3088%5D%5Bvalue%5D%3D1%26searchoption%5B3088%5D%5Btype%5D%3Dradio%26searchoption%5B3089%5D%5Bvalue%5D%5B2%5D%3D2%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3090%5D%5Bvalue%5D%3D1%26searchoption%5B3090%5D%5Btype%5D%3Dradio%26searchoption%5B3048%5D%5Bvalue%5D%3D2%26searchoption%5B3048%5D%5Btype%5D%3Dradio%26searchoption%5B3046%5D%5Bvalue%5D%3D21%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311
+==========================================================================================
+5.Other Tree
+	第一题是给一个string，一个dict，要求返回dict中的string，其可以由string中的char组成（每个char最多用一次），最后返回一个list
+	面试官一直提示用trie，就给了一个用trie的解法
+	ip filter input  1.3.2.9 这是不合法的 因为前面8位一样 2.3.5.1是合法的  我真的看了好久是几个意思主要是要用到Trie 和把num biancheng er进制  因为/后面的数字可能不是8的倍数 
+
+==========================================================================================
+6.MathBit
+	1. prime number
+	2. all prime numbers <= n
+	3. a power b
+==========================================================================================
+7.LinkedList+BS
+	1.就是实现sqrt()。自己因为刚练习过，所以很快写出了牛顿迭代的方法。然后被要求做测试，分别使用build-in 的sqrt()测试了，负数，0，以及INT_MAX，当测到INT_MAX的时候，发现结果不对，相差1.。。。顿时懵逼。然后一气之下，写了另一个二分法的sqrt()，也就是从0---x/2+1开始，二分搜索结果。之后测试INT_MAX，结果还是差1。 懵逼之中，面试官说要不再测几个case，于是试了试101，才意识到原来sqrt()输出的是float。。。。。 于是测试的时候，改成了(int)sqrt(testValue); 这下结果OK了。总之在尴尬和紧张的气氛中熬过了面试。很赞的是，snapchat居然半小时之内给了结果，通知去onsite。感谢面试小哥没有因为尴尬的气氛fail掉我。祝大家找工作跳槽顺利
+	2.倒数第K个
+	 https://leetcode.com/problems/copy-list-with-random-pointer/ 
+==========================================================================================
+8.Array&String
+	3.http://stackoverflow.com/questions/15855594/min-n-m-so-that-whole-array-will-be-sorted/15855670#15855670
+	4.3 sum的题
+	minimum window substring
+	
+==========================================================================================
+9.DS&Design
+	1.Anagram + Group Anagram 
+      能运行；正确说出 time complexity & space complexity
+	2.俩站实现队列 
+	3.1. Anagram （面经高频，两个string看是不是含有一样数量的alphabet）
+	2. Evaluate String （Stack 高频题。（2*3） ＋ 6 这种，还有大括号，小括号等要处理）  第二轮是国人小哥面的，非常友善。也给了很多提示，LZ不太争气，这题目以前做过变形题，这次居然最后一个括号死活reach不到［geeksforgeeks］
+	LRU Cache的变形 toggle？
+	 https://leetcode.com/problems/reconstruct-itinerary/ 
+	start end log merge
+	http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=199191&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3088%5D%5Bvalue%5D%3D1%26searchoption%5B3088%5D%5Btype%5D%3Dradio%26searchoption%5B3089%5D%5Bvalue%5D%5B2%5D%3D2%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3090%5D%5Bvalue%5D%3D1%26searchoption%5B3090%5D%5Btype%5D%3Dradio%26searchoption%5B3048%5D%5Bvalue%5D%3D2%26searchoption%5B3048%5D%5Btype%5D%3Dradio%26searchoption%5B3046%5D%5Bvalue%5D%3D21%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311  
+	meeting roomI II
+	http://www.1point3acres.com/bbs/forum.php?mod=viewthread&tid=203781&extra=page%3D1%26filter%3Dsortid%26sortid%3D311%26searchoption%5B3088%5D%5Bvalue%5D%3D1%26searchoption%5B3088%5D%5Btype%5D%3Dradio%26searchoption%5B3089%5D%5Bvalue%5D%5B2%5D%3D2%26searchoption%5B3089%5D%5Btype%5D%3Dcheckbox%26searchoption%5B3090%5D%5Bvalue%5D%3D1%26searchoption%5B3090%5D%5Btype%5D%3Dradio%26searchoption%5B3048%5D%5Bvalue%5D%3D2%26searchoption%5B3048%5D%5Btype%5D%3Dradio%26searchoption%5B3046%5D%5Bvalue%5D%3D21%26searchoption%5B3046%5D%5Btype%5D%3Dradio%26sortid%3D311  
+==========================================================================================
+

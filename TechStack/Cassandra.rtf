@@ -1,0 +1,83 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1347\cocoasubrtf570
+{\fonttbl\f0\fnil\fcharset134 STHeitiSC-Light;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 \
+\
+\
+\
+\
+\
+\
+\
+\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\'a3\'bd\
+Cassandra\
+	1. \'c0\'fa\'ca\'b7\'a3\'a8Facebook using java\'a3\'a9\'a3\'a8Inspired dynamoDB\'a3\'a9\'a3\'a9\
+	2. \'b7\'d6\'b2\'bc\'ca\'bd\'ca\'fd\'be\'dd\'bf\'e2\'a3\'ac\'b2\'bb\'ca\'c7\'c8\'c8\'b1\'b8\'be\'cd\'ca\'c7\'b7\'d6\'b2\'bc\'ca\'bd\'a3\'ac\'b1\'b8\'b7\'dd\'b2\'bb\'c4\'dc\'cb\'e3replica\'bb\'f2\'ca\'c7sharding\
+	3. Hbase\'a3\'a8bigTable\'a3\'a9 \
+	    MongoDB\'a3\'a8C++\'a3\'a9\'a3\'a8Docu\'a3\'a9  \
+	   CouchDB\'a3\'a8Docu\'a3\'a9\
+	 \'a3\'a8zookeeper \'ca\'fd\'be\'dd\'bf\'e2\'b4\'e6\'b5\'c4\'ca\'c7\'d7\'b4\'cc\'ac\'a3\'a9\
+\'ca\'fd\'be\'dd\'bf\'e2\'d7\'f6\'b3\'c9\'b7\'d6\'b2\'bc\'ca\'bd\
+	1. Paritioning\'a3\'a8range\'a3\'a9\'b8\'f9\'be\'dduserid\'a3\'ad\'a3\'ad\'b1\'a3\'d6\'a4\'d0\'f2\'b5\'c4\'b9\'d8\'cf\'b5\'a3\'db\'c8\'b1\'b5\'e3\'a3\'ba\'c4\'b3\'b8\'f6\'b5\'e3\'b9\'fd\'c8\'c8\'a3\'dd\
+		\
+	2. Hash \'b8\'f9\'be\'ddkey mod\'a3\'dbload balance\'a3\'dd\'a3\'db\'c8\'b1\'b5\'e3\'a3\'ba\'d0\'c2\'bc\'d3server\'b5\'c3rehashingO\'a3\'a8n\'a3\'a9\'bc\'b6\'b1\'f0\'a3\'dd\
+\
+\'ce\'aa\'ca\'b2\'c3\'b4\'b2\'bb\'ca\'c7Master\'a3\'adSlave\
+	\'ca\'fd\'be\'dd\'bf\'e2 \'a3\'db\'b8\'df\'bf\'c9\'bf\'bf\'d0\'d4\'a3\'dd\'a3\'ad\'a3\'ad master slave \'b2\'bb\'d0\'d0\'a3\'ac \'b5\'a5\'b5\'e3\'a3\'accapacity depends on master\'a3\'ac 	backup master \'d2\'b2	fail\'c1\'cb\
+         \'a3\'a8\'c8\'c8\'b1\'b8\'a3\'ac\'cb\'e6\'ca\'b1\'bd\'d3\'b9\'dc\'a3\'a9    \'a3\'ad\'a3\'ad\'a3\'ad \'b6\'e0\'bf\'aamonitoring\
+\'d3\'c5\'b5\'e3\'a3\'ba \'ce\'de\'b5\'a5\'b5\'e3\'ce\'ca\'cc\'e2\'a3\'ac high availability \
+\
+\
+\
+\'bc\'bc\'ca\'f5\'b5\'e31:\
+	Consistent Hashing\'a3\'a82^N\'a3\'a9, server M \'cc\'a8\'a3\'ac \'cf\'f2\'ba\'f3\'bf\'b4\
+	\'d2\'bb\'b8\'f6\'ca\'fd\'be\'dd\'bd\'f8\'c0\'b4\'a3\'achash\'d2\'bb\'cf\'c2\'a3\'ac\'d6\'aa\'b5\'c0\'d4\'da\'c4\'c4\'b8\'f6\'ca\'fd\'be\'dd\'bf\'e2\'c0\'ef\
+	\'d4\'f6\'bc\'d3\'bd\'da\'b5\'e3\'ca\'b1\'b5\'c4\'ca\'fd\'be\'dd\'c7\'a8\'d2\'c6\'bc\'f5\'c9\'d9\'c1\'cb\'a3\'db\'bc\'d3\'d2\'bb\'b8\'f6\'bd\'f8\'c0\'b4\'a3\'ac\'d4\'ad\'c0\'b44\'a3\'ac5\'a3\'ac6\'b5\'c4\'b8\'f8\'cb\'fc\'a3\'ac\'d2\'d4\'ba\'f3\'d2\'b2\'b9\'e9\'cb\'fc\'b9\'dc\'a3\'ac\'d2\'d4\'ba\'f3n/m\'a3\'ac	\'c9\'be\'b3\'fd\'d2\'b2\'d2\'bb\'d1\'f9\'a3\'ac\'ba\'cd\'ba\'f3\'bc\'cc\'bd\'da\'b5\'e3\'bd\'f8\'d0\'d0\'cd\'a8\'d0\'c5\'be\'cd\'bf\'c9\'d2\'d4\'a3\'dd\'a3\'dbmurmur3 hashing algo\'a3\'dd\
+\'bc\'bc\'ca\'f5\'b5\'e32:\
+	P2P\'b9\'d8\'cf\'b5\'a3\'ac\'c8\'e7\'ba\'ce\'bc\'e0\'cc\'fd\'cb\'ad\'bb\'b5\'c1\'cb \
+	cassandra\'a3\'a8gossip protocol\'a3\'ac \'cb\'e6\'ca\'b1\'d4\'cb\'d0\'d0\'a3\'ac\'cb\'e6\'bb\'fagossip\'b8\'f8\'d2\'bb\'b8\'f6  TTL\'a3\'a9\'a3\'ad\'a3\'ad\'a3\'ad \'d3\'c3\'c0\'b4\'c8\'b7\'b6\'a8\'d2\'bb\'b8\'f6	node\'ca\'c7\'b7\'f1fail\'c1\'cb\
+	\'bd\'f8\'c0\'b4\'c1\'cb\'be\'cd\'b4\'ab\'b3\'f6\'c8\'a5\'a3\'a8\'c8\'c3\'b1\'f0\'c8\'cb\'d6\'aa\'b5\'c0\'a3\'a9\'a3\'ac \'bc\'e0\'cc\'fd\'b1\'f0\'c8\'cb\'b5\'c4\'d7\'b4\'cc\'ac\
+\'bc\'bc\'ca\'f5\'b5\'e33:\
+	\'ca\'fd\'be\'dd\'d0\'a1\'b5\'c4\'ca\'b1\'ba\'f2\'a3\'ac\'bf\'cf\'b6\'a8\'d3\'d0\'c8\'c8\'b5\'e3\'ca\'fd\'be\'dd\
+	\'b5\'a5\'bb\'fa\'b4\'a6\'c0\'ed\'c4\'dc\'c1\'a6\'b2\'bb\'cd\'ac\
+	1.  Virtual node \'a3\'db\'d2\'bb\'b8\'f6\'bb\'fa\'c6\'f7\'b0\'e7\'d1\'dd\'b6\'e0\'b8\'f6\'b5\'e3\'a3\'dd\
+	2 . Move node\'a3\'db\'bc\'f5\'c9\'d9\'b4\'a6\'c0\'ed\'b5\'c4\'b7\'b6\'ce\'a7\'a3\'ac\'c8\'c3\'c6\'e4\'cb\'fb\'c0\'b4\'b8\'e3\'a3\'dd\
+\'bc\'bc\'ca\'f5\'b5\'e34:\
+	W\'a3\'abR > N\'a3\'a8\'b2\'bb\'c4\'dc\'b5\'c8\'d3\'daN\'a3\'ac4\'b7\'ddreplica\'c7\'b02\'b8\'f6\'b6\'c1\'ba\'f32\'b8\'f6\'d0\'b4\'a3\'a9\
+	N replica \'d3\'d03\'b7\'dd\
+	W 1 \'d3\'d0\'bc\'b8\'b8\'f6\'d0\'b4\'b3\'c9\'b9\'a6\
+	R   1 \'d3\'d0\'bc\'b8\'b8\'f6\'b6\'c1\'b3\'c9\'b9\'a6\
+\'bc\'bc\'ca\'f5\'b5\'e35:\
+	dynamo\'a3\'ad\'a3\'advector\
+	timestamp\'a3\'ad\'a3\'ad\'c8\'e7\'ba\'ce\'d6\'aa\'b5\'c0\'d5\'e2\'b8\'f6\'ca\'c7\'d7\'ee\'d0\'c2\'b5\'c4\'ca\'fd\'be\'dd\'a3\'db\'ca\'b1\'bc\'e4\'cd\'ac\'b2\'bd\'a3\'dd1ms\'ce\'f3\'b2\'ee\
+\
+\'bc\'bc\'ca\'f5\'b5\'e36. read repair\
+	\'cf\'f2\'cb\'f9\'d3\'d0\'c8\'cb\'d2\'aa\'c7\'f3\'b6\'c1\'a3\'ac\'c8\'bb\'ba\'f3\'b7\'a2\'cf\'d6\'b2\'bb\'cd\'ac\'b5\'c4\'b5\'e3\'a3\'ac\'ca\'fd\'be\'dd\
+	hinted handnoff\'a3\'ad\'a3\'ad\'cf\'c8\'b4\'e6\'b5\'bdcoordinator\'a3\'ad\'a3\'ad\'a3\'ad\'d2\'d7\'b1\'c0\
+	anti\'a3\'adentropy \'a3\'ad\'a3\'ad \'b6\'a8\'c6\'da\'a3\'ac\'d4\'bd\'c2\'d2\'a3\'ac\'d4\'bd\'be\'c3\'be\'cd\'bc\'ec\'b2\'e9\
+\'bc\'bc\'ca\'f5\'b5\'e37\
+	Git\'d3\'c3\'c0\'b4\'b1\'c8\'b2\'bb\'cd\'ac\
+	Hash \'b9\'b9\'b3\'c9	Merkel Tree	\
+\'bc\'bc\'ca\'f5\'b5\'e38:\
+	\'d0\'b4\'cb\'d9\'b6\'c8\'a3\'bamemT\'a3\'ac commit log \'a3\'ad\'a3\'ad\'a3\'ad\'c2\'fa\'c1\'cb\'b4\'e6\'d3\'b2\'c5\'ccSStable\
+	\'b6\'c1\'cb\'d9\'b6\'c8\'a3\'ba compaction \'a3\'adTTL\'a3\'ac Cache\'a3\'acbloomfilter\'b5\'c8\'a3\'ac merge\'ca\'fd\'be\'dd\'bf\'e9\
+		     \'d1\'b9\'cb\'f5\'b2\'df\'c2\'d4\'a3\'a8\'b2\'e3\'b4\'ce\'a3\'ac\'ca\'fd\'c4\'bf\'a3\'ac\'ca\'b1\'bc\'e4\'a3\'a9\
+\'d7\'e9\'b3\'c9\'a3\'ba\
+	1. \
+	memTables \
+	\'c2\'fa\'c1\'cb\'b5\'bdSSTable \'b2\'bb\'bf\'c9\'b8\'c4\'a3\'ac\'d6\'bb\'bf\'c9\'d2\'d4append\
+	SSTable\'cc\'ab\'b6\'e0\'c1\'cbmerge\
+	2.\
+	 client \'b2\'bb\'c4\'dc\'d6\'b1\'bd\'d3\'d5\'d2any node to read \'cd\'a8\'b9\'fdcoordinator\
+	\'c8\'dd\'d2\'d7\'ce\'ac\'bb\'a4\
+	3.\
+	Commit Logs SSTables Hints\
+	commit log \'a3\'ad\'a3\'ad \'b6\'d4\'ca\'fd\'be\'dd\'b2\'d9\'d7\'f7\
+	4. CAP    \'d2\'bb\'d6\'c2 \'bf\'c9\'d3\'c3 \'cd\'f8\'c2\'e7\'c7\'d0\'b7\'d6    3 \'d1\'a12\'a3\'db\'cd\'f8\'c2\'e7\'d7\'dc\'d3\'d0\'d1\'d3\'b3\'d9\'a3\'dd\'b1\'be\'c9\'ed\'ca\'c7AP\'cf\'b5\'cd\'b3\'a3\'ac\'d2\'bb\'d6\'c2\'d0\'d4\'c8\'f5Tunable Consistency\'a3\'ac \'d7\'ee\'d6\'d5\'ca\'c7\'d2\'bb\'d6\'c2\'b5\'c4\'a3\'ac  \
+	JVM\'a3\'a8Daemon\'a3\'a9\
+	Memtables   Key Cache   Row Cache\
+	Disk \
+	}

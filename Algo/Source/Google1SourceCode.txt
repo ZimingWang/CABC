@@ -1,0 +1,2126 @@
+==========================================================================
+
+10.3
+public class NumMatrix {
+
+    private int[][] dp;
+
+public NumMatrix(int[][] matrix) {
+    if(   matrix           == null
+       || matrix.length    == 0
+       || matrix[0].length == 0   ){
+        return;   
+    }
+    
+    int m = matrix.length;
+    int n = matrix[0].length;
+    // 容斥原理，韦恩图
+    dp = new int[m + 1][n + 1];
+    for(int i = 1; i <= m; i++){
+        for(int j = 1; j <= n; j++){
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1] -dp[i - 1][j - 1] + matrix[i - 1][j - 1] ;
+        }
+    }
+}
+
+public int sumRegion(int row1, int col1, int row2, int col2) {
+    int iMin = Math.min(row1, row2);
+    int iMax = Math.max(row1, row2);
+    
+    int jMin = Math.min(col1, col2);
+    int jMax = Math.max(col1, col2);
+    
+    return dp[iMax + 1][jMax + 1] - dp[iMax + 1][jMin] - dp[iMin][jMax + 1] + dp[iMin][jMin];    
+}
+}
+8.32
+public class Solution {
+    public int minPatches(int[] nums, int n) {
+        int count = 0, i = 0;
+        // cover 从0到n
+        for (long covered=0; covered < n; ) {
+            // at this moment, we need (covered+1), patch it.
+            // 现在的大于covered ＋ 1，前面只到covered，或者数组穷尽了
+            if ((i < nums.length && nums[i] > covered + 1) || i >= nums.length) {  
+                covered += covered+1;
+                ++count;
+            } else { 
+                // 否则直接加nums[i++]
+                covered += nums[i++]; 
+            }
+        }
+        return count;
+    }
+}
+8.31
+public class MovingAverage {
+    private int [] window;
+    private int insert;
+    private int count;
+    private long sum;
+    
+    /** Initialize your data structure here. */
+    public MovingAverage(int size) {
+        window = new int[size];
+        insert = 0;
+        sum = 0;
+        count = 0;
+    }
+    
+    public double next(int val) {
+        if (count < window.length)  count++;
+        sum -= window[insert];
+        sum += val;
+        window[insert] = val;
+        insert = (insert + 1) % window.length;
+        
+        return (double)sum / count;
+    }
+}
+1.6
+public class Solution {
+   public  int findPositionToReplace(int[] a, int low, int high, int x) {
+    int mid;
+    while (low <= high) {
+        mid = low + (high - low) / 2;
+        if (a[mid] == x)
+            return mid;
+        else if (a[mid] > x)
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+    return low;
+}
+
+public  int lengthOfLIS(int[] nums) {
+    if (nums == null | nums.length == 0)
+        return 0;
+    int n = nums.length, len = 0;
+    int[] increasingSequence = new int[n];
+    increasingSequence[len++] = nums[0];
+    for (int i = 1; i < n; i++) {
+        if (nums[i] > increasingSequence[len - 1])
+            increasingSequence[len++] = nums[i];
+        else {
+            int position = findPositionToReplace(increasingSequence, 0, len - 1, nums[i]);
+            increasingSequence[position] = nums[i];
+        }
+    }
+    return len;
+}
+}
+9.10
+public class Solution {
+    public List<List<Integer>> palindromePairs(String[] words) {
+    List<List<Integer>> pairs = new LinkedList<>();// 多次插删用linkedlist比较好
+    if (words == null) return pairs;
+    HashMap<String, Integer> map = new HashMap<>();
+    
+    // 存好word的出现位置
+    for (int i = 0; i < words.length; ++ i) map.put(words[i], i);
+    
+    // 遍历word
+    for (int i = 0; i < words.length; ++ i) {
+        // 遍历双指针,取出所有的substring，基本操作 
+        int l = 0, r = 0;
+        while (l <= r) {
+            String s = words[i].substring(l, r);
+            Integer j = map.get(new StringBuilder(s).reverse().toString());
+            // reverse能够找到，而且不是一个组 例如aba和aba
+            // l == 0 那么是从 r到 words[i].length() 即是abcdd翻转后为与bca   dcb和aabcd［看粘在前面还是后面］ 
+            if (j != null && i != j && isPalindrome(words[i].substring(l == 0 ? r : 0, l == 0 ? words[i].length() : l)))
+                // 就加上去［看粘在前面还是后面］ 顺序不能乱
+                pairs.add(Arrays.asList(l == 0 ? new Integer[]{i, j} : new Integer[]{j, i}));
+            // 取出所有的substring，基本操作 
+            if (r < words[i].length()) ++r;
+            else ++l;
+        }
+    }
+    return pairs;
+}
+//  空的也是true
+private boolean isPalindrome(String s) {
+    for (int i = 0; i < s.length()/2; ++ i)
+        if (s.charAt(i) != s.charAt(s.length()-1-i))
+            return false;
+    return true;
+}
+}
+9.9
+public class Solution {
+private int lo, maxLen;//全局变量,维护确定substring位置
+
+public String longestPalindrome(String s) {
+    int len = s.length();
+    if (len < 2)
+        return s;
+
+    for (int i = 0; i < len - 1; i++) { // 每一个位置都扩一次
+        extendPalindrome(s, i, i);  // assume odd length, try to extend Palindrome as possible
+        extendPalindrome(s, i, i + 1); // assume even length
+    }
+    return s.substring(lo, lo + maxLen);
+}
+// j, k 是两边的boundary s.charAt(j) == s.charAt(k)就扩张
+private void extendPalindrome(String s, int j, int k) {
+    while (j >= 0 && k < s.length() && s.charAt(j) == s.charAt(k)) {
+        j--;
+        k++;
+    }//在边界内扩张
+    // 如果超过最大就更新
+    if (maxLen < k - j - 1) {
+        lo = j + 1;
+        maxLen = k - j - 1;//把值赋给全局变量//打擂台，随时更新
+    }
+}
+}
+8.30
+public class Solution {
+    // Sort & search: space O(1), time O(n logn)
+    // HashMap: space O(n), time O(n)
+    public int longestConsecutive(int[] num) {
+        HashMap<Integer, Integer> hs = new HashMap<Integer, Integer>();
+        for(int i: num){
+            hs.put(i, 0);
+        }
+        int maxl = 1;
+        for(int i: num){
+            if (hs.get(i) == 1) continue;
+
+            int tmp = i;
+            int current_max = 1;
+            while(hs.containsKey(tmp+1)){
+                current_max ++;
+                tmp ++;
+                hs.put(tmp, 1);
+            }
+
+            tmp = i;
+            while(hs.containsKey(tmp-1)){
+                current_max ++;
+                tmp --;
+                hs.put(tmp, 1);
+            }
+
+            maxl = Math.max(current_max, maxl);
+        }
+
+        return maxl;
+    }
+}
+1.5
+public class Solution {
+    private int max = 0;
+    public int longestConsecutive(TreeNode root) {
+        if(root == null) return 0;
+        helper(root, 0, root.val);
+        return max;
+    }
+    
+    public void helper(TreeNode root, int cur, int target){
+        if(root == null) return;
+        if(root.val == target) cur++;
+        else cur = 1;
+        max = Math.max(cur, max);
+        helper(root.left, cur, root.val + 1);
+        helper(root.right, cur, root.val + 1);
+    }
+}
+3.8
+public class Solution {
+    //
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null || p==null || q==null) return null;
+        
+        if(Math.max(p.val, q.val) < root.val) {
+            return lowestCommonAncestor(root.left, p, q);
+        } else if(Math.min(p.val, q.val) > root.val) {
+            return lowestCommonAncestor(root.right, p, q);
+        } else return root;
+    }
+}
+3.9
+public class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null || root == p || root == q)  return root;
+        TreeNode left = lowestCommonAncestor(root.left, p, q);// 找到左边的
+        TreeNode right = lowestCommonAncestor(root.right, p, q);//找到右边的
+        if(left != null && right != null)   return root;//都找到了，返回公共的
+        return left != null ? left : right;//总找到一个
+    }
+}
+3.7
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+    if(head == null)
+        return null;
+    ListNode cur = head;
+    int count = 0;
+    while(cur!=null)
+    {
+        cur = cur.next;
+        count++;
+    }//add count
+    ArrayList<ListNode> list = new ArrayList<ListNode>();
+    list.add(head);
+    return helper(list,0,count-1);
+}
+private TreeNode helper(ArrayList<ListNode> list, int l, int r)
+{
+    if(l>r)
+        return null;
+    int m = (l+r)/2;
+    
+    TreeNode left = helper(list,l,m-1);//zuo
+    TreeNode root = new TreeNode(list.get(0).val);//左子树的根//先建左，再从左推出根，有根直接连右
+    root.left = left;
+    //走了l－m＋1次走到了中点
+    list.set(0,list.get(0).next);//zhong
+    root.right = helper(list,m+1,r);//you 
+    return root;
+}
+}
+3.6
+public class Solution {
+  public TreeNode sortedArrayToBST(int[] num) {
+    if(num==null || num.length==0)
+        return null;
+    return helper(num,0,num.length-1);
+}
+private TreeNode helper(int[] num, int l, int r)
+{
+    if(l>r)
+        return null;
+    int m = (l+r)/2;//为了防止溢出，可改成
+    TreeNode root = new TreeNode(num[m]);
+    root.left = helper(num,l,m-1);
+    root.right = helper(num,m+1,r);
+    return root;
+}
+}
+1.4
+public class Solution {
+    public int rob(TreeNode root) {
+        int[] ans = dp(root);
+        return Math.max(ans[0], ans[1]);
+    }
+    public int[] dp(TreeNode root) {
+        if (root == null) {
+            int[] now = new int[]{0, 0};
+            return now;
+        }
+        int[] left = dp(root.left);
+        int[] right = dp(root.right);
+        int[] now = new int[2];
+        //不偷，左右偷或者不偷最大的加起来
+        now[0] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+        //偷, 左右的结果中只能选不偷的那个
+        now[1] = left[0] + right[0] + root.val;
+        return now;
+    }
+}
+3.4
+int dfs(TreeNode* root){
+        int ret=0;
+        for (int i=0;i<(root->sons).size();i++){
+                if (root->sons[i]!=NULL){
+                        int subRet;. more info on 1point3acres.com
+                        subRet=dfs(root->sons[i]);. more info on 1point3acres.com
+                        if (subRet==0){
+                                root->sons[i]=NULL;.鐣欏璁哄潧-涓€浜-涓夊垎鍦
+                        }
+                        ret+=subRet;
+                }
+        }
+        ret+=root->val;
+        return ret;
+}
+
+3.3
+public ArrayList<TreeNode> removeNodes(TreeNode root, int[] vals) {
+    ArrayList<TreeNode> res = new ArrayList<>();
+    if (vals == null || vals.length == 0) {
+        res.add(root);
+        return res;
+    }
+    HashSet<Ingeter> hash = new HashSet<>();
+    for (int i = 0; i < vals.length; i++) {.鏈枃鍘熷垱鑷1point3acres璁哄潧
+        hash.add(vals[i]);
+    }
+    root = helper(res, hash, root);
+    if (root != null) {
+        res.add(root); //小corner case，当最后的root没被删除时，要把它也放结果
+    }
+    return res;
+}
+
+public TreeNode helper(ArrayList<TreeNode> res, HashSet<Integer> hash, TreeNode root) {
+    if (root == null) {
+        return root;
+    }
+    root.left = helper(res, hash, root.left);
+    root.right = helper(res, hash, root.right);
+    if (hash.contains(root.val)) { //当root是要被删除的节点时
+        if (root.left != null) {
+            res.add(root.left); //非空左子树进结果
+        }
+        if (root.right != null) {
+            res.add(root.right); //非空右子树进结果
+        }
+        return null; //这样就把root节点删除了，并已把它非空左右子树存进了结果
+    }. from: 1point3acres.com/bbs 
+    return root;
+}. Waral 鍗氬鏈夋洿澶氭枃绔,
+
+
+
+1.3
+	1.	for(int i = 2; i<=n; i++) { 
+	2.	        -google 1point3acres 
+	3.	        int ways = 0; 
+	4.	         
+	5.	        if(i%2) { 
+	6.	            // i is odd number, right most bit must be one 
+	7.	            ways = dp[(i-1)/2]; 
+	8.	             
+	9.	        }else { 
+	10.	            // i is even number, right most bit can be 0 or 2 
+	11.	             
+	12.	            // when right most bit is 0 
+	13.	            ways = dp[i/2]; 
+	14.	             
+	15.	            // when right most bit is 2. visit 1point3acres.com for more. 
+	16.	            ways += dp[(i-2)/2];-google 1point3acres 
+	17.	        } 
+	18.	        dp.push_back(ways); 
+	19.	         
+	20.	    } 
+	21.	    return dp[n]; 
+	22.	}
+
+2.9
+https://instant.1point3acres.com/thread/188340
+
+2.8
+public static List<int[]> kDimenNeighbors(int[] nums) {
+        int k = nums.length;
+        List<int[]> res = helper(nums, k);
+        res.remove(res.size()-1);
+        return res;. From 1point 3acres bbs
+}
+.鐣欏璁哄潧-涓€浜-涓夊垎鍦
+public static List<int[]> helper(int[] nums, int k) {
+        List<int[]> res = new ArrayList<>();
+        int[] directions = {-1, 1, 0};
+        if (k == 1) {
+                for (int i : directions) {
+                        int[] a = new int[1];
+                        a[0] = nums[0]+i;
+                        res.add(a);
+                }
+                return res;. more info on 1point3acres.com
+        }
+        int[] sub = Arrays.copyOf(nums, k-1);
+        List<int[]> subres = helper(sub, k-1);
+        int cur = nums[nums.length-1];
+        for (int[] num : subres) {
+                for (int i : directions) {
+                        int[] a = Arrays.copyOf(num, k);
+                        a[k-1] = cur + i;
+                        res.add(a);
+                }
+        }
+        return res;. 1point3acres.com/bbs
+}
+
+2.7
+public class Solution {
+   private List<String> list = new ArrayList<>();
+
+public List<String> generatePalindromes(String s) {
+    int numOdds = 0; //奇数的数字有多少个
+    int[] map = new int[128]; // Map from character to its frequency
+    // 计算每个字母的频率
+    for (char c: s.toCharArray()) {
+        map[c]++;
+        // 特算法［类似选举］
+        numOdds = (map[c] & 1) == 1 ? numOdds + 1 : numOdds - 1; //奇数的数字有多少个
+    }
+    
+    
+    
+    //奇数的数字有大于1，没有结果
+    if (numOdds > 1)   return list;
+
+
+    String mid = "";
+    int length = 0;
+    
+    for (int i = 0; i < 128; i++) {
+        //  有的话
+        if (map[i] > 0) {
+            //奇数的话放中间
+            if (map[i] % 2 == 1) { // Char with odd count will be in the middle／／实际偶数加入也在里面
+                mid = "" + (char)i;
+                map[i]--;
+            }
+            //否则减一半，我们只generate一半
+            map[i] /= 2; 
+            //长度加上
+            length += map[i]; 
+        }
+    }
+    generatePalindromesHelper(map, length, "", mid);
+    return list;
+}
+    private void generatePalindromesHelper(int[] map, int length, String s, String mid) {
+    // 长度到了reverse
+    if (s.length() == length) {
+        StringBuilder reverse = new StringBuilder(s).reverse(); // Second half
+        list.add(s + mid + reverse);
+        return;
+    }
+    // 128个char遍历，找到则加入，一半的生成就类似于permutation，选一个加上去
+    for (int i = 0; i < 128; i++) { // backtracking just like permutation
+        if (map[i] > 0) {
+            //回溯
+            map[i]--;
+            generatePalindromesHelper(map, length, s + (char)i, mid);
+            map[i]++;
+        } 
+    }
+}
+}
+
+2.5
+public class Solution {
+    // 矩阵里的方向问题，简便解法
+    int[][] dirs = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+
+// 并查集
+public List<Integer> numIslands2(int m, int n, int[][] positions) {
+    List<Integer> result = new ArrayList<>();
+    if(m <= 0 || n <= 0) return result;
+
+    int count = 0;                      // number of islands
+    int[] roots = new int[m * n];       // one island = one tree
+    // 填充
+    Arrays.fill(roots, -1);            
+
+    for(int[] p : positions) {
+        // 转换成一维数组的点确定唯一位置
+        int root = n * p[0] + p[1];     // assume new point is isolated island
+        // 初始化，根是自己
+        roots[root] = root;             // add new island
+        //  加岛
+        count++;
+        // 四个方向
+        for(int[] dir : dirs) {
+            // 确定四个方向在一维化的唯一位置nb
+            int x = p[0] + dir[0]; 
+            int y = p[1] + dir[1];
+            int nb = n * x + y;
+            
+            // 越界了或者不是根，跳过
+            if(x < 0 || x >= m || y < 0 || y >= n || roots[nb] == -1) continue;
+           
+            // 扩的这四个点的根rootNb不是本根
+            int rootNb = findIsland(roots, nb);
+            if(root != rootNb) {  // if neighbor is in another island
+                // 把自己合并岛rootNb上
+                roots[root] = rootNb;   // union two islands 
+                // 改换rootNb
+                root = rootNb;          // current tree root = joined tree root
+                // 少一个岛
+                count--;               
+            }
+        }
+        //每进来一个点刷新一次
+        result.add(count);
+    }
+    return result;
+}
+
+// 找根
+public int findIsland(int[] roots, int id) {
+    while(id != roots[id]) {
+        roots[id] = roots[roots[id]];   // 压缩优化
+        id = roots[id];
+    }
+    return id;
+}
+}
+2.4
+public class Solution {
+
+private int n;
+private int m;
+
+public int numIslands(char[][] grid) {
+    int count = 0;
+    n = grid.length;
+    if (n == 0) return 0;
+    m = grid[0].length;
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++)
+            if (grid[i][j] == '1') {
+                DFSMarking(grid, i, j);//使得连接地方
+                ++count;
+            }
+    }    
+    return count;
+}
+
+private void DFSMarking(char[][] grid, int i, int j) {
+    if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] != '1') return;
+    grid[i][j] = '0';
+    DFSMarking(grid, i + 1, j);
+    DFSMarking(grid, i - 1, j);
+    DFSMarking(grid, i, j + 1);
+    DFSMarking(grid, i, j - 1);
+}
+}
+2.3
+public class Solution {
+    public void gameOfLife(int[][] board) {
+    if(board == null || board.length == 0) return;
+    int m = board.length, n = board[0].length;
+
+    for(int i = 0; i < m; i++) {
+        for(int j = 0; j < n; j++) {
+            int lives = liveNeighbors(board, m, n, i, j);
+
+            // In the beginning, every 2nd bit is 0;
+            // So we only need to care about when the 2nd bit will become 1.
+            if(board[i][j] == 1 && lives >= 2 && lives <= 3) {  
+                board[i][j] = 3; // Make the 2nd bit 1: 01 ---> 11
+            }//produce
+            if(board[i][j] == 0 && lives == 3) {
+                board[i][j] = 2; // Make the 2nd bit 1: 00 ---> 10
+            }//复活
+        }
+    }
+
+    for(int i = 0; i < m; i++) {
+        for(int j = 0; j < n; j++) {
+            board[i][j] >>= 1;  // Get the 2nd state.
+        }
+    }// 移位重置？
+}
+
+public int liveNeighbors(int[][] board, int m, int n, int i, int j) {
+    int lives = 0;
+    for(int x = Math.max(i - 1, 0); x <= Math.min(i + 1, m - 1); x++) {
+        for(int y = Math.max(j - 1, 0); y <= Math.min(j + 1, n - 1); y++) {
+            lives += board[x][y] & 1;
+        }
+    }
+    lives -= board[i][j] & 1;
+    return lives;
+}
+}
+2.2
+public class Solution {
+    // 全局变量记录
+    int count = 0;
+    public int numberOfPatterns(int m, int n) {
+        if (m < 1 || n > 9){
+            return 0;
+        }
+        int[][] matrix = new int[10][10];
+        matrix[1][7] = matrix[7][1] = 4; 
+        matrix[2][8] = matrix[8][2] = 5;
+        matrix[3][9] = matrix[9][3] = 6;
+        
+        matrix[1][3] = matrix[3][1] = 2;
+        matrix[4][6] = matrix[6][4] = 5;
+        matrix[7][9] = matrix[9][7] = 8;
+        
+        matrix[1][9] = matrix[9][1] = 5;
+        matrix[3][7] = matrix[7][3] = 5;
+        
+        for (int i = 1; i < 10; i++){
+            boolean[] visited = new boolean[10];
+            visited[i] = true;
+            traverse(i, 1, m, n, matrix, visited);
+        }
+        return count;
+    }    
+	
+	public void traverse(int last, int cur, int m, int n, int[][] matrix, boolean[] visited){
+	    //控制dfs层数
+	    
+	    if (cur >= m){
+	        count++;
+	    }
+	    if (cur >= n){
+	        return;
+	    }
+	    for (int i = 1; i < 10; i++){
+	        if (visited[i] == true){
+	            continue;
+	        }
+	        int cross = matrix[i][last];
+	        if (matrix[i][last] != 0 && visited[cross] == false){
+	            continue;
+	        }
+	        visited[i] = true;
+	        traverse(i, cur + 1, m, n, matrix, visited);
+	        visited[i] = false;
+	    }
+	}
+10.1
+public class NumArray {
+
+int[] nums;
+
+public NumArray(int[] nums) {
+    for(int i = 1; i < nums.length; i++)
+        nums[i] += nums[i - 1];
+    
+    this.nums = nums;
+}
+
+public int sumRange(int i, int j) {
+    if(i == 0)
+        return nums[j];
+    
+    return nums[j] - nums[i - 1];
+}
+}
+2.1
+public class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> rst = new ArrayList<List<Integer>>();
+        ArrayList<Integer> solution = new ArrayList<Integer>();
+        
+        helper(rst, solution, n, k, 1);
+        return rst;
+    }
+    
+    private void helper(
+        List<List<Integer>> rst, 
+        ArrayList<Integer> solution, 
+        int n, 
+        int k, 
+        int start) {//这种格式也可以
+
+        if (solution.size() == k){
+            rst.add(new ArrayList(solution));
+            return;
+        }
+        
+        for(int i = start; i<= n; i++){
+            solution.add(i);
+            
+            // the new start should be after the next number after i
+            helper(rst, solution, n, k, i+1); 
+            solution.remove(solution.size() - 1);
+        }
+    }
+}
+4.12
+package com.indeed;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+/**
+ * @author binghong
+ */
+
+public class Traffic {
+    private final Queue<Queue<Integer>> crossing = new LinkedList<>();
+    private final List<Queue<Integer>> roads;. visit 1point3acres.com for more.
+
+    Traffic(final int n){
+        roads = new ArrayList<>();
+        for (int i = 0; i < n; ++i){
+            roads.add(new LinkedList<Integer>());.鐣欏璁哄潧-涓€浜-涓夊垎鍦
+        }
+    }
+
+    public void add(final int carId, final int roadId){
+        final Queue<Integer> road = roads.get(roadId);. more info on 1point3acres.com
+. 鐗涗汉浜戦泦,涓€浜╀笁鍒嗗湴
+        if (road.isEmpty()){-google 1point3acres
+            crossing.offer(road);
+        }
+        road.offer(carId);
+    }
+
+    public int remove(){
+        final int carId;
+
+        if (crossing.isEmpty()) {
+            return -1;
+        }
+
+        final Queue<Integer> nextRoad = crossing.poll();
+        carId = nextRoad.poll();
+        if (!nextRoad.isEmpty()) {
+            crossing.offer(nextRoad);
+        }. 涓€浜-涓夊垎-鍦帮紝鐙鍙戝竷
+        return carId;
+    } 鏉ユ簮涓€浜.涓夊垎鍦拌鍧. 
+}
+
+8.29
+public void print(int[][] data, int n) {
+    // 打印右上部分
+    for (int i = n - 1; i >= 0; i--) {
+        int row = 0;
+        int col = i;
+        while ((row >= 0 && row < n) && (col >= 0 && col < n)) {
+            System.out.println(data[row][col]);
+            row++;
+            col++;
+        }
+    }
+
+    // 打印左下部分
+    for (int i = 1; i < n; i++) {
+        int row = i;
+        int col = 0;
+        while ((row >= 0 && row < n) && (col >= 0 && col < n)) {
+            System.out.println(data[row][col]);
+            row++;
+            col++;
+        }
+    }
+}
+
+
+
+7.11
+Class Country{. from: 1point3acres.com/bbs 
+        String name;
+-google 1point3acres        int population;
+        int start;
+        int end;
+        public Country (…) {
+                this.name = name;. 涓€浜-涓夊垎-鍦帮紝鐙鍙戝竷
+                …
+                //constructor
+        }
+}
+
+int sum;
+preprocessing();
+
+HashSet<Country> set;
+sum = 0;
+for (String country: map.keySet()) {. 1point3acres.com/bbs
+        int pop =map.get(country);
+        Country temp = new Country(name, pop, sum, sum + pop);
+        set.add(temp);. visit 1point3acres.com for more.
+}
+
+getCountry():. From 1point 3acres bbs
+
+int val = sum*random.();
+
+for (Country temp: set) {
+        if (country.start <= val && val < country.end) {
+                return country.name;. Waral 鍗氬鏈夋洿澶氭枃绔,
+        }
+}. 鐗涗汉浜戦泦,涓€浜╀笁鍒嗗湴
+return null;
+
+
+8.26 8.27
+public class Solution {
+    public int[][] generateMatrix(int n) {
+        // Declaration
+        int[][] matrix = new int[n][n];
+
+        // Edge Case
+        if (n == 0) {
+            return matrix;
+        }
+
+        // Normal Case
+        int rowStart = 0;
+        int rowEnd = n-1;
+        int colStart = 0;
+        int colEnd = n-1;
+        int num = 1; //change
+
+        while (rowStart <= rowEnd && colStart <= colEnd) {
+            for (int i = colStart; i <= colEnd; i ++) {
+                matrix[rowStart][i] = num ++; //change
+            }
+            rowStart ++;
+
+            for (int i = rowStart; i <= rowEnd; i ++) {
+                matrix[i][colEnd] = num ++; //change
+            }
+            colEnd --;
+
+            for (int i = colEnd; i >= colStart; i --) {
+                if (rowStart <= rowEnd)
+                    matrix[rowEnd][i] = num ++; //change
+            }
+            rowEnd --;
+
+            for (int i = rowEnd; i >= rowStart; i --) {
+                if (colStart <= colEnd)
+                    matrix[i][colStart] = num ++; //change
+            }
+            colStart ++;
+        }
+
+        return matrix;
+    }
+}
+
+4.9
+public class Solution {
+    public int maxKilledEnemies(char[][] grid) {
+    if(grid == null || grid.length == 0 ||  grid[0].length == 0) return 0;
+    int max = 0;
+    int row = 0;
+    // 每个点遍历一遍
+    // row为什么一个，因为j == 0必然算一次，之后有墙再更新
+    // col则需要存储每一个值，先行再列，列里每个j都要算一次，但是只有一个i
+    int[] col = new int[grid[0].length];
+    for(int i = 0; i < grid.length; i++){
+        for(int j = 0; j < grid[0].length;j++){
+            // 遇墙停止
+            if(grid[i][j] == 'W') continue;
+            // 前一个是墙，从j开始往后
+            if(j == 0 || grid[i][j-1] == 'W'){
+                 row = killedEnemiesRow(grid, i, j);
+            }
+            // 上一个是墙，从j还是往后
+            if(i == 0 || grid[i-1][j] == 'W'){
+                 col[j] = killedEnemiesCol(grid,i,j);
+            }
+            // 遇到该放的点更新值
+            if(grid[i][j] == '0'){
+                max = (row + col[j] > max) ? row + col[j] : max;
+            }
+        }
+    }
+    return max;
+}
+
+
+//加个变量合成一个
+//column j从row i开始有多少E
+private int killedEnemiesRow(char[][] grid, int i, int j){
+    int num = 0;
+    while(j <= grid[0].length-1 && grid[i][j] != 'W'){
+        if(grid[i][j] == 'E') num++;
+        j++;
+    }
+    return num;
+}
+//column j从row i开始有多少E
+private int killedEnemiesCol(char[][] grid, int i, int j){
+    int num = 0;
+    while(i <= grid.length -1 && grid[i][j] != 'W'){
+        if(grid[i][j] == 'E') num++;
+        i++;
+    }
+    return num;
+}
+}
+
+4.8
+public class TicTacToe {
+private int[] rows;
+private int[] cols;
+// 加入对角线，只有两条中心对角线满足条件
+private int diagonal;
+private int antiDiagonal;
+
+// 初始化, 两个一维数组代表二维数组
+public TicTacToe(int n) {
+    rows = new int[n];
+    cols = new int[n];
+}
+
+public int move(int row, int col, int player) {
+    // 1的＋1，否则－1，这样可以判断一列或者一对角线
+    int toAdd = player == 1 ? 1 : -1;
+    
+    rows[row] += toAdd;
+    cols[col] += toAdd;
+    
+    //在中心对角线上
+    
+    if (row == col)
+    {
+        diagonal += toAdd;
+    }
+    //在另对角线上
+    if (col == (cols.length - row - 1))
+    {
+        antiDiagonal += toAdd;
+    }
+    //判断当前这部玩家是否胜利
+    int size = rows.length;
+    if (Math.abs(rows[row]) == size ||
+        Math.abs(cols[col]) == size ||
+        Math.abs(diagonal) == size  ||
+        Math.abs(antiDiagonal) == size)
+    {
+        return player;
+    }
+    //没谁胜利返回0
+    return 0;
+}
+}
+
+4.7
+ public class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if(nums == null || nums.length == 0) return new int[0];
+        LinkedList<Integer> deque = new LinkedList<Integer>();
+        // 结果数组，nums.length + 1 - k
+        int[] res = new int[nums.length + 1 - k];
+        for(int i = 0; i < nums.length; i++){
+            
+            // 每当新数进来时，如果发现队列头部的数的下标，是窗口最左边数的下标，则扔掉，之后加入新数
+            if(!deque.isEmpty() && deque.peekFirst() == i - k) deque.poll();
+            // while 把队列尾部所有比新数小的都扔掉，保证队列是降序的
+            while(!deque.isEmpty() && nums[deque.peekLast()] < nums[i]) deque.removeLast();
+            // 加入新数，存的是index
+            deque.offerLast(i);
+            // 如果超过了k，队列头部就是该窗口内第一大的
+            if((i + 1) >= k) res[i + 1 - k] = nums[deque.peek()];
+        }
+        // [1  3  -1] -3  5  3  6  7    
+        return res;
+    }
+}
+
+9.6
+public class Solution {
+    public String simplifyPath(String path) {
+        // stack可以做，但arraylist更方便
+        String result = "/";//先加一个/
+        //先分开
+        String[] pieces = path.split("/+");
+        // 
+        ArrayList<String> piecesContainer = new ArrayList<String>();
+        for(String piece :pieces){
+            // 遇到..删前一个
+            if(piece.equals("..")){
+                if(piecesContainer.size() > 0){
+                      piecesContainer.remove(piecesContainer.size()-1);
+                }
+            }else{
+                // 不等于.和空
+                if((!piece.equals(".")) && (!piece.equals(""))){
+                    piecesContainer.add(piece);
+                }
+            }
+        }
+        // 最后重组结果
+        for(String piecess:piecesContainer){
+             result += piecess + "/";
+        }
+        // 去掉最后一个/
+        if(result.length()>1){
+            result=result.substring(0,result.length()-1);
+        }
+        return result;
+    }
+}
+
+
+8.25
+public static void invert(String[] strings, int[] indices) {
+  String tmp = null;
+  for(int i = 0, n = strings.length; i < n; i++) {
+    int index = indices[i];
+    while (index < i) {
+      index=indices[index];
+    }
+    tmp = strings[i];
+    strings[i] = strings[index];
+    strings[index]=tmp;
+  }
+}
+
+3.2
+public class Solution {
+    public boolean twoSumBST(TreeNode root, int k) {
+        if (root == null) {
+            return false;
+        }
+         
+        Stack<TreeNode> leftStack = new Stack<>();
+        Stack<TreeNode> rightStack = new Stack<>();
+         
+        TreeNode p = root;
+        while (p != null) {
+            leftStack.push(p);
+            p = p.left;
+        }
+         
+        p = root;
+        while (p != null) {
+            rightStack.push(p);
+            p = p.right;
+        }
+         
+        p = leftStack.peek();
+        TreeNode q = rightStack.peek();
+         
+        while (p.val < q.val && p != q) {
+            if (p.val + q.val == k) {
+                return true;
+            } else if (p.val + q.val < k) {
+                leftStack.pop();
+                if (p.right != null) {
+                    p = p.right;
+                    while (p != null) {
+                        leftStack.push(p);
+                        p = p.left;
+                    }
+                }
+                 
+                if (leftStack.isEmpty()) {
+                    return false;
+                }
+                 
+                p = leftStack.peek();
+            } else if (p.val + q.val > k) {
+                rightStack.pop();
+                if (q.left != null) {
+                    q = q.left;
+                    while (q != null) {
+                        rightStack.push(q);
+                        q = q.right;
+                    }
+                }
+                 
+                if (rightStack.isEmpty()) {
+                    return false;
+                }
+                 
+                q = rightStack.peek();
+            }
+        }
+         
+        return false;
+    }
+
+
+8.23
+public class Solution {. 鍥磋鎴戜滑@1point 3 acres
+    public int maxElementsInOne(double[] arr) {
+        int n = arr.length;
+        // defensive copy
+        double[] sorted = Arrays.copyOf(arr, n);
+        Arrays.sort(sorted);
+.鏈枃鍘熷垱鑷1point3acres璁哄潧
+        int ans = 0;
+        for (int i = 0, j = 0; j < n; ++j) {
+            if (j < n && sorted[j] < sorted[i] + 1) continue;
+            ans = Math.max(ans, j - i++);
+        }
+        return ans;
+    }
+
+    public static void main(String... args) {
+        Solution sol = new Solution();
+        int ans = sol.maxElementsInOne(new double[]{1.0, 1.3, 1.5, 2.3, 3.5});
+        System.out.println(ans);-google 1point3acres
+    }
+}
+
+8.22
+public class Solution {
+    public int minTotalDistance(int[][] grid) {
+    int m = grid.length;
+    int n = grid[0].length;
+    // 拆分成两个一维表，分别存人的坐标，然后分别求出来
+    List<Integer> I = new ArrayList<>(m);
+    List<Integer> J = new ArrayList<>(n);
+
+    for(int i = 0; i < m; i++){
+        for(int j = 0; j < n; j++){
+            if(grid[i][j] == 1){
+                I.add(i);
+                J.add(j);
+            }
+        }
+    }
+    return getMin(I) + getMin(J);
+}
+
+private int getMin(List<Integer> list){
+    int ret = 0;
+    // sort一下，
+    Collections.sort(list);
+    // 双指针分对距离相减然后相加
+    int i = 0;
+    int j = list.size() - 1;
+    while(i < j){
+        ret += list.get(j--) - list.get(i++);
+    }
+
+    return ret;
+}
+}
+
+4.6
+public class Solution {
+    public int minMeetingRooms(Interval[] intervals) {
+    if (intervals == null || intervals.length == 0)
+        return 0;
+        
+    // Sort the intervals by start time［按start time 排序］
+    Arrays.sort(intervals, new Comparator<Interval>() {
+        public int compare(Interval a, Interval b) { return a.start - b.start; }
+    });
+    
+    // Use a min heap to track the minimum end time of merged intervals［heap是按end排序］
+    PriorityQueue<Interval> heap = new PriorityQueue<Interval>(intervals.length, new Comparator<Interval>() {
+        public int compare(Interval a, Interval b) { return a.end - b.end; }
+    });
+    
+    
+    // 把0放进去
+    heap.offer(intervals[0]);
+    
+    for (int i = 1; i < intervals.length; i++) {
+        // get the meeting room that 最早end
+        Interval interval = heap.poll();
+        
+        if (intervals[i].start >= interval.end) {
+           // 现在开始大于上次结束，不需要new房间，merge，
+            interval.end = intervals[i].end;
+        } else {
+            // 不然则需要
+            heap.offer(intervals[i]);
+        }
+        // 无论merge与否，还得再存进去
+        heap.offer(interval);
+    }
+    
+    return heap.size();
+}
+}
+
+8.20
+public class Solution {
+    public List<Interval> merge(List<Interval> intervals) {
+        Collections.sort(intervals, new Comparator<Interval>(){
+            @Override
+            public int compare(Interval obj0, Interval obj1) {
+                return obj0.start - obj1.start;
+            }
+        });
+
+        List<Interval> ret = new ArrayList<>();
+        Interval prev = null;
+        for (Interval inter : intervals) {
+            if (  prev==null || inter.start>prev.end ) {
+                ret.add(inter);
+                prev = inter;//不相交且大于，加上并成为新的判断标准
+            } else if (inter.end>prev.end) {
+                // 相交，合并改造
+                prev.end = inter.end;
+            }
+        }
+        return ret;
+    }
+}
+
+8.19
+public class Solution {
+   public boolean canAttendMeetings(Interval[] intervals) {
+  if (intervals == null) {
+       return false;
+  }
+   
+  Arrays.sort(intervals, new Comparator<Interval>() {
+    public int compare(Interval a, Interval b) { return a.start - b.start; }
+  });
+
+  for (int i = 1; i < intervals.length; i++)
+    if (intervals[i].start < intervals[i - 1].end)
+      return false;
+
+  return true;
+}
+}
+
+
+8.18
+public class Solution {
+    public static int[] plusOne(int[] digits) {
+        if(digits.length==0){
+             return digits;
+        }
+        //  逆着来
+        for(int i=digits.length-1;i>=0;i--)
+        {
+           if(digits[i]!=9) {
+               digits[i]++;
+               return digits;
+           }
+           else{
+               digits[i]=0;
+           } 
+        }
+       // for里没搞定，肯定是类似于99999
+      int[] result=new int[digits.length+1];//never return in the for ,must looks like '9999'format
+      result[0]=1; 
+      return result;   
+    }
+
+}
+
+
+8.16 8.17
+public class Solution {
+public List<List<Integer>> generate(int numRows)
+{
+    List<List<Integer>> allrows = new ArrayList<List<Integer>>();
+    ArrayList<Integer> row = new ArrayList<Integer>();
+    for(int i = 0;i < numRows;i++)
+    {
+        row.add(0, 1);
+        for(int j=1;j<row.size()-1;j++)//从第二个位置到倒数第二个位置，前两次定下了［1，1］不会改变
+            //用set是由于后面在前面基础上改
+            row.set(j, row.get(j)+row.get(j+1));
+        allrows.add(new ArrayList<Integer>(row));
+    }
+    return allrows;
+
+}
+}
+public class Solution {
+   public List<Integer> getRow(int rowIndex) {
+    List<Integer> list = new ArrayList<Integer>();
+    if (rowIndex < 0)
+        return list;//返回的是空的
+
+    for (int i = 0; i <= rowIndex ; i++) {//从第0行到第四行
+        list.add(0, 1);
+        for (int j = 1; j < list.size() - 1; j++) {
+            list.set(j, list.get(j) + list.get(j + 1));
+        }
+    }
+    return list;
+}
+}
+
+
+
+
+8.15
+public class Solution {
+    public List<String> findMissingRanges(int[] a, int lo, int hi) {
+  List<String> res = new ArrayList<String>();
+  //上下确界，lo －hi，从lo开始，最后查一下hi
+  int next = lo;
+  // [0, 1, 3, 50, 75]
+  for (int i = 0; i < a.length; i++) {
+    // a[i]小于等于的时候不构成range
+    if (a[i] < next) continue;
+    if (a[i] == next) {
+      next++;
+      continue;
+    }
+    
+    // 得到next到a[i] - 1 的range
+    res.add(getRange(next, a[i] - 1));
+    
+    // 跳过a[i]以a[i] + 1 开始
+    next = a[i] + 1;
+  }
+  
+  // do a final check
+  if (next <= hi) res.add(getRange(next, hi));
+
+  return res;
+}
+
+public String getRange(int n1, int n2) {
+  //相等取一个，不相等取两个
+  return (n1 == n2) ? String.valueOf(n1) : String.format("%d->%d", n1, n2);
+}
+}
+8.14
+public class Solution {
+   public int[] getModifiedArray(int length, int[][] updates) {
+
+    int[] res = new int[length];
+     for(int[] update : updates) {
+        int value = update[2];
+        int start = update[0];
+        int end = update[1];
+        
+        res[start] += value;
+        
+        if(end < length - 1)
+            res[end + 1] -= value;
+        
+    }
+    
+    int sum = 0;
+    for(int i = 0; i < length; i++) {
+        sum += res[i];
+        res[i] = sum;
+    }
+    
+    return res;
+}
+}
+
+7.10
+res;
+count;
+. 涓€浜-涓夊垎-鍦帮紝鐙鍙戝竷
+for each element x in A:. more info on 1point3acres.com
+if(x not in black list) :
+  if(count == 0):. visit 1point3acres.com for more.
+    res = x; count=1;
+  else
+    count++; 
+    if(rand() % count + 1 == 1) res = x;
+
+
+8.13
+	public class Solution {
+    // 
+    public int[] sortTransformedArray(int[] nums, int a, int b, int c) {
+        int n = nums.length;
+        int[] sorted = new int[n];
+        //双指针从两端走
+        int i = 0, j = n - 1;
+        int index = a >= 0 ? n - 1 : 0;
+        while (i <= j) {
+            if (a >= 0) {//==0时候两边都可以，所以无所谓，比两端谁大，双指针移动
+                sorted[index--] = quad(nums[i], a, b, c) >= quad(nums[j], a, b, c) ? quad(nums[i++], a, b, c) : quad(nums[j--], a, b, c);
+            } else {
+                sorted[index++] = quad(nums[i], a, b, c) >= quad(nums[j], a, b, c) ? quad(nums[j--], a, b, c) : quad(nums[i++], a, b, c);
+            }
+        }
+        return sorted;
+    }
+    // 方程
+    private int quad(int x, int a, int b, int c) {
+        return a * x * x + b * x + c;
+    }
+}
+
+7.9
+import java.util.Random;
+public class Solution {
+    private ListNode head;
+    private Random random;
+    /** @param head The linked list's head. Note that the head is guanranteed to be not null, so it contains at least one node. */
+    public Solution(ListNode head) {
+        this.head = head;
+        this.random = new Random();
+    }
+    // 根据code看代码，假设选到了第N个点，它的概率计算是之前的点没被选中，(1/2)* （2/3）*（3/4）* ……….. (n-1) / n = 1/n 
+    // 我们实时的计算当前遍历了多少个元素cnt，然后以 1/cnt 的概率选择[random.nextInt(cnt) == 0] 当前的元素，直到遍历完链表。
+    /** Returns a random node's value. */
+    public int getRandom() {
+        int ans = 0;
+		ListNode p = head;
+		for (int cnt = 1; p != null; cnt++, p = p.next) if (random.nextInt(cnt) == 0) ans = p.val;
+		return ans;
+    }
+}
+8.12
+public class Solution {
+    public int[] twoSum(int[] num, int target) {
+    int[] indice = new int[2];
+    if (num == null || num.length < 2) return indice;
+    int left = 0, right = num.length - 1;
+    while (left < right) {
+        int v = num[left] + num[right];
+        if (v == target) {
+            indice[0] = left + 1;
+            indice[1] = right + 1;
+            break;
+        } else if (v > target) {
+            right --;
+        } else {
+            left ++;
+        }
+    }
+    return indice;
+}
+}
+
+8.11
+public class Solution {
+    public int threeSumClosest(int[] num, int target) {
+        int result = num[0] + num[1] + num[num.length - 1];//先定一个标准
+        Arrays.sort(num);
+        for (int i = 0; i < num.length - 2; i++) {
+            int start = i + 1, end = num.length - 1;
+            while (start < end) {
+                int sum = num[i] + num[start] + num[end];
+                if (sum > target) {
+                    end--;
+                } else {
+                    start++;
+                }
+                //模版后正常加一个判断
+                if (Math.abs(sum - target) < Math.abs(result - target)) {
+                    result = sum;
+                }
+            }
+        }
+        return result;
+    }
+}
+
+8.10
+public class Solution {
+    int count;
+
+    public int threeSumSmaller(int[] nums, int target) {
+        count = 0;
+        Arrays.sort(nums);
+        int len = nums.length;
+
+        for(int i=0; i<len-2; i++) {
+            int left = i+1, right = len-1;
+            while(left < right) {
+                if(nums[i] + nums[left] + nums[right] < target) {
+                    count += right-left;
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+
+        return count;
+    }
+}
+
+
+8.9
+public class Solution {
+   public int removeDuplicates(int[] A) {
+    if (A.length == 0) return 0;
+    int j = 0;
+    for (int i = 1; i < A.length; i++)
+        if (A[i] != A[j]) {
+            A[++j] = A[i];
+        }
+    return ++j ;//length = index + 1
+}
+}
+	
+8.8 
+/*public class Solution {
+    // 排序之后倒着取，一个指针在中，一个指针在最后，奇偶
+    public void wiggleSort(int[] nums) {
+        Arrays.sort(nums);
+        int[] temp = new int[nums.length];
+        int start = (nums.length + 1) >> 1, end = nums.length;
+        for (int i = 0; i < nums.length; i++) {
+            temp[i] = (i & 1) == 0 ?  nums[--start] : nums[--end] ;
+        }
+        for (int i = 0; i < nums.length; i++)
+            nums[i] = temp[i];
+    }
+}*/
+
+public class Solution {
+    public void wiggleSort(int[] nums) {
+        int median = findMedian(nums, 0, nums.length - 1, (nums.length + 1) >> 1);
+        int s = 0, t = nums.length - 1 , mid_index = (nums.length + 1) >> 1;
+        int[] temp = new int[nums.length];
+        // 找到中位数之后，partition一下
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] < median)
+                temp[s++] = nums[i];
+            else if (nums[i] > median)
+                temp[t--] = nums[i];
+        }
+        // median 在前面不做处理，之后再补充上，可能在s段，也可能在t段［没到mid index就算］
+         while (s < mid_index) temp[s++] = median;
+         while (t >= mid_index) temp[t--] = median;
+        // 分别指向所分段的前一个元素，先－－ 再赋值（与先sort再排序一样）
+        t = nums.length;
+        for (int i = 0; i < nums.length; i++)
+            nums[i] = (i & 1) == 0 ? temp[--s] : temp[--t];
+    }
+    // 找第k个数，k是中位数
+    private int findMedian(int[] nums, int L, int R, int k) {
+        if (L >= R) return nums[R];
+        int i = partition(nums, L, R);
+        // 现在i之前有多少
+        int cnt = i - L + 1;
+        // 找到就返回，否则看在那边，以i分左右
+        if (cnt == k) return nums[i];
+        return cnt > k ? findMedian(nums, L, i - 1, k) : findMedian(nums, i + 1, R, k - cnt);
+    }
+
+    private int partition(int[] nums, int L, int R) {
+        //就以L做标准
+        int val = nums[L];
+        int i = L, j = R + 1;
+        // 优秀的写法，交换
+        while (true) {
+            // 遍历
+            while (++i < R && nums[i] < val) ;
+            while (--j > L && nums[j] > val) ;
+            // 退出条件
+            if (i >= j) break;
+            // 交换
+            swap(nums, i, j);
+        }
+        // i 或者是 j 就是现在的count, 交换之后留作下一次的part
+        swap(nums, L, j);
+        return j;
+    }
+    
+    
+
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+
+
+8.7
+public class Solution {
+    public void wiggleSort(int[] nums) {
+        for(int i=0;i<nums.length;i++)
+            //按定义来，奇偶分开算，偶的话不能为0，避免越界
+            if(i%2==1){
+               if(nums[i-1]>nums[i]) swap(nums, i);
+            }else if(i!=0 && nums[i-1] < nums[i]) swap(nums, i);
+    }
+    public void swap(int[] nums, int i){
+          int tmp=nums[i];
+          nums[i]=nums[i-1];
+          nums[i-1]=tmp;
+    }
+}
+
+
+8.6
+public class Solution extends Relation {
+    public int findCelebrity(int n) {
+        // 候选人制度，找一个谁都不认识的
+        int candidate = 0;
+        for(int i = 1; i < n; i++){
+            if(knows(candidate, i))//认识人就不是cele了
+                candidate = i;
+        }
+        for(int i = 0; i < n; i++){
+            // 不是自己，别人知道他，他不知道别人
+            if(i != candidate && (knows(candidate, i) || !knows(i, candidate))) return -1;//注意排除自己
+        }
+        return candidate;
+    }
+}//候选人制度
+8.5
+public boolean increasingTriplet(int[] nums) {
+        // start with two largest values, as soon as we find a number bigger than both, while both have been updated, return true.
+        int small = Integer.MAX_VALUE, big = Integer.MAX_VALUE;
+        for (int n : nums) {
+            if (n <= small) { small = n; } // update small if n is smaller than both
+            else if (n <= big) { big = n; } // update big only if greater than small but smaller than big
+            else return true; // return if you find a number bigger than both
+        }
+        return false;
+    }
+8.3
+  public int missingNumber(int[] nums) {
+
+    int xor = 0, i = 0;
+    for (i = 0; i < nums.length; i++) {
+        xor ^= i ^ nums[i];
+    }
+
+    return xor ^ i;
+}
+
+8.2
+public class Solution {
+    public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+    List<Interval> result = new LinkedList<>();
+    int i = 0;
+    
+    // 在interval start之前的加入
+    while (i < intervals.size() && intervals.get(i).end < newInterval.start)
+        result.add(intervals.get(i++));
+    // merge起来
+    while (i < intervals.size() && intervals.get(i).start <= newInterval.end) {
+        // new一个两个合起来最小的最大的
+        newInterval = new Interval( // we could mutate newInterval here also
+                Math.min(newInterval.start, intervals.get(i).start),
+                Math.max(newInterval.end, intervals.get(i).end));
+        i++;
+    }
+    result.add(newInterval); // add the union of intervals we got
+    // 加完之后把其余的加入
+    while (i < intervals.size()) result.add(intervals.get(i++)); 
+    return result;
+}
+}
+
+4.5
+public class PhoneDirectory {
+   // http://www.52ij.com/jishu/java/99004.html
+    BitSet bitset;
+    int max; 
+    int smallestFreeIndex; 
+
+    public PhoneDirectory(int maxNumbers) {
+        this.bitset = new BitSet(maxNumbers);
+        this.max = maxNumbers;
+    }
+
+    public int get() {
+        // 最大了，没有了
+        if(smallestFreeIndex == max) {
+            return -1;
+        }
+        // 返回并标注已经使用
+        int num = smallestFreeIndex;
+        bitset.set(smallestFreeIndex);
+        // 下一个可以用的num
+        smallestFreeIndex = bitset.nextClearBit(smallestFreeIndex);
+        return num;
+    }
+
+    // 某个号码能不能用， false说明能用
+    public boolean check(int number) {
+        return bitset.get(number) == false;
+    }
+
+    public void release(int number) {
+        // 都没使用过肯定能用
+        if(bitset.get(number) == false)
+            return;
+        // 清楚
+        bitset.clear(number);
+        // 关键步骤，如果释放的比smallestFree还小那么就更改到smallestFree
+        if(number < smallestFreeIndex) {
+            smallestFreeIndex = number;
+        }
+    }
+}
+
+7.1  7.2
+public class Solution extends Reader4 {
+    public int read(char[] buf, int n) {
+        for(int i = 0; i < n; i += 4){
+            char[] tmp = new char[4];
+            // 将数据读入临时数组
+            int len = read4(tmp);
+            // 将临时数组拷贝至buf数组，这里拷贝的长度是本次读到的个数和剩余所需个数中较小的
+            System.arraycopy(tmp, 0, buf, i, Math.min(len, n - i));
+            // 如果读不满4个，说明已经读完了，返回总所需长度和目前已经读到的长度的较小的
+            if(len < 4) return Math.min(i + len, n);
+        }
+        // 如果循环内没有返回，说明读取的字符是4的倍数
+        return n;
+    }
+}
+
+public class Solution extends Reader4 {
+    /**
+     * @param buf Destination buffer
+     * @param n   Maximum number of characters to read
+     * @return    The number of characters read
+     */
+    private int buffPtr = 0;
+    private int buffCnt = 0;
+    private char[] buff = new char[4];
+    public int read(char[] buf, int n) {
+        int ptr = 0;
+        while (ptr < n) {
+            if (buffPtr == 0) {
+                buffCount = read4(buff);
+            }
+            if (buffCnt == 0) break; //读不出来就break
+            while (ptr < n && buffPtr < buffCount) {
+                buf[ptr++] = buff[buffPtr++]; //一个一个读出来，buffPtr相当于指针
+            }
+            // 读完就清0
+            if (buffPtr == buffCount) buffPtr = 0; //buffPtr相当于指针，每一次清0
+        }
+        return ptr; //返回一共读了多少
+    }
+}
+
+4.2 
+public class Solution {
+            public int findKthLargest(int[] nums, int k) {
+                PriorityQueue<Integer> largeK = new PriorityQueue<Integer>(k + 1);
+    
+                for(int el : nums) {
+                    largeK.add(el);
+                    if (largeK.size() > k) {
+                        largeK.poll();
+                    }
+                }
+
+                return largeK.poll();
+            }
+}
+4.4
+class yourIterator implements Iterator<E> {
+        Iterator<E> it;.鐣欏璁哄潧-涓€浜-涓夊垎鍦
+        E nextElem;
+        public yourIterator(Iterator<E> sourceIterator) {.鏈枃鍘熷垱鑷1point3acres璁哄潧
+            this.it = sourceIterator;
+            this.nextElem = null;
+        }
+
+        @Override
+        public Integer next() {
+            E temp = nextElem;
+            nextElem = null. 鐗涗汉浜戦泦,涓€浜╀笁鍒嗗湴
+            return E;
+        }
+
+        @Override
+        public boolean hasNext() {
+          if (nextElem != null) {
+             return true;
+           }.鐣欏璁哄潧-涓€浜-涓夊垎鍦
+            while(it.hasNext()) {
+                nextElem = it.next();. 1point3acres.com/bbs
+                if (nextElem != null) {. 1point 3acres 璁哄潧
+                    return true; 鏉ユ簮涓€浜.涓夊垎鍦拌鍧. 
+                }
+            }
+            return false;
+        }
+}
+
+7.4
+	1.	public void printPrimeNumber2(int n){  
+	2.	        boolean[] a=new boolean[n+1];  
+	3.	        for(int i=2;i<=n;i++){  
+	4.	            a[i]=true;  
+	5.	        }  
+	6.	        for(int i=2;i*i<=n;i++){  
+	7.	            for(int j=i;j*i<=n;j++){  
+	8.	                a[j*i]=false;  
+	9.	            }  
+	10.	        }  
+	11.	        for(int i=0;i<n;i++){  
+	12.	            if(a[i]){  
+	13.	                System.out.print(i+",");  
+	14.	            }  
+	15.	        }  
+	16.	    }  
+9.1
+public class Codec {
+
+    // Encodes a list of strings to a single string.
+    public String encode(List<String> strs) {
+        StringBuilder sb = new StringBuilder();
+        for(String s : strs) {
+            sb.append(s.length()).append('/').append(s);
+        }
+        return sb.toString();//StringBuilder，长度加／隔离
+    }
+
+    // Decodes a single string to a list of strings.
+    public List<String> decode(String s) {
+        List<String> ret = new ArrayList<String>();
+        int i = 0;
+        while(i < s.length()) {
+            int slash = s.indexOf('/', i);
+            int size = Integer.valueOf(s.substring(i, slash)); //取出size，取出标记
+            ret.add(s.substring(slash + 1, slash + size + 1));//不一定只是一位数
+            i = slash + size + 1;//重置i,做寻找标记
+        }
+        return ret;
+    }
+}
+9.2
+public class Solution {
+    public List<List<String>> groupStrings(String[] strs) {
+    HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+    Arrays.sort(strs);      
+    for (String s : strs) {
+        String key = "";
+        for (int i = 1; i < s.length(); i++){
+             key += String.format("%d", (s.charAt(i) - s.charAt(i-1) + 26) % 26);//offset，the way
+        }
+        //add   
+        if (!map.containsKey(key)){
+            map.put(key, new ArrayList<String>());
+        } 
+        map.get(key).add(s);            
+    } 
+    return new ArrayList<List<String>>(map.values());
+}
+}
+
+9.3
+public class Solution {
+    public String decodeString(String s) {
+        //
+        String res = "";
+        Stack<Integer> countStack = new Stack<>();
+        Stack<String> resStack = new Stack<>();
+        int idx = 0;
+        // 一个idx从头到尾
+        while (idx < s.length()) {
+            // 是数字的话while一直计算出数字大小
+            if (Character.isDigit(s.charAt(idx))) {
+                int count = 0;
+                while (Character.isDigit(s.charAt(idx))) {
+                    count = 10 * count + (s.charAt(idx) - '0');
+                    idx++;
+                }
+                // 放入数字栈中
+                countStack.push(count);
+            }
+            // [ 的话结果栈存进去，清空结果串
+            else if (s.charAt(idx) == '[') {
+                // 结果栈
+                resStack.push(res);
+                res = "";
+                idx++;
+            }
+            // 
+            else if (s.charAt(idx) == ']') {
+                // 取出字符串
+                StringBuilder temp = new StringBuilder (resStack.pop());
+                // 取出次数
+                int repeatTimes = countStack.pop();
+                for (int i = 0; i < repeatTimes; i++) {
+                    temp.append(res);
+                }
+                res = temp.toString();
+                idx++;
+            }
+            else {
+                // 组成字符串
+                res += s.charAt(idx++);
+            }
+        }
+        return res;
+    }
+}
+
+9.5 
+void solveWordWrap (int l[], int n, int M)
+{
+    // For simplicity, 1 extra space is used in all below arrays 
+ 
+    // extras[i][j] will have number of extra spaces if words from i 
+    // to j are put in a single line
+    int extras[n+1][n+1];  
+ 
+    // lc[i][j] will have cost of a line which has words from 
+    // i to j
+    int lc[n+1][n+1];
+  
+    // c[i] will have total cost of optimal arrangement of words 
+    // from 1 to i
+    int c[n+1];
+ 
+    // p[] is used to print the solution.  
+    int p[n+1];
+ 
+    int i, j;
+ 
+    // calculate extra spaces in a single line.  The value extra[i][j]
+    // indicates extra spaces if words from word number i to j are
+    // placed in a single line
+    for (i = 1; i <= n; i++)
+    {
+        extras[i][i] = M - l[i-1];
+        for (j = i+1; j <= n; j++)
+            extras[i][j] = extras[i][j-1] - l[j-1] - 1;
+    }
+ 
+    // Calculate line cost corresponding to the above calculated extra
+    // spaces. The value lc[i][j] indicates cost of putting words from
+    // word number i to j in a single line
+    for (i = 1; i <= n; i++)
+    {
+        for (j = i; j <= n; j++)
+        {
+            if (extras[i][j] < 0)
+                lc[i][j] = INF;
+            else if (j == n && extras[i][j] >= 0)
+                lc[i][j] = 0;
+            else
+                lc[i][j] = extras[i][j]*extras[i][j];
+        }
+    }
+ 
+    // Calculate minimum cost and find minimum cost arrangement.
+    //  The value c[j] indicates optimized cost to arrange words
+    // from word number 1 to j.
+    c[0] = 0;
+    for (j = 1; j <= n; j++)
+    {
+        c[j] = INF;
+        for (i = 1; i <= j; i++)
+        {
+            if (c[i-1] != INF && lc[i][j] != INF && (c[i-1] + lc[i][j] < c[j]))
+            {
+                c[j] = c[i-1] + lc[i][j];
+                p[j] = i;
+            }
+        }
+    }
+ 
+    printSolution(p, n);
+}
+
+5.2
+// An utility function to merge two sorted linked lists
+    Node merge(Node a, Node b)
+    {
+        // if first linked list is empty then second
+        // is the answer
+        if (a == null)     return b;
+ 
+        // if second linked list is empty then first
+        // is the result
+        if (b == null)      return a;
+ 
+        // compare the data members of the two lonked lists
+        // and put the larger one in the result
+        Node result;
+ 
+        if (a.data < b.data)
+        {
+            result = a;
+            result.down =  merge(a.down, b);
+        }
+ 
+        else
+        {
+            result = b;
+            result.down = merge(a, b.down);
+        }
+ 
+        return result;
+    }
+ 
+    Node flatten(Node root)
+    {
+        // Base Cases
+        if (root == null || root.right == null)
+            return root;
+ 	    //先假设把右边的都flatten了，一条横了
+        // recur for list on right
+        root.right = flatten(root.right);
+ 
+        // 再把root down的这一条和root.right这一条merge
+        root = merge(root, root.right);
+ 
+        // return the root
+        // it will be in turn merged with its left
+        return root;
+    }
+8.1
+public double findMedianSortedArrays(int A[], int B[]) {
+        if (A == null || B == null){
+            return 0;//?
+        }
+        int len = A.length + B.length;
+        if (len % 2 == 1){
+            return findKth(A, 0, B, 0, len / 2 + 1);
+        } else {
+            return (
+                    findKth(A, 0, B, 0, len / 2) + 
+                    findKth(A, 0, B, 0, len / 2 + 1)
+                    ) / 2.0; //否则会被按int处理
+        }
+    }
+    public int findKth(int[] A, int aStart, int[] B, int bStart, int K){
+        //其中一个搜索完了，直接看有没有
+        if (aStart >= A.length){
+            return B[bStart + K - 1];
+        }
+        if (bStart >= B.length){
+            return A[aStart + K - 1];
+        }
+        //不用再去找了
+        if (K == 1){
+            return Math.min(A[aStart], B[bStart]);
+        }
+        //基于这个K的mid，是左边一半的结尾 （不包含中位数）
+        //例如 1 2 3 4 5 的 1，2 ｜ 2，3 4 5 的 2 3
+        int mid = K / 2 - 1;    
+        //index有没有越界
+        int aVal = (aStart + mid <= A.length) ? 
+                    A[aStart + mid] : Integer.MAX_VALUE;
+        int bVal = (bStart + mid <= B.length) ? 
+                    B[bStart + mid] : Integer.MAX_VALUE;
+        if (aVal < bVal){
+            return findKth(A, aStart + K / 2, B, bStart, K - K / 2);
+        } else {
+            return findKth(A, aStart, B, bStart + K / 2, K - K / 2);
+        }           
+    }
+}
+7.6 
+public double myPow(double x, int n) {
+        if (x == 0){
+            return 0;
+        }
+        if (x == 1 || n == 0){
+            return 1;
+        }
+        if (n == 1){
+            return x;
+        }
+        if (n < 0){
+          double ret = x * myPow(x, -(n + 1));
+          return (double)1/ret;
+        }
+        //减少递归层数
+        double result = (n % 2 == 0) ? myPow(x * x, n / 2)                            : x * myPow(x * x, n / 2);
+        //写完后判断上面哪些if可以撤掉
+        return result;
+    }
+7.7
+public class Solution {
+    // you need to treat n as an unsigned value
+   public int hammingWeight(int n) {
+        int result = 0;
+        while (n != 0) {
+            if ((n & 1) == 1) {
+                result++;
+            }
+            n >>>= 1;
+        }
+        return result;
+    }
+}
