@@ -1,0 +1,50 @@
+http://blog.gainlo.co/index.php/2016/05/24/design-a-recommendation-system/
+http://www.gainlo.co/?utm_source=blog&utm_medium=hellobar%20fullscreen&utm_campaign=blog#!/
+
+====
+1. 基础知识
+	多线程应用场景
+	线程生命周期
+	线程通信机理
+	java内存模型
+	共享变量
+	线程间同步机制
+	锁和互斥
+	原子变量
+	条件变量
+==========================================================================================
+2. 例子
+	线程安全计数器
+	线程安全单例模式
+	忙等锁的实现
+	读写锁的实现
+	Blocking Queue实现
+	Delayed Scheduler实现
+==========================================================================================
+3. Java中的同步机制来开发线程安全应用
+==========================================================================================
+4. JAVA提供的同步机制在实际大数据项目如Kafka和Kafka Connect中的应用。JVM中各种同步机制的实现
+
+==========================================================================================
+1.CPU执行  读memory100-300cpu cycle －－－>需要缓存
+  out－of－order（乱序执行）
+
+2.Moore定律失效－解决方案：多核－性能未加倍［需要的核间协调更多］
+  cpu核－cache［cpu私有的L1，L2］－interconnect －共用memory
+
+3.locality－temporal［全局变量］ spatial［相邻的］ creational［同一实现］
+  false sharing－缓存间一致性协议
+
+
+4.
+cpu指令［取指令，RF，EX，，MEM，WB］
+Single－circle
+Pipelined －－－指令集并行
+
+pipelined hazard（指令依赖于另一条指令）［feed forwarding，直接让下一条寄存器知道］
+
+
+
+
+1h／1h ［配置］
+  
