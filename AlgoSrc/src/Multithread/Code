@@ -1,3 +1,27 @@
+http://ifeve.com/customizing-concurrency-classes-11-2/ 并发编程网
+
+介绍入门
+http://www.cnblogs.com/fingerboy/p/5352880.html
+JVM的启动是单线程的还是多线程的?
+  是多线程的,启动jvm是就相当于启动了一个进程,接着该进程会创建一个主线程来调用main方法,而同时还有启动其他的线程,比如说垃圾回收的线程.
+
+
+
+一般我们使用第二种方式实现多线程,实现Runnable接口的方式相比较继承Thread类的方式有两个好处:
+    1.避免由于java单继承带来的局限性.
+    2.适合多个相同程序的代码去处理同一个资源的情况,把线程同程序的代码,数据,有效分离,较好地体现了面向对象的思想.
+
+
+线程有两种调度模型:
+
+    1.分式调度模型,所有的线程轮流使用CPU的使用权,平均分配每个线程占用的CPU时间片.
+
+    2.抢占式调度模型,优先让优先级高的线程先执行,如果优先级相同,那么随机选择一个线程,优先级高的线程获得CPU的执行权的几率大一些,并不是严格按照优先级由高到低执行.
+
+java使用的是抢占式调度模型.
+
+中断线程,把线程状态终止,并抛出一个InterruptedException
+
 1.
 线程- 新建-(start)-就绪-(run)-运行-(run完)-死亡  || 阻塞(让出cpu资源) || 资源调度(获取cpu资源)
 
@@ -6,9 +30,23 @@
 带优先级
 
 3.
+http://www.cnblogs.com/fingerboy/p/5351448.html
 实现runnable
 继承thread
+// 依赖线程池
+//  ExecutorService es = new ExecutorService(2);
+//  es.submit(new MyCallable())
+class MyCallable implements Callable{
+    //Callable是一个带泛型的接口,这里先不使用
+    @Override
+    public Object call() throws Exception {
+        for(int i=0;i<100;i++){
+            System.out.println(Thread.currentThread().getName()+"::"+i);
+        }
+        return null;
+    }
 
+}
 
 4.
 Socket的setSoTimeout方法，用于设置读取超时，单位是毫秒。
@@ -42,3 +80,51 @@ Socket编程一般都是多进程编程（服务端和客户端），
 仅能使一个线程从运行状态转到可运行状态，而不是等待或阻塞状态
 
 8. Thread t = new Thread(new Runnable, "线程名字")
+
+
+9. lock.lock()  condition.await/signal  lock.unlock() ---- synchronized(object,this,A.Class) {object.wait object.notify}
+http://www.cnblogs.com/alphablox/archive/2013/01/20/2868479.html
+
+10. semaphore.acquire()  semaphore.release() run里头跑用对象调用方法就行
+    生产时semaphore.acquire(), 消费时semaphore.release()
+    + - 操作时 synchronized这个pool
+
+11. AtomicInteger sn = new AtomicInteger();
+
+
+
+12.semaphore + synchronized (pool) // 生产消费 wait notify | wait notify
+
+
+13.  synchronized 方法 this.wait this.notify
+
+
+14.             try {
+                       Thread.sleep(100);// pn.await()//this.wait
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+
+15. 队列一端入任务,一端出任务 加快速度
+先开线程(while true) 再放任务, 由于不是顺序执行,故而后放也无所谓
+
+16. queue
+http://www.cnblogs.com/fingerboy/p/5351448.html
+
+17.
+try {
+                        //获取一个许可,得到许可就可以往下执行,得不到就阻塞,等待该信号量空出可用的许可
+                        sp.acquire();
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+
+
+
+18.
+ReentrantLock 和 Synchronized
+http://uule.iteye.com/blog/1488356
+
+
+19. 读写锁大全
+http://ifeve.com/read-write-locks/
