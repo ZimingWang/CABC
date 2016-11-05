@@ -1,8 +1,152 @@
+系统设计 
 http://blog.gainlo.co/index.php/2016/05/24/design-a-recommendation-system/
 http://www.gainlo.co/?utm_source=blog&utm_medium=hellobar%20fullscreen&utm_campaign=blog#!/
 
-====
-1. 基础知识
+
+http://www.1point3acres.com/bbs/thread-208055-1-1.html
+
+
+==========================================================================================
+总结1：
+	单核多线程－－防止某个线程堵塞，本质效率低
+	多核多线程－－
+==========================================================================================
+1.多线程与多进程［线程重组］
+多线程编程较为简单。
+why: 如果一个进程里有多个线程，而每个线程的CPU和IO的需求各不相同，这个进程的资源分配会很困难，通常会造成资源的浪费。
+So: 多进程架构有助于资源的分配，因为可以把不同CPU和IO的任务分配到不同的进程上，然后对每个进程分配资源。Twiiter从Storm升级到Heron也是由于这样的考虑。
+Example:多进程编程相对困难，通常涉及到网络编程。RPC框架如Protobuf，Thrift和Avro能够简化多进程编程。而且多进程能够很好的在多个机器上扩展。所以Spark，Heron都用了多进程模型。
+==========================================================================================
+2.并行 并发
+并行（并排走。。。同时进行） 
+并发进程(Concurrent process)是两个进程之间在时间上有Overlap。
+并发不需要多个CPU，只需要CPU进行时间分片
+==========================================================================================
+线程和进程从CPU的角度来看其实都是死的东西，只是标记一个code的起始位置和一堆指针的偏移
+3.线程 进程
+进程是指一个运行的程序：
+	一个是Logical control flow。
+	第二个是Private addres space。
+进程切换
+第一个抽象的实现是把CPU时间分片，每个时间片用来执行一个进程。
+当时间片消耗完之后操作系统会把当前进程切换到另一个另一个进程。这个过程叫做上下文切换(Context switch)。
+
+级别
+进程之间是有层级关系的。线程相对于进程而言较为轻量。
+一个进程里面的线程是平级的，它们共享数据和代码。
+
+共享，为什么共享
+一个进程里面有好多个线程，线程之前会共享代码，数据还有Kernel context。每个线程有自己的stack和context。为了提高效率，threads之间共享process的address space和resource。由于address space共享，thread A可以几乎毫无障碍地修改thread B stack上的数据
+共享变量相对于消息传递(message passing)和网络(network)来说代价较低。进程间通信主要通过消息传递和网络。
+
+==========================================================================================
+内部实现细节
+4.CPU执行  读memory100-300cpu cycle －－－>需要缓存
+  out－of－order（乱序执行）
+
+5.Moore定律失效－解决方案：多核－性能未加倍［需要的核间协调更多］
+  cpu核－cache［cpu私有的L1，L2］－interconnect －共用memory
+
+6.locality－temporal［全局变量］ spatial［相邻的］ creational［同一实现］
+  false sharing－缓存间一致性协议
+
+7.cpu指令［取指令，RF，EX，，MEM，WB］
+Single－circle
+Pipelined －－－指令集并行
+pipelined hazard（指令依赖于另一条指令）［feed forwarding，直接让下一条寄存器知道］
+
+Mutex 和 Condition Variable 
+==========================================================================================
+代码1:
+Synchronized method, 或者在方法里加synchronized(this／Singleton.class) {        }
+public class A { 
+    public synchronized void foo() {…};
+    public synchronized void bar() {…};
+    public void foobar() {…};
+}
+A a1 = new a1();
+T1: a1.foo();
+T2: a1.bar(); // T2 is blocked
+T3: a1.foobar(); T3 is not blocked
+
+
+
+public class A { 
+    public void foo() {
+        synchronized(this) {
+            ...
+        }
+    }; 
+    public void bar() {
+	 synchronized(this) {
+	     ...
+         }
+    };
+    public void foobar() {…}
+}
+A a1 = new a1();
+T1: a1.foo();
+T2: a1.bar(); // T2 is blocked
+T3: a1.foobar(); T3 is not blocked
+==========================================================================================
+http://wuchong.me/blog/2014/08/28/how-to-correctly-write-singleton-pattern/
+代码2:
+  volatile ensure object is fully constructed before assigning to instance
+2.private static final Singleton instance = new Singleton();
+单例会在加载类后一开始就被初始化，即使客户端没有调用 getInstance()方法。饿汉式的创建方式在一些场景中将无法使用：譬如 Singleton 实例的创建是依赖参数或者配置文件的，在 getInstance() 之前必须调用某个方法设置参数给它，那样这种单例写法就无法使用了
+3.
+public enum EasySingleton{
+    INSTANCE;
+}
+
+双重检验锁：［外层保证不用次次调用都同步］
+public static Singleton getSingleton() {
+    if (instance == null) {                         //Single Checked
+        synchronized (Singleton.class) {
+            if (instance == null) {                 //Double Checked
+                instance = new Singleton();
+            }
+        }
+    }
+    return instance ;
+}
+给helper【初始化】和【给fields赋值】是out of order的。简单来说，前者分配内存空间并把helper的fields初始化为默认值，比如int的默认值为0；后者会根据constructor内部的逻辑来给fields赋上你需要的值，比如我们可以把某个int设为99。
+==========================================================================================
+代码3:
+private ReentrantLock lock;
+
+public void foo() {
+  ...
+  lock.lock();
+  ...
+}
+
+public void bar() {
+  ...
+  lock.unlock();
+  ...
+}
+==========================================================================================
+D. JAVA提供的同步机制在实际大数据项目如Kafka和Kafka Connect中的应用。JVM中各种同步机制的实现
+	Kafka
+	 总架构：	Producer－Partitions-consumers
+         Producer：
+	      [user threads-binary queues-i/o threads[syn]]-parallel pipelined i/o - kafka node
+		IO 维持TCP connections
+		批量发送，改协议［省空间］
+	 Broker： Clients－networker［processor thread，acceptor thread］－API Layer－log subsysyem－replication
+	==========================================================================================
+E: Server 重做：
+	client－reactor－read，send
+		       －thread poll－queue tasks－working threads
+			－read，
+   Elastic search connector :
+	Task thread - queue - dispatch thread - work threads
+	
+==========================================================================================
+提纲
+==========================================================================================
+A. 基础知识
 	多线程应用场景
 	线程生命周期
 	线程通信机理
@@ -13,7 +157,7 @@ http://www.gainlo.co/?utm_source=blog&utm_medium=hellobar%20fullscreen&utm_campa
 	原子变量
 	条件变量
 ==========================================================================================
-2. 例子
+B. 例子
 	线程安全计数器
 	线程安全单例模式
 	忙等锁的实现
@@ -21,30 +165,4 @@ http://www.gainlo.co/?utm_source=blog&utm_medium=hellobar%20fullscreen&utm_campa
 	Blocking Queue实现
 	Delayed Scheduler实现
 ==========================================================================================
-3. Java中的同步机制来开发线程安全应用
-==========================================================================================
-4. JAVA提供的同步机制在实际大数据项目如Kafka和Kafka Connect中的应用。JVM中各种同步机制的实现
-
-==========================================================================================
-1.CPU执行  读memory100-300cpu cycle －－－>需要缓存
-  out－of－order（乱序执行）
-
-2.Moore定律失效－解决方案：多核－性能未加倍［需要的核间协调更多］
-  cpu核－cache［cpu私有的L1，L2］－interconnect －共用memory
-
-3.locality－temporal［全局变量］ spatial［相邻的］ creational［同一实现］
-  false sharing－缓存间一致性协议
-
-
-4.
-cpu指令［取指令，RF，EX，，MEM，WB］
-Single－circle
-Pipelined －－－指令集并行
-
-pipelined hazard（指令依赖于另一条指令）［feed forwarding，直接让下一条寄存器知道］
-
-
-
-
-1h／1h ［配置］
-  
+C. Java中的同步机制来开发线程安全应用
